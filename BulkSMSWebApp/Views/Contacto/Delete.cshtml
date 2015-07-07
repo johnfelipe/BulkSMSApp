@@ -1,0 +1,22 @@
+﻿@model BulkSMSWebApp.Models.Contacto
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+<h3>¿Confirma que desea Desactivar el Contacto Seleccionado?</h3>
+<div>
+    <h4>Contacto</h4>
+    <hr />
+   
+    @Html.Partial("_DeleteDetail", Model)
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <input type="submit" value="Confirmar" class="btn btn-success" /> |
+            @Html.ActionLink("Volver", "Index")
+        </div>
+    }
+</div>

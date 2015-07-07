@@ -1,0 +1,68 @@
+﻿@model BulkSMSWebApp.Models.Contacto
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Celular, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Celular, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Celular, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Nombres, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Nombres, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Nombres, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Apellidos, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Apellidos, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Apellidos, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+@if (ViewData["Titulo"] == "Edit")
+{
+    <div class="form-group">
+        @Html.LabelFor(model => model.EstadoID, "Estado", htmlAttributes: new { @class = "control-label col-md-2" })
+
+        <div class="col-md-10">
+
+            @switch (Model.EstadoID)
+            {
+                case 1: 
+                    {
+                       @Html.TextBox("Estado", "Activo", htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                       break;
+                    }
+
+                case 2:
+                    {
+                        @Html.TextBox("Estado", "Inactivo", htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        break;
+                    }
+            }
+          @*  @Html.DropDownList("EstadoID", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly"})*@
+            @*@Html.ValidationMessageFor(model => model.EstadoID, "", new { @class = "text-danger" })*@
+        </div>
+    </div>
+}
+
+<div class="form-group">
+    @Html.LabelFor(model => model.DepartamentoID, "Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownList("DepartamentoID", null, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.DepartamentoID, "", new { @class = "text-danger" })
+    </div>
+</div>
