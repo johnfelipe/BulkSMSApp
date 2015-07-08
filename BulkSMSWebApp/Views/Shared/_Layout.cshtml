@@ -8,6 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jquery-ajax")
 
 
 </head>
@@ -25,9 +26,11 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                      <li>@Html.ActionLink("Contactos","Index","Contacto")</li>
+                     <li>@Html.ActionLink("Mensajes", "Index", "Mensaje")</li>
             
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
 
                 </ul>
                 @Html.Partial("_LoginPartial")

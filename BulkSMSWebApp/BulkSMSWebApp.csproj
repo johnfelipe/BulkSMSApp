@@ -170,11 +170,25 @@
     <Compile Include="Controllers\ContactoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MensajeController.cs" />
     <Compile Include="DAL\BulkSMSContext.cs" />
     <Compile Include="DAL\BulkSMSInicializador.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507041953385_InitialCreate.cs" />
+    <Compile Include="Migrations\201507041953385_InitialCreate.Designer.cs">
+      <DependentUpon>201507041953385_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507080407088_add-DataAnotations.cs" />
+    <Compile Include="Migrations\201507080407088_add-DataAnotations.Designer.cs">
+      <DependentUpon>201507080407088_add-DataAnotations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507080443153_add_more_validations.cs" />
+    <Compile Include="Migrations\201507080443153_add_more_validations.Designer.cs">
+      <DependentUpon>201507080443153_add_more_validations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FlujoMensaje.cs" />
     <Compile Include="Models\Mensaje.cs" />
@@ -204,6 +218,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -254,6 +270,13 @@
     <Content Include="Views\Contacto\_CreateEdit.cshtml" />
     <Content Include="Views\Contacto\_DeleteDetail.cshtml" />
     <Content Include="Views\Contacto\Activar.cshtml" />
+    <Content Include="Views\Mensaje\Create.cshtml" />
+    <Content Include="Views\Mensaje\Delete.cshtml" />
+    <Content Include="Views\Mensaje\Details.cshtml" />
+    <Content Include="Views\Mensaje\Edit.cshtml" />
+    <Content Include="Views\Mensaje\Index.cshtml" />
+    <Content Include="Views\Mensaje\_Mensaje.cshtml" />
+    <Content Include="Views\Mensaje\_DeleteDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -264,6 +287,17 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201507041953385_InitialCreate.resx">
+      <DependentUpon>201507041953385_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507080407088_add-DataAnotations.resx">
+      <DependentUpon>201507080407088_add-DataAnotations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507080443153_add_more_validations.resx">
+      <DependentUpon>201507080443153_add_more_validations.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

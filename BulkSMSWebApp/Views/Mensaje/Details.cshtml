@@ -1,0 +1,17 @@
+﻿@model BulkSMSWebApp.Models.Mensaje
+
+@{
+    ViewBag.Title = "Detalles";
+}
+
+<h2>Detalles del Mensaje</h2>
+
+<div>
+    <h4>Mensaje</h4>
+    <hr />
+    @Html.Partial("_DeleteDetail", Model)
+</div>
+<p>
+    @*@Html.ActionLink("Editar", "Edit", new { id = Model.ID }) |*@
+    @Html.ActionLink("Volver", "Index")
+</p>

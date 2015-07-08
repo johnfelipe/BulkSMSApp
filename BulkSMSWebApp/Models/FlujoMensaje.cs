@@ -11,7 +11,6 @@ namespace BulkSMSWebApp.Models
         public String NombreFlujo { get; set; }
 
         //Propiedades de Navegación
-
         public virtual ICollection<Mensaje> Mensajes { get; set; }
     }
 }

@@ -1,0 +1,76 @@
+﻿@model BulkSMSWebApp.Models.Mensaje
+
+<dl class="dl-horizontal">
+
+    @if (Model.FlujoID == 1)
+    {
+        <dt>
+            Número Destinatario
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contacto.Celular)
+        </dd>
+
+        <dt>
+            Nombre Destinatario
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contacto.NombreCompleto)
+        </dd>
+    }
+    else
+    {
+        <dt>
+            Número Remitente
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contacto.Celular)
+        </dd>
+
+        <dt>
+            Nombre Remitente
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contacto.NombreCompleto)
+        </dd>
+    }
+
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Estado.NombreEstado)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Estado.NombreEstado)
+    </dd>
+
+    @*<dt>
+        @Html.DisplayNameFor(model => model.Flujo_Mensaje.NombreFlujo)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Flujo_Mensaje.NombreFlujo)
+    </dd>*@
+
+    <dt>
+        @Html.DisplayNameFor(model => model.FechaMensaje)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.FechaMensaje)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.CuerpoMensaje)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.CuerpoMensaje)
+    </dd>
+
+</dl>
+

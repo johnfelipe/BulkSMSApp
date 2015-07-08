@@ -10,12 +10,26 @@ namespace BulkSMSWebApp.Models
     public class Contacto
     {
         public int ID { get; set; }
+
+        [Required(ErrorMessage = "Campo Requerido")]
+        [RegularExpression(@"^[505-]?[5|8|7][0-9]{7}$", ErrorMessage = "Especifique un número de Celular válido")]
+        [MinLength(8, ErrorMessage = "Especifique un número de Celular válido"), MaxLength(12, ErrorMessage = "El Número ingresado excede el límite de caractéres")]
         public String Celular { get; set; }
-        public String  Nombres { get; set; }
+
+        [MaxLength(36, ErrorMessage = "El texto excede el límite de caractéres permitidos")]
+        public String Nombres { get; set; }
+
+        [MaxLength(36, ErrorMessage = "El texto excede el límite de caractéres permitidos")]
         public String Apellidos { get; set; }
+
+
+        [MaxLength(36, ErrorMessage = "El texto excede el límite de caractéres permitidos")]
+        [DataType(DataType.EmailAddress)]
         public String Email { get; set; }
-        
-        [Display(Name="Estado")]
+
+
+        [Required(ErrorMessage = "Campo Requerido")]
+        [Display(Name = "Estado")]
         public int EstadoID { get; set; }
 
         [Display(Name = "Departamento")]
@@ -27,6 +41,7 @@ namespace BulkSMSWebApp.Models
         public virtual Departamento Departamento { get; set; }
         public virtual ICollection<Grupo> Grupos { get; set; }
 
+        [Display(Name = "Nombre Completo")]
         public String NombreCompleto
         {
             get

@@ -16,10 +16,21 @@ namespace BulkSMSWebApp.Controllers
         private BulkSMSContext db = new BulkSMSContext();
 
 
+        //public PartialViewResult Contactos(string SearchString)
+        //{
+        //    var contactos = db.Contactos.Include(c => c.Departamento).Include(c => c.Estado);
+
+        //    if (!String.IsNullOrEmpty(SearchString))
+        //    {
+        //        contactos = contactos.Where(c => c.Nombres.ToLower().Contains(SearchString.ToLower()) || (c.Nombres + " " + c.Apellidos).ToLower().Contains(SearchString.ToLower()) || c.Apellidos.ToLower().Contains(SearchString.ToLower()));
+        //    }
+
+        //    return PartialView(contactos.ToList());
+ 
+        //}
+
         public JsonResult getContacts(string term)
         {
-
-            //List<String> contactos;
 
             var contactos = db.Contactos.Where(c => c.Nombres.ToLower().Contains(term.ToLower()) || c.Apellidos.ToLower().Contains(term.ToLower()))
                 .Select(n => n.Nombres+" "+n.Apellidos).ToList();
