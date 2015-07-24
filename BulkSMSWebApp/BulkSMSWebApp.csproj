@@ -54,6 +54,9 @@
     <Reference Include="PagedList.Mvc">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -106,6 +109,15 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Twilio.Api">
+      <HintPath>..\packages\Twilio.4.0.3\lib\3.5\Twilio.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="Twilio.Mvc">
+      <HintPath>..\packages\Twilio.Mvc.3.1.15\lib\3.5\Twilio.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Twilio.Twiml">
+      <HintPath>..\packages\Twilio.TwiML.3.3.6\lib\3.5\Twilio.Twiml.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -176,6 +188,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Alert.cs" />
+    <Compile Include="Helpers\AlertStyles.cs" />
+    <Compile Include="Helpers\BaseController.cs" />
+    <Compile Include="Helpers\NoCache.cs" />
     <Compile Include="Migrations\201507041953385_InitialCreate.cs" />
     <Compile Include="Migrations\201507041953385_InitialCreate.Designer.cs">
       <DependentUpon>201507041953385_InitialCreate.cs</DependentUpon>
@@ -188,6 +204,26 @@
     <Compile Include="Migrations\201507080443153_add_more_validations.Designer.cs">
       <DependentUpon>201507080443153_add_more_validations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507092218535_addClassNameToClassID.cs" />
+    <Compile Include="Migrations\201507092218535_addClassNameToClassID.Designer.cs">
+      <DependentUpon>201507092218535_addClassNameToClassID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507092302544_addClassNameToMensaje.cs" />
+    <Compile Include="Migrations\201507092302544_addClassNameToMensaje.Designer.cs">
+      <DependentUpon>201507092302544_addClassNameToMensaje.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507092328247_addClassNameToContacto.cs" />
+    <Compile Include="Migrations\201507092328247_addClassNameToContacto.Designer.cs">
+      <DependentUpon>201507092328247_addClassNameToContacto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507092338546_changeRegularExpressioninContactCellphone.cs" />
+    <Compile Include="Migrations\201507092338546_changeRegularExpressioninContactCellphone.Designer.cs">
+      <DependentUpon>201507092338546_changeRegularExpressioninContactCellphone.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507170136198_AddClassTelefono.cs" />
+    <Compile Include="Migrations\201507170136198_AddClassTelefono.Designer.cs">
+      <DependentUpon>201507170136198_AddClassTelefono.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FlujoMensaje.cs" />
@@ -199,25 +235,40 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Municipio.cs" />
+    <Compile Include="Models\Telefono.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ContactoCelGrupo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Template\font-awesome.css" />
+    <Content Include="Content\Template\fontsgoogleapis.css" />
+    <Content Include="Content\Template\premium.css" />
+    <Content Include="Content\Template\theme.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\Header.PNG" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -227,6 +278,8 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\Template\jquery-1.11.1.min.js" />
+    <Content Include="Scripts\Template\jquery.knob.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -277,6 +330,13 @@
     <Content Include="Views\Mensaje\Index.cshtml" />
     <Content Include="Views\Mensaje\_Mensaje.cshtml" />
     <Content Include="Views\Mensaje\_DeleteDetail.cshtml" />
+    <Content Include="Views\Shared\_Alert.cshtml" />
+    <Content Include="Views\Contacto\_TelefonosContacto.cshtml" />
+    <Content Include="Views\Shared\_MasterPage.cshtml" />
+    <Content Include="Views\Shared\_Navegacion.cshtml" />
+    <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Shared\_Content.cshtml" />
+    <Content Include="Scripts\knob.jquery.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -297,6 +357,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507080443153_add_more_validations.resx">
       <DependentUpon>201507080443153_add_more_validations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507092218535_addClassNameToClassID.resx">
+      <DependentUpon>201507092218535_addClassNameToClassID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507092302544_addClassNameToMensaje.resx">
+      <DependentUpon>201507092302544_addClassNameToMensaje.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507092328247_addClassNameToContacto.resx">
+      <DependentUpon>201507092328247_addClassNameToContacto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507092338546_changeRegularExpressioninContactCellphone.resx">
+      <DependentUpon>201507092338546_changeRegularExpressioninContactCellphone.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507170136198_AddClassTelefono.resx">
+      <DependentUpon>201507170136198_AddClassTelefono.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

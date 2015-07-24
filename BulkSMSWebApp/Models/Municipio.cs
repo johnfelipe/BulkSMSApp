@@ -10,9 +10,10 @@ namespace BulkSMSWebApp.Models
     public class Municipio
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ID { get; set; }
-        
+        public int MunicipioID { get; set; }
 
+
+        [MaxLength(36, ErrorMessage = "El texto excede el límite de caractéres permitidos")]
         [Display(Name="Municipio")]
         public String MunicipioNombre { get; set; }
 

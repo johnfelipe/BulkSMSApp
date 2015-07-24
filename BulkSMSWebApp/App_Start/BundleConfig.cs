@@ -15,10 +15,16 @@ namespace BulkSMSWebApp
             "~/Scripts/jquery.unobtrusive-ajax.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js"/*,
+                        "~/Scripts/Custom/jquery.nicescroll.js",
+                        "~/Scripts/Custom/jquery.scrollTo.min.js",
+                        "~/Scripts/Custom/scripts.js"*/));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jqueryDataTable").Include(
+                       "~/Scripts/jquery.dataTables.min.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -30,10 +36,12 @@ namespace BulkSMSWebApp
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap.min.css",
                       "~/Content/site.css",
-                      "~/Content/jquery-ui.core.css",
-                      "~/Content/jquery.ui.autocomplete.css"));
+                      //"~/Content/bootstrap-theme.css",
+                      //"~/Content/Custom/style-responsive.css",
+                      //"~/Content/Custom/style.css",
+                      "~/Content/jquery.dataTables.min.css"));
         }
     }
 }

@@ -8,8 +8,9 @@ namespace BulkSMSWebApp.Models
 {
     public class Departamento
     {
-        public int ID { get; set; }
-       
+        public int DepartamentoID { get; set; }
+
+        [MaxLength(36, ErrorMessage = "El texto ingresado excede el límite de caractéres permitidos")]
         [Display(Name="Departamento")]
         public String NombreDepartameto { get; set; }
 

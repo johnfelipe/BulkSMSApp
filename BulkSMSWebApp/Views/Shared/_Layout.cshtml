@@ -9,6 +9,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/jquery-ajax")
+    @Scripts.Render("~/bundles/jqueryDataTable")
 
 
 </head>
@@ -38,15 +39,26 @@
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
+      
+           
+                @{ Html.RenderPartial("_Alert"); }
+
+                @RenderBody()
+           
+           
+       
+      
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year Equipos y Sistemas S.A</p>
         </footer>
     </div>
 
 
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+  
+
 </body>
 </html>

@@ -9,22 +9,17 @@ namespace BulkSMSWebApp.Models
 {
     public class Contacto
     {
-        public int ID { get; set; }
+        public int ContactoID { get; set; }
 
-        [Required(ErrorMessage = "Campo Requerido")]
-        [RegularExpression(@"^[505-]?[5|8|7][0-9]{7}$", ErrorMessage = "Especifique un número de Celular válido")]
-        [MinLength(8, ErrorMessage = "Especifique un número de Celular válido"), MaxLength(12, ErrorMessage = "El Número ingresado excede el límite de caractéres")]
-        public String Celular { get; set; }
-
-        [MaxLength(36, ErrorMessage = "El texto excede el límite de caractéres permitidos")]
+        [MaxLength(36, ErrorMessage = "El texto ingresado excede el límite de caractéres permitidos")]
         public String Nombres { get; set; }
 
-        [MaxLength(36, ErrorMessage = "El texto excede el límite de caractéres permitidos")]
+        [MaxLength(36, ErrorMessage = "El texto ingresado excede el límite de caractéres permitidos")]
         public String Apellidos { get; set; }
 
 
-        [MaxLength(36, ErrorMessage = "El texto excede el límite de caractéres permitidos")]
-        [DataType(DataType.EmailAddress)]
+        [MaxLength(36, ErrorMessage = "El texto ingresado excede el límite de caractéres permitidos")]
+        [DataType(DataType.EmailAddress,ErrorMessage="El Email ingresado no es válido")]
         public String Email { get; set; }
 
 
@@ -35,12 +30,7 @@ namespace BulkSMSWebApp.Models
         [Display(Name = "Departamento")]
         public int? DepartamentoID { get; set; }
 
-
-        // Propiedades de Navegacioon
-        public virtual Estado Estado { get; set; }
-        public virtual Departamento Departamento { get; set; }
-        public virtual ICollection<Grupo> Grupos { get; set; }
-
+      
         [Display(Name = "Nombre Completo")]
         public String NombreCompleto
         {
@@ -49,5 +39,15 @@ namespace BulkSMSWebApp.Models
                 return Nombres + " " + Apellidos;
             }
         }
+
+
+        // Propiedades de Navegacioon
+        public virtual Estado Estado { get; set; }
+        public virtual Departamento Departamento { get; set; }
+        public virtual ICollection<Grupo> Grupos { get; set; }
+        public virtual ICollection<Telefono> Telefonos { get; set; }
+
+     
+       
     }
 }

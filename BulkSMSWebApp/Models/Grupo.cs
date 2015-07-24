@@ -8,12 +8,15 @@ namespace BulkSMSWebApp.Models
 {
     public class Grupo
     {
-        public int ID { get; set; }
+        public int GrupoID { get; set; }
         
         [Required(ErrorMessage="Debe específicar un Nombre de Grupo")]
-        [MaxLength(36, ErrorMessage = "El texto excede el límite de caractéres permitidos")]
+        [MaxLength(36, ErrorMessage = "El texto ingresado excede el límite de caractéres permitidos")]
         [Display(Name="Nombre del Grupo")]
         public String NombreGrupo { get; set; }
+
+        [MaxLength(150, ErrorMessage = "El texto ingresado excede el límite de caractéres permitidos")]
+        [MinLength(12, ErrorMessage="El texto ingresado es demasiado corto")]
         public String Descripcion { get; set; }
         
         [Display(Name="Fecha de Creación")]

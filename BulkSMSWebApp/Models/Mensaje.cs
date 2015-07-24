@@ -9,7 +9,7 @@ namespace BulkSMSWebApp.Models
 {
     public class Mensaje
     {
-        public int ID { get; set; }
+        public int MensajeID { get; set; }
         
         [Display(Name="Fecha")]
         [DataType(DataType.Date)]

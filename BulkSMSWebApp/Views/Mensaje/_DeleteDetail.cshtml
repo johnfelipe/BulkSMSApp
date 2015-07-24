@@ -4,13 +4,13 @@
 
     @if (Model.FlujoID == 1)
     {
-        <dt>
+        @*<dt>
             Número Destinatario
-        </dt>
+        </dt>*@
 
-        <dd>
+        @*<dd>
             @Html.DisplayFor(model => model.Contacto.Celular)
-        </dd>
+        </dd>*@
 
         <dt>
             Nombre Destinatario
@@ -22,13 +22,13 @@
     }
     else
     {
-        <dt>
+        @*<dt>
             Número Remitente
-        </dt>
+        </dt>*@
 
-        <dd>
+        @*<dd>
             @Html.DisplayFor(model => model.Contacto.Celular)
-        </dd>
+        </dd>*@
 
         <dt>
             Nombre Remitente

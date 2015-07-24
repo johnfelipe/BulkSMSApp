@@ -1,7 +1,7 @@
-﻿@model IEnumerable<BulkSMSWebApp.Models.Contacto>
+﻿@model BulkSMSWebApp.ViewModels.ContactoCelGrupo
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Contactos";
 }
 
 
@@ -12,90 +12,100 @@
     @Html.ActionLink("Crear Nuevo", "Create")
 </p>
 
-
-
-<script type="text/javascript">
+<script>
     $(function () {
-        $('#term').autocomplete({
-            source: '@Url.Action("getContacts")'
+
+        var table = $('#myTable').dataTable({
+            "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "Todos"]]
         });
+
+        var tabla = $('#myTable').DataTable()
+        var allRows = table.fnGetNodes();
+
+        $('#myTable').delegate(".selected", "click", function () {
+            for (var i = 0; i < allRows.length; i++) {
+                tabla.rows('.success').nodes().to$().removeClass('success');
+            }
+            $(this).parents('tr').addClass('success');
+        });
+
     });
 </script>
 
-@using (@Html.BeginForm())
-{
-    <b>Nombres</b>
-    @Html.TextBox("SearchString", null, new { id = "term" })
-    <input type="submit" value="Buscar" />
-}
-
 </br>
 
-<table class="table table-responsive">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Departamento.NombreDepartameto)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Estado.NombreEstado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Celular)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombres)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Apellidos)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th></th>
-    </tr>
+<div class="table-responsive">
+    <table class="table" id="myTable">
+        <thead>
+            <tr class="label-info">
+                <th> Nombres </th>
+                <th> Apellidos </th>
+                <th> Email </th>
+                <th> Estado </th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Departamento.NombreDepartameto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado.NombreEstado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Celular)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombres)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apellidos)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
+        <tbody>
+            @foreach (var item in Model.Contactos)
+            {
 
-
-                @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Detalles", "Details", new { id = item.ID }) |
-
-                @if (item.EstadoID == 1)
+                string filaSeleccionada = "";
+                if (item.ContactoID == ViewBag.ContactoID)
                 {
-                    @Html.ActionLink("Desactivar", "Delete", new { id = item.ID })
-                    @Html.Raw(" | ");
+                    filaSeleccionada = "success";
                 }
+                <tr class="@filaSeleccionada">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombres)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apellidos)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Estado.NombreEstado)
+                    </td>
 
-                @if (item.EstadoID == 2)
-                {
-                    @Html.ActionLink("Activar", "Activar", new { id = item.ID })
-                    @Html.Raw(" | ");
-                }
+                    <td>
+                        @Ajax.ActionLink("Seleccionar", "Index", new { id = item.ContactoID }, new AjaxOptions
+                                                                    {
+                                                                        HttpMethod = "GET",
+                                                                        UpdateTargetId = "tablaTelefonos",
+                                                                        InsertionMode = InsertionMode.Replace
+                                                                    }, new { @class = "selected" })
 
-            </td>
-        </tr>
-    }
+                        @*@Html.ActionLink("Seleccionar", "Index", new { id = item.ContactoID })*@ |
+                        @Html.ActionLink("Editar", "Edit", new { id = item.ContactoID }) |
+                        @Html.ActionLink("Detalles", "Details", new { id = item.ContactoID }) |
 
-</table>
+                        @if (item.EstadoID == 1)
+                        {
+                            @Html.ActionLink("Desactivar", "Delete", new { id = item.ContactoID })
+                            @Html.Raw(" | ");
+                        }
+
+                        @if (item.EstadoID == 2)
+                        {
+                            @Html.ActionLink("Activar", "Activar", new { id = item.ContactoID })
+                            @Html.Raw(" | ");
+                        }
+
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div id="tablaTelefonos" class="table-responsive">
+
+</div>
+
+
 

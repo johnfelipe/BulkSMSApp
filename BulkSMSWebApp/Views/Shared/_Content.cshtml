@@ -1,0 +1,60 @@
+﻿<div class="content">
+    <div class="header">
+        <div class="stats">
+            <p class="stat"><span class="label label-info">5</span> Tickets</p>
+            <p class="stat"><span class="label label-success">27</span> Tasks</p>
+            <p class="stat"><span class="label label-danger">15</span> Overdue</p>
+        </div>
+        <h1 class="page-title">Dashboard</h1>
+        <ul class="breadcrumb">
+            <li><a href="index.html">Home</a> </li>
+            <li class="active">Dashboard</li>
+        </ul>
+
+    </div>
+    <div class="main-content">
+
+        <div class="panel panel-default">
+            <a href="#page-stats" class="panel-heading" data-toggle="collapse">Latest Stats</a>
+            <div id="page-stats" class="panel-collapse panel-body collapse in">
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="knob-container">
+                            <input class="knob" data-width="200" data-min="0" data-max="3000" data-displayprevious="true" value="2500" data-fgcolor="#92A3C2" data-readonly=true;>
+                            <h3 class="text-muted text-center">Accounts</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="knob-container">
+                            <input class="knob" data-width="200" data-min="0" data-max="4500" data-displayprevious="true" value="3299" data-fgcolor="#92A3C2" data-readonly=true;>
+                            <h3 class="text-muted text-center">Subscribers</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="knob-container">
+                            <input class="knob" data-width="200" data-min="0" data-max="2700" data-displayprevious="true" value="1840" data-fgcolor="#92A3C2" data-readonly=true;>
+                            <h3 class="text-muted text-center">Pending</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="knob-container">
+                            <input class="knob" data-width="200" data-min="0" data-max="15000" data-displayprevious="true" value="10067" data-fgcolor="#92A3C2" data-readonly=true;>
+                            <h3 class="text-muted text-center">Completed</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @RenderBody()
+
+        <footer>
+            <hr>
+
+            <!-- Purchase a site license to remove this link from the footer: http://www.portnine.com/bootstrap-themes -->
+            <p class="text-center">© @DateTime.Now.Year Equipos y Sistemas S.A </p>
+        </footer>
+    </div>
+</div>
+

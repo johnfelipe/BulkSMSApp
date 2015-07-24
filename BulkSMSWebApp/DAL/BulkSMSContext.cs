@@ -13,6 +13,7 @@ namespace BulkSMSWebApp.DAL
         public DbSet<Grupo> Grupos { get; set; }
         public DbSet<Mensaje> Mensajes { get; set; }
         public DbSet<FlujoMensaje> Flujos { get; set; }
+        public DbSet<Telefono> Telefonos { get; set; }
  
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -46,6 +47,12 @@ namespace BulkSMSWebApp.DAL
                 .WithMany(m => m.Mensajes)
                 .HasForeignKey(me => me.FlujoID)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Telefono>()
+                .HasRequired(f => f.Contacto)
+                .WithMany(t => t.Telefonos)
+                .WillCascadeOnDelete(false);
+                
         }
 
     }
