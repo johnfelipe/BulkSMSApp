@@ -72,7 +72,7 @@ namespace BulkSMSWebApp.Controllers
                     ViewBag.ContactoID = id.Value;
                     viewModel.Telefonos = viewModel.Contactos.Where(i => i.ContactoID == id.Value).Single().Telefonos;
                     return PartialView("_TelefonosContacto", viewModel);
-            
+
                 }
             }
 
@@ -132,7 +132,7 @@ namespace BulkSMSWebApp.Controllers
                 contacto.EstadoID = 1;
                 db.Contactos.Add(contacto);
                 db.SaveChanges();
-                // Success(String.Format("El Contacto <b>{0}</b> fué agregado correctamente.", contacto.Celular), true);
+                Success(String.Format("El Contacto <b>{0}</b> fué agregado correctamente.", contacto.NombreCompleto), true);
                 return RedirectToAction("Index");
                 // }
                 // else

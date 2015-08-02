@@ -12,16 +12,17 @@ namespace BulkSMSWebApp.Models
         public int ContactoID { get; set; }
 
         [MaxLength(36, ErrorMessage = "El texto ingresado excede el límite de caractéres permitidos")]
+        [MinLength(3, ErrorMessage = "El Nombre debe tener al menos 3 caracteres")]
         public String Nombres { get; set; }
+
+        [MinLength(3, ErrorMessage = "El Apellido debe tener al menos 3 caracteres")]
 
         [MaxLength(36, ErrorMessage = "El texto ingresado excede el límite de caractéres permitidos")]
         public String Apellidos { get; set; }
 
-
         [MaxLength(36, ErrorMessage = "El texto ingresado excede el límite de caractéres permitidos")]
-        [DataType(DataType.EmailAddress,ErrorMessage="El Email ingresado no es válido")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "El Email ingresado no es válido")]
         public String Email { get; set; }
-
 
         [Required(ErrorMessage = "Campo Requerido")]
         [Display(Name = "Estado")]
@@ -30,7 +31,6 @@ namespace BulkSMSWebApp.Models
         [Display(Name = "Departamento")]
         public int? DepartamentoID { get; set; }
 
-      
         [Display(Name = "Nombre Completo")]
         public String NombreCompleto
         {
@@ -40,14 +40,11 @@ namespace BulkSMSWebApp.Models
             }
         }
 
-
         // Propiedades de Navegacioon
         public virtual Estado Estado { get; set; }
         public virtual Departamento Departamento { get; set; }
         public virtual ICollection<Grupo> Grupos { get; set; }
         public virtual ICollection<Telefono> Telefonos { get; set; }
 
-     
-       
     }
 }

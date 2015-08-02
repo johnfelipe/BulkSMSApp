@@ -7,11 +7,12 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BulkSMSWebApp.Models;
+using BulkSMSWebApp.Helpers;
 
 namespace BulkSMSWebApp.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -55,10 +56,10 @@ namespace BulkSMSWebApp.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                message == ManageMessageId.ChangePasswordSuccess ? "Tu Contraseña ha sido cambiada correctamente."
+                : message == ManageMessageId.SetPasswordSuccess ? "Tu contraseña ha sido creada correctamente."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                : message == ManageMessageId.Error ? "ha ocurrido un error."
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
@@ -220,6 +221,7 @@ namespace BulkSMSWebApp.Controllers
 
         //
         // POST: /Manage/ChangePassword
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
@@ -229,6 +231,7 @@ namespace BulkSMSWebApp.Controllers
                 return View(model);
             }
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -238,8 +241,15 @@ namespace BulkSMSWebApp.Controllers
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
-            AddErrors(result);
-            return View(model);
+            else
+            {
+               
+                Danger("La contraseña ingresada es incorrecta", true);
+                return View(model);
+            }
+         
+            //AddErrors(result);
+           
         }
 
         //

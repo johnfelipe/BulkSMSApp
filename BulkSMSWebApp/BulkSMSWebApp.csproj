@@ -224,6 +224,18 @@
     <Compile Include="Migrations\201507170136198_AddClassTelefono.Designer.cs">
       <DependentUpon>201507170136198_AddClassTelefono.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507261813422_changeEntityTelephoneColumn.cs" />
+    <Compile Include="Migrations\201507261813422_changeEntityTelephoneColumn.Designer.cs">
+      <DependentUpon>201507261813422_changeEntityTelephoneColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507290524464_addMinLengthinContacts.cs" />
+    <Compile Include="Migrations\201507290524464_addMinLengthinContacts.Designer.cs">
+      <DependentUpon>201507290524464_addMinLengthinContacts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508020720552_AplicationUserEntityChange.cs" />
+    <Compile Include="Migrations\201508020720552_AplicationUserEntityChange.Designer.cs">
+      <DependentUpon>201508020720552_AplicationUserEntityChange.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FlujoMensaje.cs" />
@@ -244,11 +256,12 @@
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Template\font-awesome.css" />
+    <Content Include="Content\Template\font-awesome.min.css" />
     <Content Include="Content\Template\fontsgoogleapis.css" />
     <Content Include="Content\Template\premium.css" />
     <Content Include="Content\Template\theme.css" />
@@ -259,10 +272,11 @@
     <Content Include="Images\Header.PNG" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -301,7 +315,7 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Login2.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
@@ -337,6 +351,8 @@
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Content.cshtml" />
     <Content Include="Scripts\knob.jquery.json" />
+    <Content Include="Views\Shared\_LoginPage.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -372,6 +388,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507170136198_AddClassTelefono.resx">
       <DependentUpon>201507170136198_AddClassTelefono.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507261813422_changeEntityTelephoneColumn.resx">
+      <DependentUpon>201507261813422_changeEntityTelephoneColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507290524464_addMinLengthinContacts.resx">
+      <DependentUpon>201507290524464_addMinLengthinContacts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508020720552_AplicationUserEntityChange.resx">
+      <DependentUpon>201508020720552_AplicationUserEntityChange.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

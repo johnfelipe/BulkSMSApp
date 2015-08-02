@@ -49,13 +49,7 @@
         <tbody>
             @foreach (var item in Model.Contactos)
             {
-
-                string filaSeleccionada = "";
-                if (item.ContactoID == ViewBag.ContactoID)
-                {
-                    filaSeleccionada = "success";
-                }
-                <tr class="@filaSeleccionada">
+                <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Nombres)
                     </td>

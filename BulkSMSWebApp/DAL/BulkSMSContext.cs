@@ -52,7 +52,6 @@ namespace BulkSMSWebApp.DAL
                 .HasRequired(f => f.Contacto)
                 .WithMany(t => t.Telefonos)
                 .WillCascadeOnDelete(false);
-                
         }
 
     }

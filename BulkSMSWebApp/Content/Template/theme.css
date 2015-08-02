@@ -181,7 +181,7 @@ label {
 }
 .content {
   position: relative;
-  min-height: 800px;
+  /*min-height: 800px;*/
   background: #fff;
   margin-left: 240px;
   border-left: 1px solid #cccccc;
@@ -225,7 +225,7 @@ label {
 footer {
   padding: 1em;
   margin-top: 4em;
-  color: #666;
+  color: black;
   font-size: .85em;
   line-height: 1.3em;
   margin: 4em -3px 0em -3px;
@@ -518,17 +518,27 @@ a.panel-heading:hover,
   *background-color: #414959;
 }
 .btn-danger {
-  background-color: #553333;
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#653d3d), to(#553333));
+  /*background-color: #ff2000;*/
+  /*background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#653d3d), to(#553333));*/
   border: 1px solid #452929;
   font-weight: normal;
 }
+
+.btn-navbar {
+   border: 1px solid #452929;
+   font-weight: normal;
+   color: #2b2b2b;
+   /*background-color: #ffffff;*/
+   border-color: #c7c7cc;
+}
+
+
 .btn-danger:hover {
-  background-color: #553333;
-  *background-color: #553333;
+  background-color: #831919;
+  *background-color: #452929;
 }
 .btn-success {
-  background-color: #556665;
+  /*background-color: #556665;*/
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#617473), to(#556665));
   border: 1px solid #495857;
   font-weight: normal;

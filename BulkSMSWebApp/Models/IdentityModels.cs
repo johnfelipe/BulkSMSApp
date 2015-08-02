@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 
 namespace BulkSMSWebApp.Models
 {
@@ -16,12 +17,18 @@ namespace BulkSMSWebApp.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public string Nombres { get; set; }
+        public string Apellidos { get; set; }
+        public DateTime fecha_registro { get; set; }
+        //public string Estado { get; set; }
+
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("BulkSMSContext", throwIfV1Schema: false)
         {
         }
 
