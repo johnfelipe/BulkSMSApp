@@ -1,16 +1,16 @@
 ﻿@model BulkSMSWebApp.ViewModels.ContactoCelGrupo
 
 @{
-    ViewBag.Title = "Contactos";
+    ViewBag.Title = "Listado de Contactos";
 }
 
 
+    @*@Html.ActionLink("Agregar Contacto", "Create", new { @class = "btn btn-primary btn-lg" })*@
+<p><a href="@Url.Action("Create","Contacto")" class="btn btn-info">
+    Nuevo Contacto
+       <span class="fa fa-fw fa-plus-circle"></span>
+    </a></p>
 
-<h2>Contactos</h2>
-
-<p>
-    @Html.ActionLink("Crear Nuevo", "Create")
-</p>
 
 <script>
     $(function () {

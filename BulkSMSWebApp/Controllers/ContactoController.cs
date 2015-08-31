@@ -18,17 +18,19 @@ namespace BulkSMSWebApp.Controllers
         private BulkSMSContext db = new BulkSMSContext();
 
 
-        //public bool numberExist(String number)
-        //{
-        //    Boolean flag = false;
-        //    var result = db.Contactos.Where(c => c.Celular == number).Select(c => c.Celular).Count();
-        //    if (result >= 1)
-        //    {
-        //        flag = true;
-        //    }
+        public bool numberExist(String number)
+        {
+            Boolean flag = false;
 
-        //    return flag;
-        //}
+            var result = db.Telefonos.Where(c => c.NumeroTel == number).Select(c => c.NumeroTel).Count();
+
+            if (result >= 1)
+            {
+                flag = true;
+            }
+
+            return flag;
+        }
         public JsonResult getContacts(string term)
         {
 
@@ -76,8 +78,6 @@ namespace BulkSMSWebApp.Controllers
                 }
             }
 
-            
-            
             return View(viewModel);
 
             //if (!String.IsNullOrEmpty(SearchString))
@@ -96,6 +96,8 @@ namespace BulkSMSWebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Contacto contacto = db.Contactos.Find(id);
+
+ 
             if (contacto == null)
             {
                 return HttpNotFound();
@@ -106,7 +108,7 @@ namespace BulkSMSWebApp.Controllers
         // GET: Contacto/Create
         public ActionResult Create()
         {
-            ViewBag.DepartamentoID = new SelectList(db.Departamentos, "DepartamentoID", "NombreDepartameto");
+            ViewBag.DepartamentoID = new SelectList(db.Departamentos.ToList(), "DepartamentoID", "NombreDepartameto");
             ViewBag.EstadoID = new SelectList(db.Estados, "EstadoID", "NombreEstado");
             ViewData["Titulo"] = "Create";
             return View();
@@ -117,39 +119,64 @@ namespace BulkSMSWebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ContactoID,Celular,Nombres,Apellidos,Email,EstadoID,DepartamentoID")] Contacto contacto)
+        public ActionResult Create(/*[Bind(Include = "ContactoID,Nombres,Apellidos,Email,DepartamentoID")]*/CreateEditContacto contacto)
         {
             if (ModelState.IsValid)
             {
+                bool band = false;
+                string num = "";
+                
+                foreach (var tel in contacto.Telefonos)
+                {
+                    if (tel.NumeroTel.ToString().Substring(0, 4) != "+505")
+                    {
+                        tel.NumeroTel = "+505" + tel.NumeroTel;
+                    }
 
-                //if (contacto.Celular.ToString().Substring(0, 4) != "+505")
-                //{
-                //    contacto.Celular = "+505" + contacto.Celular;
-                //}
+                    if (numberExist(tel.NumeroTel))
+                    {
+                        num = tel.NumeroTel;
+                        Danger(String.Format("El Número <b>{0}</b> ya se encuentra registrado. Por favor provea un número diferente", num), true);
+                        ViewBag.DepartamentoID = new SelectList(db.Departamentos.ToList(), "DepartamentoID", "NombreDepartameto");
+                        return View(contacto); 
+                    }
+                    else
+                    {
+                        band = true;
+                    }
+                }
 
-                // if (!numberExist(contacto.Celular)) // si el número no está registrado
-                //  {
-                contacto.EstadoID = 1;
-                db.Contactos.Add(contacto);
-                db.SaveChanges();
-                Success(String.Format("El Contacto <b>{0}</b> fué agregado correctamente.", contacto.NombreCompleto), true);
-                return RedirectToAction("Index");
-                // }
-                // else
-                //{
-                //    Danger("El número digitado ya se encuentra registrado, por favor provea otro número de celular", true);
-                //    ViewBag.DepartamentoID = new SelectList(db.Departamentos, "DepartamentoID", "NombreDepartameto", contacto.DepartamentoID);
-                //    ViewBag.EstadoID = new SelectList(db.Estados, "EstadoID", "NombreEstado", contacto.EstadoID);
-                //    return View(contacto);
-                //}
+                if (band)
+                {
+                    contacto.Contactos.EstadoID = 1;
+                  //  contacto.Contactos.DepartamentoID = contacto.Contactos.Departamento.DepartamentoID;
+                    db.Contactos.Add(contacto.Contactos);
+                    db.SaveChanges();
 
+                    foreach (var tel in contacto.Telefonos)
+                    {
+                        var id = contacto.Contactos.ContactoID;
+                        tel.ContactoID = id;
+                        db.Telefonos.Add(tel);
+                        db.SaveChanges();
+                    }
+
+                    Success(String.Format("El Contacto <b>{0}</b> fué agregado correctamente.", contacto.Contactos.Nombres), true);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    Warning(String.Format("El Número <b>{0}</b> ya se encuentra registrado. Por favor provea un número diferente", num), true);
+                    ViewBag.DepartamentoID = new SelectList(db.Departamentos.ToList(), "DepartamentoID", "NombreDepartameto");
+                    ViewBag.EstadoID = new SelectList(db.Estados, "EstadoID", "NombreEstado", contacto.Contactos.EstadoID);
+                    return View(contacto); 
+                }
 
             }
-
-            Danger("Algo está mal! Verifica los campos que son requeridos e intenta guardar nuevamente", true);
-            ViewBag.DepartamentoID = new SelectList(db.Departamentos, "DepartamentoID", "NombreDepartameto", contacto.DepartamentoID);
-            ViewBag.EstadoID = new SelectList(db.Estados, "EstadoID", "NombreEstado", contacto.EstadoID);
-            return View(contacto);
+            Danger("Error de Validación, verifica los datos e intenta nuevamente");
+            ViewBag.DepartamentoID = new SelectList(db.Departamentos.ToList(), "DepartamentoID", "NombreDepartameto");
+            ViewBag.EstadoID = new SelectList(db.Estados, "EstadoID", "NombreEstado", contacto.Contactos.EstadoID);
+            return View(contacto); 
         }
 
         // GET: Contacto/Edit/5

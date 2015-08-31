@@ -10,7 +10,6 @@ namespace BulkSMSWebApp.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "BulkSMSWebApp.DAL.BulkSMSContext";
         }
 
         protected override void Seed(BulkSMSWebApp.DAL.BulkSMSContext context)

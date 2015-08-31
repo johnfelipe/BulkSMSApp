@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
 <div class="sidebar-nav">
     <ul>
+        <li><a href="@Url.Action("Index","Home")"class="nav-header"><i class="fa fa-fw fa-2x fa-home"></i> Inicio </a></li>
 
         <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-users fa-2x"></i> Contactos @*<i class="fa fa-collapse"></i>*@ <span class="label label-info">+2</span></a></li>
         <li>
@@ -66,11 +67,7 @@
             </ul>
         </li>
 
-
-
-
-
-        @if (Request.IsAuthenticated)
+        @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
         {
             <li><a href="#" data-target=".users-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-users fa-2x"></i> Usuarios <span class="label label-info">+2</span></a></li>
             <li>

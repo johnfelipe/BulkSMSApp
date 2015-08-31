@@ -27,27 +27,27 @@ namespace BulkSMSWebApp.Models
 
     public class SetPasswordViewModel
     {
-        [Required(ErrorMessage = "Campo Obligatorio")]
-        [StringLength(100, ErrorMessage = "La Contraseña debe tener al menos 6 caracteres", MinimumLength = 6)]
+        [Required(ErrorMessage = "El Campo Email es Obligatorio")]
+        [StringLength(100, ErrorMessage = "La Contraseña debe tener 6 caracteres como mínimo", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Nueva Contraseña")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar Nueva Contraseña")]
-        [Compare("NewPassword", ErrorMessage = "La nueva Contraseña y su confirmación no coinciden.")]
+        [Compare("NewPassword", ErrorMessage = "Las contraseñas ingresadas no coinciden.")]
         public string ConfirmPassword { get; set; }
     }
 
     public class ChangePasswordViewModel
     {
-        [Required(ErrorMessage="Campo Obligatorio")]
+        [Required(ErrorMessage="El Campo Email es Obligatorio")]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña Actual")]
         public string OldPassword { get; set; }
 
-        [Required(ErrorMessage = "Campo Obligatorio")]
-        [StringLength(100, ErrorMessage = "La nueva Contraseña debe tener al menos 6 caracteres", MinimumLength = 6)]
+        [Required(ErrorMessage = "El Campo Contraseña es Obligatorio")]
+        [StringLength(100, ErrorMessage = "La nueva Contraseña debe tener 6 caracteres como mínimo", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Nueva Contraseña")]
         public string NewPassword { get; set; }

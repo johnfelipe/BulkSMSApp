@@ -9,6 +9,7 @@ namespace BulkSMSWebApp.Helpers
     {
         public const string TempDataKey = "TempDataAlerts";
 
+        public string alertIcon { get; set; }
         public string AlertStyle { get; set; }
         public string Message { get; set; }
         public bool Dismissable { get; set; }

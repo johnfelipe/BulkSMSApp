@@ -7,14 +7,14 @@ namespace BulkSMSWebApp.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.Telefono", "Descripcion", c => c.String(nullable: false, maxLength: 20));
-            DropColumn("dbo.Telefono", "Discriminador");
+            //AddColumn("dbo.Telefono", "Descripcion", c => c.String(nullable: false, maxLength: 20));
+            //DropColumn("dbo.Telefono", "Discriminador");
         }
         
         public override void Down()
         {
-            AddColumn("dbo.Telefono", "Discriminador", c => c.String(nullable: false));
-            DropColumn("dbo.Telefono", "Descripcion");
+            //AddColumn("dbo.Telefono", "Discriminador", c => c.String(nullable: false));
+            //DropColumn("dbo.Telefono", "Descripcion");
         }
     }
 }

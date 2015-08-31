@@ -10,6 +10,12 @@ namespace BulkSMSWebApp.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+
+        public string Nombres { get; set; }
+        public string Apellidos { get; set; }
+        public DateTime fecha_registro { get; set; }
+        public int EstadoID { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -17,11 +23,6 @@ namespace BulkSMSWebApp.Models
             // Add custom user claims here
             return userIdentity;
         }
-
-        public string Nombres { get; set; }
-        public string Apellidos { get; set; }
-        public DateTime fecha_registro { get; set; }
-        //public string Estado { get; set; }
 
     }
 

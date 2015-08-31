@@ -10,25 +10,25 @@ namespace BulkSMSWebApp.Helpers
     {
         public void Success(string message, bool dismissable = false)
         {
-            AddAlert(AlertStyles.Success, message, dismissable);
+            AddAlert(AlertStyles.Success, message, dismissable, "fa-check");
         }
 
         public void Information(string message, bool dismissable = false)
         {
-            AddAlert(AlertStyles.Information, message, dismissable);
+            AddAlert(AlertStyles.Information, message, dismissable, "fa-check-circle");
         }
 
         public void Warning(string message, bool dismissable = false)
         {
-            AddAlert(AlertStyles.Warning, message, dismissable);
+            AddAlert(AlertStyles.Warning, message, dismissable, "fa-exclamation-circle");
         }
 
         public void Danger(string message, bool dismissable = false)
         {
-            AddAlert(AlertStyles.Danger, message, dismissable);
+            AddAlert(AlertStyles.Danger, message, dismissable, "fa-exclamation-triangle");
         }
 
-        private void AddAlert(string alertStyle, string message, bool dismissable)
+        private void AddAlert(string alertStyle, string message, bool dismissable, string alertIcon)
         {
             var alerts = TempData.ContainsKey(Alert.TempDataKey)
                 ? (List<Alert>)TempData[Alert.TempDataKey]
@@ -38,7 +38,8 @@ namespace BulkSMSWebApp.Helpers
             {
                 AlertStyle = alertStyle,
                 Message = message,
-                Dismissable = dismissable
+                Dismissable = dismissable,
+                alertIcon = alertIcon
             });
 
             TempData[Alert.TempDataKey] = alerts;

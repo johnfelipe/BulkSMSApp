@@ -15,7 +15,7 @@ namespace BulkSMSWebApp
             "~/Scripts/jquery.unobtrusive-ajax.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"/*,
+                        "~/Scripts/Template/jquery-1.11.1.min.js"/*,
                         "~/Scripts/Custom/jquery.nicescroll.js",
                         "~/Scripts/Custom/jquery.scrollTo.min.js",
                         "~/Scripts/Custom/scripts.js"*/));
@@ -23,8 +23,10 @@ namespace BulkSMSWebApp
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryDataTable").Include(
-                       "~/Scripts/jquery.dataTables.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/js").Include(
+                       "~/Scripts/jquery.dataTables.min.js",
+                       "~/Scripts/Template/jquery.knob.js",
+                       "~/Scripts/jquery.unobtrusive-ajax.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -32,16 +34,27 @@ namespace BulkSMSWebApp
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/bootstrap.min.js",
+                      "~/Scripts/respond.min.js"));
+
+            bundles.Add(new StyleBundle("~/MasterPage/css").Include(
+                "~/Content/jquery.dataTables.min.css",
+                "~/Content/jquery-ui.css"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.min.css",
-                      "~/Content/site.css",
+                      "~/Content/bootstrap.css",
+                      "~/Content/Template/font-awesome.min.css",
+                      "~/Content/Template/fontsgoogleapis.css",
+                      "~/Content/Template/theme.css",
+                      "~/Content/Template/theme.css"
+                      
+                      //"~/Content/site.css",
                       //"~/Content/bootstrap-theme.css",
                       //"~/Content/Custom/style-responsive.css",
                       //"~/Content/Custom/style.css",
-                      "~/Content/jquery.dataTables.min.css"));
+                      /*"~/Content/jquery.dataTables.min.css"*/));
+
+      
         }
     }
 }

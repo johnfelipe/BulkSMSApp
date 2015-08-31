@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using BulkSMSWebApp.Models;
+using System.Net.Mail;
+using System.Net.Mime;
 
 namespace BulkSMSWebApp
 {
@@ -18,8 +20,39 @@ namespace BulkSMSWebApp
     {
         public Task SendAsync(IdentityMessage message)
         {
+           sendMailAsync(message);
             // Plug in your email service here to send an email.
             return Task.FromResult(0);
+        }
+
+        private void sendMailAsync(IdentityMessage message)
+          {
+              try
+              {
+                  #region formatter
+                  string text = string.Format("Por favor haga click en este enlace para {0}: {1}", message.Subject, message.Body);
+                  string html = "Recientemente solicitaste reestablecer tu Contraseña de acceso al Sistema en nuestra plataforma SMS. \n puedes reestablecer tu Contraseña haciendo click en este: <a href=\"" + message.Body + "\"> enlace </a><br/>";
+                  html += HttpUtility.HtmlEncode(@"o copia y pega el siguiente enlace en el navegador: " + message.Body);
+                  #endregion
+
+                  MailMessage msg = new MailMessage();
+                  msg.From = new MailAddress("adminapplication@gmail.com");
+                  msg.To.Add(new MailAddress(message.Destination));
+                  msg.Subject = message.Subject;
+                  msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
+                  msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
+
+                  SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", Convert.ToInt32(587));
+                  System.Net.NetworkCredential credentials = new System.Net.NetworkCredential("noguer1992@gmail.com", "87725568_Noguera?");
+                  smtpClient.Credentials = credentials;
+                  smtpClient.EnableSsl = true;
+                  smtpClient.Send(msg);
+              }
+              catch (Exception ex)
+              {
+                  throw;
+              }
+            
         }
     }
 
@@ -54,14 +87,14 @@ namespace BulkSMSWebApp
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults
-            manager.UserLockoutEnabledByDefault = true;
+            manager.UserLockoutEnabledByDefault = false;
             manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
             manager.MaxFailedAccessAttemptsBeforeLockout = 5;
 
@@ -69,20 +102,24 @@ namespace BulkSMSWebApp
             // You can write your own provider and plug it in here.
             manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
             {
-                MessageFormat = "Your security code is {0}"
+                MessageFormat = "Tu código de seguridad es {0}"
             });
             manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
             {
-                Subject = "Security Code",
-                BodyFormat = "Your security code is {0}"
+                Subject = "Código de Seguridad",
+                BodyFormat = "Tu código de seguridad es {0}"
             });
             manager.EmailService = new EmailService();
             manager.SmsService = new SmsService();
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
-                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                manager.UserTokenProvider =
+                    new DataProtectorTokenProvider<ApplicationUser>
+                        (dataProtectionProvider.Create("ASP.NET Identity")) 
+                        {
+                            TokenLifespan = TimeSpan.FromHours(2)
+                        };
             }
             return manager;
         }

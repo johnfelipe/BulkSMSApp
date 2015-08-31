@@ -8,18 +8,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link href="~/Content/Template/fontsgoogleapis.css" rel="stylesheet" />
-    <link href="~/Content/bootstrap.css" rel="stylesheet" />
-    <link href="~/Content/Template/font-awesome.min.css" rel="stylesheet" />
-    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
-    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
-
-    <script src="~/Scripts/Template/jquery-1.11.1.min.js"></script>
-    <script src="~/Scripts/Template/jquery.knob.js"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-    <script src="~/Scripts/jquery-ui.js"></script>
-    <script src="~/Scripts/jquery.dataTables.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/MasterPage/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/js")
 
     <script type="text/javascript">
         $(function () {
@@ -27,15 +20,11 @@
         });
     </script>
 
-    <link href="~/Content/Template/theme.css" rel="stylesheet" />
-  
 
 </head>
-<body class=" theme-blue">
+<body class="theme-blue">
 
     <style type="text/css">
-
-
         .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover {
             color: #fff;
         }
@@ -49,50 +38,40 @@
         });
     </script>
 
-
-
     @Html.Partial("_Header")
 
     @Html.Partial("_Navegacion")
 
-
     <div class="content">
         <div class="header text-center">
-            @*<div class="stats">
-                    <p class="stat"><span class="label label-info">aquí podemos poner lo de los mensajes</span> Tickets</p>
-                    <p class="stat"><span class="label label-success">27</span> Tasks</p>
-                    <p class="stat"><span class="label label-danger">15</span> Overdue</p>
-                </div>*@
+      
             <h1 class="page-title">@ViewBag.Title</h1>
             @if (ViewBag.Title != "Página de Inicio")
             {
                 <p>Los Campos con el símbolo <strong class="text-danger"> * </strong> son obligatorios</p>
             }
             
-
-
         </div>
         <div class="main-content">
-
 
             @{ Html.RenderPartial("_Alert"); }
             @RenderBody()
 
-
-
-
         </div>
         <footer>
             <hr>
-
-     
             <p class="text-center">© @DateTime.Now.Year Equipos y Sistemas S.A </p>
         </footer>
     </div>
 
     @RenderSection("scripts", required: false)
 
+  
     <script type="text/javascript">
+
+        // le agrega un * de color rojo a todos los elementos que sean required
+        // y tengan asociado un label a travez de su id.
+
         $('*').each(function () {
             var req = $(this).attr('data-val-required');
             if (undefined != req) {
@@ -103,10 +82,44 @@
                 }
             }
         });
+
+
+        //Evita que el navegador retroceda el historial cuando se presiona la Tecla de Retorno
+        $(document).unbind('keydown').bind('keydown', function (event) {
+            var doPrevent = false;
+            if (event.keyCode === 8) {
+                var d = event.srcElement || event.target;
+                if ((d.tagName.toUpperCase() === 'INPUT' &&
+                     (
+                         d.type.toUpperCase() === 'TEXT' ||
+                         d.type.toUpperCase() === 'PASSWORD' ||
+                         d.type.toUpperCase() === 'FILE' ||
+                         d.type.toUpperCase() === 'EMAIL' ||
+                         d.type.toUpperCase() === 'SEARCH' ||
+                         d.type.toUpperCase() === 'DATE')
+                     ) ||
+                     d.tagName.toUpperCase() === 'TEXTAREA') {
+                    doPrevent = d.readOnly || d.disabled;
+                }
+                else {
+                    doPrevent = true;
+                }
+            }
+
+            if (doPrevent) {
+                event.preventDefault();
+            }
+        });
+
+        //oculta automáticamente despues de 5 segundos la alerta que se muestra despues de cada operación
+        $("#success-alert").fadeTo(5000, 400).slideUp(400, function () {
+            $("#success-alert").alert('close');
+        });
+
     </script>
 
 
-
-    <script src="~/Scripts/bootstrap.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
 </body>
 </html>

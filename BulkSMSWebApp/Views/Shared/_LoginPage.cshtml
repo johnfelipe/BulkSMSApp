@@ -8,14 +8,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link href="~/Content/Template/fontsgoogleapis.css" rel="stylesheet" />
-    <link href="~/Content/bootstrap.css" rel="stylesheet" />
-    <link href="~/Content/Template/font-awesome.min.css" rel="stylesheet" />
-
-    <script src="~/Scripts/Template/jquery-1.11.1.min.js"></script>
-
-    <link href="~/Content/Template/theme.css" rel="stylesheet" />
-    <link href="~/Content/Template/premium.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/css")
 </head>
 
 <body class=" theme-blue">
@@ -34,12 +28,54 @@
     <div class="dialog">
 
         @*Login content here*@
-         @RenderBody()
+        @{ Html.RenderPartial("_Alert"); }
+        @RenderBody()
 
     </div>
 
+    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-    <script src="~/Scripts/bootstrap.js"></script>
+
+    <script type="text/javascript">
+
+        // le agrega un * a todos los elementos que sean required
+
+
+
+        //Evita que el navegador retroceda el historial cuando se presiona la Tecla BackSpace
+        $(document).unbind('keydown').bind('keydown', function (event) {
+            var doPrevent = false;
+            if (event.keyCode === 8) {
+                var d = event.srcElement || event.target;
+                if ((d.tagName.toUpperCase() === 'INPUT' &&
+                     (
+                         d.type.toUpperCase() === 'TEXT' ||
+                         d.type.toUpperCase() === 'PASSWORD' ||
+                         d.type.toUpperCase() === 'FILE' ||
+                         d.type.toUpperCase() === 'EMAIL' ||
+                         d.type.toUpperCase() === 'SEARCH' ||
+                         d.type.toUpperCase() === 'DATE')
+                     ) ||
+                     d.tagName.toUpperCase() === 'TEXTAREA') {
+                    doPrevent = d.readOnly || d.disabled;
+                }
+                else {
+                    doPrevent = true;
+                }
+            }
+
+            if (doPrevent) {
+                event.preventDefault();
+            }
+        });
+
+        //oculta automáticamente la alerta que se muestra
+        $("#success-alert").fadeTo(5000, 400).slideUp(400, function () {
+            $("#success-alert").alert('close');
+        });
+
+    </script>
+
 
 </body>
 

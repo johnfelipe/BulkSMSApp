@@ -21,7 +21,7 @@ namespace BulkSMSWebApp.Models
         public String Apellidos { get; set; }
 
         [MaxLength(36, ErrorMessage = "El texto ingresado excede el límite de caractéres permitidos")]
-        [DataType(DataType.EmailAddress, ErrorMessage = "El Email ingresado no es válido")]
+        [EmailAddress(ErrorMessage = "El Email ingresado no tiene el formato correcto")]
         public String Email { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido")]

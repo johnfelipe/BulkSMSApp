@@ -16,7 +16,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44300</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -54,8 +54,9 @@
     <Reference Include="PagedList.Mvc">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\packages\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
+    <Reference Include="RestSharp, Version=105.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RestSharp.105.2.2\lib\net45\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -110,14 +111,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Twilio.Api">
-      <HintPath>..\packages\Twilio.4.0.3\lib\3.5\Twilio.Api.dll</HintPath>
-    </Reference>
-    <Reference Include="Twilio.Mvc">
-      <HintPath>..\packages\Twilio.Mvc.3.1.15\lib\3.5\Twilio.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="Twilio.Twiml">
-      <HintPath>..\packages\Twilio.TwiML.3.3.6\lib\3.5\Twilio.Twiml.dll</HintPath>
+    <Reference Include="Twilio.Api, Version=3.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Twilio.4.0.51\lib\3.5\Twilio.Api.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -192,6 +188,7 @@
     <Compile Include="Helpers\AlertStyles.cs" />
     <Compile Include="Helpers\BaseController.cs" />
     <Compile Include="Helpers\NoCache.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="Migrations\201507041953385_InitialCreate.cs" />
     <Compile Include="Migrations\201507041953385_InitialCreate.Designer.cs">
       <DependentUpon>201507041953385_InitialCreate.cs</DependentUpon>
@@ -236,6 +233,14 @@
     <Compile Include="Migrations\201508020720552_AplicationUserEntityChange.Designer.cs">
       <DependentUpon>201508020720552_AplicationUserEntityChange.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508130011093_change-teñephone-validation.cs" />
+    <Compile Include="Migrations\201508130011093_change-teñephone-validation.Designer.cs">
+      <DependentUpon>201508130011093_change-teñephone-validation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508252246178_EstadoID.cs" />
+    <Compile Include="Migrations\201508252246178_EstadoID.Designer.cs">
+      <DependentUpon>201508252246178_EstadoID.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FlujoMensaje.cs" />
@@ -251,6 +256,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ContactoCelGrupo.cs" />
+    <Compile Include="ViewModels\CreateEditContacto.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -270,6 +276,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\Header.PNG" />
+    <Content Include="Images\sms.PNG" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
@@ -367,36 +374,53 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201507041953385_InitialCreate.resx">
       <DependentUpon>201507041953385_InitialCreate.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507080407088_add-DataAnotations.resx">
       <DependentUpon>201507080407088_add-DataAnotations.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507080443153_add_more_validations.resx">
       <DependentUpon>201507080443153_add_more_validations.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507092218535_addClassNameToClassID.resx">
       <DependentUpon>201507092218535_addClassNameToClassID.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507092302544_addClassNameToMensaje.resx">
       <DependentUpon>201507092302544_addClassNameToMensaje.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507092328247_addClassNameToContacto.resx">
       <DependentUpon>201507092328247_addClassNameToContacto.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507092338546_changeRegularExpressioninContactCellphone.resx">
       <DependentUpon>201507092338546_changeRegularExpressioninContactCellphone.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507170136198_AddClassTelefono.resx">
       <DependentUpon>201507170136198_AddClassTelefono.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507261813422_changeEntityTelephoneColumn.resx">
       <DependentUpon>201507261813422_changeEntityTelephoneColumn.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507290524464_addMinLengthinContacts.resx">
       <DependentUpon>201507290524464_addMinLengthinContacts.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508020720552_AplicationUserEntityChange.resx">
       <DependentUpon>201508020720552_AplicationUserEntityChange.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508130011093_change-teñephone-validation.resx">
+      <DependentUpon>201508130011093_change-teñephone-validation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508252246178_EstadoID.resx">
+      <DependentUpon>201508252246178_EstadoID.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -417,7 +441,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>58379</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:58379/</IISUrl>
+          <IISUrl>https://localhost:44300/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
