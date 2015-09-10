@@ -124,7 +124,7 @@ label {
   text-shadow: none;
 }
 .navbar .nav > li:hover {
-  background-color: #444;
+  background-color: #4d5b76;
 }
 .navbar .nav > li > a:hover {
   color: #fff;
@@ -134,7 +134,7 @@ label {
   color: #000;
 }
 .navbar .nav li.dropdown.open > .dropdown-toggle {
-  background-color: #444;
+  background-color: #4d5b76;
   color: #fff;
 }
 .navbafr {
@@ -172,12 +172,17 @@ label {
   color: #fff;
 }
 .navbafr .dropdown-menu a:hover {
-  background: none;
+  background: #4d5b76;
   color: #000;
 }
+
+.labelblue {
+    background: #4d5b76 !important;
+}
+
 .navbafr .nav li.dropdown.open > .dropdown-toggle {
-  background-color: #444;
-  color: #fff;
+  background-color: #06267d;
+  color: #06267d;
 }
 .content {
   position: relative;
@@ -517,10 +522,15 @@ a.panel-heading:hover,
   background-color: #414959;
   *background-color: #414959;
 }
+
+.white {
+    color:#fff !important;
+}
+
 .btn-danger {
   /*background-color: #ff2000;*/
   /*background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#653d3d), to(#553333));*/
-  border: 1px solid #452929;
+  border: 1px solid #fafafa;
   font-weight: normal;
 }
 

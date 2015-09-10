@@ -1,0 +1,25 @@
+﻿
+@using (Html.BeginForm("Activar", "Contacto", FormMethod.Post, new { @class = "idContacto", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal fade" id="activeConfirmModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="deleteLabel">Activar Contacto</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Has seleccionado la opción Activar Contacto</p>
+                    <p>
+                        Si realmente deseas Activar el contacto seleccionado presiona "Si Confirmar!!" de lo contrario
+                        presiona "No, Cancelar".
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">No, Cancelar!!</button>
+                    <button type="submit" class="btn btn-info" id="IdContacto"> Si, Confirmar!!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

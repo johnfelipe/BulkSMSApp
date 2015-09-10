@@ -3,19 +3,35 @@
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            <a href="@Url.Action("ChangePassword", "Manage")"title="Click para cambiar Contraseña">
-                Bienvenido (a): @User.Identity.GetUserName()!
-                <span class="fa fa-fw fa-user"></span>
-            </a>
+        <ul class="nav navbar-nav navbar-right">
 
-            @*@Html.ActionLink("Hola " + User.Identity.GetUserName() + "!", "ChangePassword", "Manage", routeValues: null, htmlAttributes: new { title = "Click para cambiar Contraseña" })*@
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesión<span class="fa fa-fw fa-sign-out"></span></a></li>
-    </ul>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="fa fa-fw fa-user"></span>
+                    Bienvenido (a): @User.Identity.GetUserName()! 
+                    <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu labelblue">
+                    <li class="">
+                        <a class="white" href="@Url.Action("ChangePassword", "Manage")" title="Click para cambiar Contraseña">
+                            Cambiar Contraseña
+                            <span class="fa fa-fw fa-edit"></span>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li class=""><a class="white" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesión<span class="fa fa-fw fa-sign-out"></span></a></li>
+                </ul>
+                @*<a href="@Url.Action("ChangePassword", "Manage")" title="Click para cambiar Contraseña">
+                    Bienvenido (a): @User.Identity.GetUserName()!
+                    <span class="fa fa-fw fa-user"></span>
+                </a>*@
+
+                @*@Html.ActionLink("Hola " + User.Identity.GetUserName() + "!", "ChangePassword", "Manage", routeValues: null, htmlAttributes: new { title = "Click para cambiar Contraseña" })*@
+            </li>
+            @*<li><a href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesión<span class="fa fa-fw fa-sign-out"></span></a></li>*@
+        </ul>
     }
 }
 else

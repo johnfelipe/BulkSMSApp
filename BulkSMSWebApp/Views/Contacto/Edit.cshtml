@@ -1,36 +1,252 @@
 ﻿@model BulkSMSWebApp.Models.Contacto
 
 @{
-    ViewBag.Title = "Editar";
+    ViewBag.Title = "Editar Contacto";
 }
 
-<h2>Editar</h2>
+<script type="text/javascript">
+
+    // Función para eliminar la fila de la tabla
+    function borrarFila(obj) {
+        $(obj).closest('tr').remove();
+        return false;
+    }
+
+    $(document).ready(function () {
+        var tabla = document.getElementById("myTable");  //obtenemos la tabla con el id = myTable
+        var fila = tabla.rows; // obtenemos las filas de la tabla
+        var columna = tabla.cells; // obtenemos las columnas de la tabla
+        var cont = 0;
+
+        //Event Handler que se activa cuando clickamos el botón Actualizar
+        $("#btnActualizar").on("click", function (e) {
+            var listName = "Tels";
+            var qtd = 0;
+
+            //Si la tabla solo contiene la fila del header (no hay datos), evitamos que envíe el submit a través de e.preventDefault y mostramos una alerta.
+            if (fila.length === 1) {
+                e.preventDefault();
+                alert("No se puede proceder a guardar debido a que no hay ningún teléfono agregado. Ingrese al menos un teléfono e intente nuevamente");
+            }
+            else { // Si hay datos entonces obtenemos la lista de telefonos y a través de la función prepend le mandamos esa lista como parametro al
+                // al form que tiene la clase .form-horizontal y así se manda la lista al controller.
+                $("#myTable > tbody > tr").each(function () {
+                    var telefono = $(tabla.rows.item(qtd + 1).cells[0]).find('input').val();
+                    var tipoTel = $(tabla.rows.item(qtd + 1).cells[1]).find('*').val();
+                    var id = $(this).attr("id");
+                    var descripcion;
+                    switch (tipoTel)
+                    {
+                        case "1":
+                            descripcion = "Móvil Móvistar";
+                            break;
+
+                        case "2":
+                            descripcion = "Móvil Claro";
+                            break;
+
+                        case "3":
+                            descripcion = "Planta Móvistar";
+                            break;
+
+                        case "4":
+                            descripcion = "Planta Claro";
+                            break;
+
+                        default: { descripcion = tipoTel; break; }
+                    }
+                    //$(".form-horizontal").prepend("<input type='hidden' name='" + listName + "[" + qtd + "].TelefonoID' value='" + id + "'>");
+                    $(".form-horizontal").prepend("<input type='hidden' name='" + listName + "[" + qtd + "].NumeroTel' value='" + telefono + "'>");
+                    $(".form-horizontal").prepend("<input type='hidden' name='" + listName + "[" + qtd + "].Descripcion' value='" + descripcion + "'>");
+                    qtd += 1;
+                });
+            }
+        });
+
+        //Event Handler que se activa cuando clickamos el botón agregar.
+        $("#btnAgregar").on("click", function () {
+            var textbox = "<input class='form-control text-center' type='text'>"; //El textbox a agregar para el Número de Telefono
+
+            //El select o dropdpwn a agregar para el campo tipo-telefono
+            var select = "<select class='form-control' name='TipoTelefono'><option value='1'>Móvil Móvistar</option><option value='2'>Móvil Claro</option><option value='3'>Planta Móvistar</option><option value='4'>Planta Claro</option></select>";
+
+            // El enlace o botón a agregar para la opción remover, al clickar este hace un llamado a la funcion borrar fila
+            var enlace = "<button type='button' class='btn btn-warning' onClick='return borrarFila(this);'><span class='fa fa-trash-o'></span> Remover </button>"
+
+            // Si la tabla solo tiene la fila del header agregar el contenido sin verificar
+            if (fila.length <= 1) {
+                $("#myTable > tbody").append("<tr id=''><td class='text-center'>" + textbox + "</td><td class='text-center'>" + select + "</td><td class='text-center'>" + enlace + "</td></tr>");
+                cont++;
+            }
+            else // Si la tabla ya tiene mas que la fila del header (tiene datos) hay que verificar que el campo telefono no esté vacío
+                // que además tenga el formato correcto de telefono utilizado mediante la expresion regular.
+            {
+                var regex = new RegExp("^([+][5][0][5])?[2|5|8|7][0-9]{7}$"); //Definimos la expresión regular
+                var valor = $(tabla.rows.item(fila.length-1).cells[0]).find('input').val(); //obtenemos el valor del textbox dentro de la primera columna de la ultima fila de la tabla
+                if (valor == "") {  // Si está vacío mandamos una alerta para que lo ingrese y evitamos que siga la ejecución haciendo el llamado a return.
+                    alert("No se ha ingresado el número de teléfono. Por favor provee un número de teléfono e intenta nuevamente");
+                    $(tabla.rows.item(fila.length-1).cells[0]).find('input').focus();
+                    return;
+                }
+                if (!regex.test(valor)) // si el valor ingresado no corresponde con la expresion regular, mandamos una alerta y enfocamos el elemento.
+                {
+
+                    alert("El Teléfono ingresado no es válido. Por favor provee un número telefónico válido e intenta nuevamente");
+                    $(tabla.rows.item(fila.length - 1).cells[0]).find('input').focus();
+                    return;
+                }
+
+                // sin las validaciones se pasaron correctamente entonces agregamos una nueva fila a la tabla con el textbox, el select y el botón que anteriormente definimos.
+                $("#myTable > tbody").append("<tr id=''><td class='text-center'>" + textbox + "</td><td class='text-center'>" + select + "</td><td class='text-center'>" + enlace + "</td></tr>");
+                $(tabla.rows.item(fila.length - 1).cells[0]).find('input').focus();
+                cont++;
+            }
+        })
+
+        //Event Handler que se activa al hacer click sobre el tipo de teléfono
+        // cada vez que le demos click al campo del tipo de teléfono este se convertirá en un dropdown con los tipos de telefonos.
+        // #convertir es el id que tiene el elemento que clickamos... cuando se trabaja con tablas de datos dinámicos se utiliza la funcion delegate.
+        $("#myTable").delegate("#convertir", "click", function () {
+            var select = "<select class='form-control' name='TipoTelefono'><option value='1'>Móvil Móvistar</option><option value='2'>Móvil Claro</option><option value='3'>Planta Móvistar</option><option value='4'>Planta Claro</option></select>";
+            $(this).replaceWith(select);
+        });
+    });
+</script>
 
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Contacto</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ContactoID)
-        @Html.HiddenFor(model => model.EstadoID)
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        @using (Html.BeginForm("Edit", "Contacto", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
 
-        @Html.Partial("_CreateEdit", Model)
+            <div class="form-horizontal">
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Actualizar" class="btn btn-success" />
-                @Html.ActionLink("Cancelar", "Index", null, new { @class = "modal-link btn btn-danger" })
-            </div>
-        </div>
+                <div class="panel panel-default">
+
+                    <div class="panel-heading">
+                        <h2 class="text-center">Datos Generales</h2>
+                    </div>
+
+                    <div class="panel-body col-md-offset-0">
+
+                        @Html.HiddenFor(model => model.ContactoID)
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Nombres, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Nombres, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Nombres, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <hr />
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Apellidos, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Apellidos, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Apellidos, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <hr />
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DepartamentoID, "Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("DepartamentoID", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.DepartamentoID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                    </div> @*fin panel body*@
+
+                </div> @*fin panel default*@
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="text-center">Números de Contacto</h2>
+                    </div>
+
+                    <div class="panel-body col-md-offset-0">
+
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped" id="myTable">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"> Teléfono </th>
+                                        <th class="text-center"> Tipo de Teléfono </th>
+                                        <th class="text-center"> Opciones </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                         var telefonos = Model.Telefonos.ToList();
+                                    }
+
+                                    @for (var i = 0; i < telefonos.Count; i++)
+                                    {
+                                        <tr id="@telefonos[i].TelefonoID">
+                                            <td>
+                                                <div contenteditable="true">@Html.TextBoxFor(t => telefonos[i].NumeroTel, new { @class = "form-control text-center" })</div>
+                                                @Html.ValidationMessageFor(item => telefonos[i].NumeroTel, "", new { @class = "text-danger" })
+                                            </td>
+
+                                            <td>
+                                                @Html.TextBoxFor(t => telefonos[i].Descripcion, new { @class = "form-control text-center", id = "convertir" })
+                                
+                                            </td>
+
+                                            <td class="text-center"> <button type='button' class='btn btn-warning' onclick='return borrarFila(this);'><span class='fa fa-trash-o'></span> Remover </button></td>
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+
+                            <button type="button" id="btnAgregar" class="btn btn-info">Agregar <span class="fa fa-plus-circle"></span></button>
+
+                        </div>
+
+
+
+
+                    </div> @*fin segundo panel body*@
+
+
+                </div> @*fin segundo panel-default*@
+
+
+
+
+                <div class="col-md-12">
+                    <input type="submit" class="btn btn-lg btn-info" value="Actualizar" style="width:49%" id="btnActualizar" />
+                    <a class="btn btn-lg btn-danger" href="@Url.Action("Index","Contacto")" style="width:49%">Cancelar</a>
+                </div>
+
+            </div> @*fin form horizontal*@
+        }
+
+
     </div>
-}
+</div>
 
 <div>
-   
+
 </div>
 
 @section Scripts {

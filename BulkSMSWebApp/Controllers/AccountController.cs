@@ -11,6 +11,9 @@ using Microsoft.Owin.Security;
 using BulkSMSWebApp.Models;
 using BulkSMSWebApp.Helpers;
 using BulkSMSWebApp.DAL;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace BulkSMSWebApp.Controllers
 {
@@ -57,6 +60,26 @@ namespace BulkSMSWebApp.Controllers
             }
         }
 
+        // GET: /Account/UserList
+        [NoCache]
+
+        public ActionResult UserList()
+        {
+            var Users = context.Users.ToList();
+            List<string> roles = new List<string>();
+            for (int i = 0; i < Users.Count; i++)
+            {
+                using (var usermanager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+                {
+                    var roldelusuario = usermanager.GetRoles(Users[i].Id);
+                    roles.Add(roldelusuario[0].ToString());
+                }
+            }
+
+            ViewBag.Roles = roles;
+            return View(Users);
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -82,20 +105,20 @@ namespace BulkSMSWebApp.Controllers
 
             try
             {
-                
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, change to shouldLockout: true
                 var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
                 var user = await UserManager.FindByNameAsync(model.Email);
                 if (user.EstadoID == 0)
                 {
-                    Danger("Lo sentimos!! tu cuenta se encuentra desactivada.",true);
+                    Danger("Lo sentimos!! tu cuenta se encuentra desactivada.", true);
                     return RedirectToAction("Login");
                 }
-                
+
                 switch (result)
                 {
-                    case SignInStatus.Success: 
+                    case SignInStatus.Success:
                         return RedirectToLocal(returnUrl);
                     case SignInStatus.LockedOut:
                         return View("Lockout");
@@ -112,7 +135,7 @@ namespace BulkSMSWebApp.Controllers
             {
                 ModelState.AddModelError("", "Identificación no válida. Vuelve a intentarlo o utiliza el enlace \"Olvidaste tu Contraseña\" ");
                 return View(model);
-                
+
             }
 
             //return View(model);
@@ -368,7 +391,7 @@ namespace BulkSMSWebApp.Controllers
                 Danger("Ha ocurrido un error interno en la aplicación, por favor contacta al administrador del sistema \n" + ex.Message, true);
                 return View(model);
             }
-            
+
             return View();
         }
 

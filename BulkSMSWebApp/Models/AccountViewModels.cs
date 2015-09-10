@@ -100,9 +100,6 @@ namespace BulkSMSWebApp.Models
         [Required(ErrorMessage = "Seleccione un tipo de Usuario")]
         [Display(Name = "Tipo de Usuario")]
         public string Rol { get; set; }
-    
-
-
     }
 
     public class ResetPasswordViewModel

@@ -13,62 +13,67 @@
 
     $(document).ready(function () {
 
+
+        //Event Handler que se activa cuando clickamos el botón guardar
         $("#btnGuardar").on("click", function (e) {
             var listName = "Telefonos";
             var qtd = 0;
             var tabla = document.getElementById("phonesTable");  //obtenemos la tabla con el id = phonesTable
             var fila = tabla.rows; // obtenemos las filas de la tabla
+
+            //Si la tabla solo contiene la fila del header (no hay datos), evitamos que envíe el submit a través de e.preventDefault y mostramos una alerta.
             if (fila.length === 1) {
                 e.preventDefault();
                 alert("Debe agregar al menos un número de contacto");
             }
-            else
-            {
+            else { // Si hay datos entonces obtenemos la lista de telefonos y a través de la función prepend le mandamos esa lista como parametro al 
+                // al form que tiene la clase .form-horizontal y así se manda la lista al controller.
                 $("#phonesTable > tbody > tr").each(function () {
-                    var nome = $(this).data("nome");
-                    var tel = $(this).data("tel");
-                    $(".form-horizontal").prepend("<input type='hidden' name='" + listName + "[" + qtd + "].NumeroTel' value='" + nome + "'>");
-                    $(".form-horizontal").prepend("<input type='hidden' name='" + listName + "[" + qtd + "].Descripcion' value='" + tel + "'>");
+                    var telefono = $(this).data("telefono");
+                    var descripcion = $(this).data("descripcion");
+                    $(".form-horizontal").prepend("<input type='hidden' name='" + listName + "[" + qtd + "].NumeroTel' value='" + telefono + "'>");
+                    $(".form-horizontal").prepend("<input type='hidden' name='" + listName + "[" + qtd + "].Descripcion' value='" + descripcion + "'>");
                     qtd += 1;
                 });
-            } 
+            }
         });
 
-        $("#btnAgregar").on("click", function () {
-            var nome = $("#Tel_NumeroTel").val();
-            var tel = $("#Tel_Descripcion").val();
 
-            if (nome == "" || tel == "") {
+        //Event Handler que se activa cuando presionamos click en el botón agregar
+        $("#btnAgregar").on("click", function () {
+            var telefono = $("#Tel_NumeroTel").val(); //obtenemos el valor del teléfono a agregar
+            var descripcion = $("#Tel_Descripcion").val(); //obtenemos el valor del tipo de telefono seleccionado
+
+            if (telefono == "" || descripcion == "") { // si no se han ingresado los datos se manda una alerta.
                 alert("Debe Escribir un Número de Teléfono y Seleccionar el Tipo de Teléfono");
             }
-            else
-            {
+            else {
                 var tabla = document.getElementById("phonesTable");  //obtenemos la tabla con el id = phonesTable
                 var fila = tabla.rows; // obtenemos las filas de la tabla
                 var columna = tabla.cells; // obtenemos las columnas de la tabla
+                var enlace = "<button type='button' class='btn btn-warning' onClick='return borrarFila(this);'><span class='fa fa-trash-o'></span> Remover </button>"
                 if (fila.length > 1) // verificamos que la tabla tenga mas filas que la del header
                 {
                     for (var i = 0; i < fila.length; i++) {
                         var valor = tabla.rows[i].cells[0].innerHTML;
-                        if (valor === nome) { // verificamos que no se ingrese un número repetido
+                        if (valor === telefono) { // verificamos que no se ingrese un número repetido
                             alert("El Número ingresado ya ha sido agregado, por favor provea un número diferente");
                             return;
                         }
                     }
-                    $("#phonesTable > tbody").append("<tr data-nome='" + nome + "' data-tel='" + tel + "'><td class='text-center'>" + nome + "</td><td class='text-center'>" + tel + "</td><td class='text-center'>" + "<a href='#' onClick='return borrarFila(this);'> Remover </a>" + "</td></tr>");
+                    $("#phonesTable > tbody").append("<tr data-telefono='" + telefono + "' data-descripcion='" + descripcion + "'><td class='text-center'>" + telefono + "</td><td class='text-center'>" + descripcion + "</td><td class='text-center'>" + enlace + "</td></tr>");
                     $("#Tel_NumeroTel").val('');
                     $("#Tel_Descripcion").val('');
                     $("#Tel_NumeroTel").focus();
 
                 }
-                else
-                {
-                    $("#phonesTable > tbody").append("<tr data-nome='" + nome + "' data-tel='" + tel + "'><td class='text-center'>" + nome + "</td><td class='text-center'>" + tel + "</td><td class='text-center'>" + "<a href='#' onClick='return borrarFila(this);'> Remover </a>" + "</td></tr>");
+                else {
+                    $("#phonesTable > tbody").append("<tr data-telefono='" + telefono + "' data-descripcion='" + descripcion + "'><td class='text-center'>" + telefono + "</td><td class='text-center'>" + descripcion + "</td><td class='text-center'>" + enlace + "</td></tr>");
                     $("#Tel_NumeroTel").val('');
                     $("#Tel_Descripcion").val('');
                     $("#Tel_NumeroTel").focus();
                 }
-   
+
             }
         });
 
@@ -77,7 +82,7 @@
 
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
-        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        @using (Html.BeginForm("Create", "Contacto", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
 
             <div class="panel panel-default">
@@ -86,78 +91,43 @@
                 </div>
 
                 <div class="panel-body col-md-offset-0">
-
-                    <div class="panel-body">
-                        <div class="tab-content">
-                            <div id="generales" class="tab-pane active">
-                             
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Contactos.Nombres, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Contactos.Nombres, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Contactos.Nombres, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <hr />
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Contactos.Apellidos, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Contactos.Apellidos, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Contactos.Apellidos, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <hr />
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Contactos.DepartamentoID, "Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.DropDownListFor(m => m.Contactos.DepartamentoID, (SelectList)ViewBag.DepartamentoID, "Seleccionar", new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.Contactos.DepartamentoID, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <hr />
-                                @*@if (ViewData["Titulo"] == "Edit")
-                                    {
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.Contactos.EstadoID, "Estado", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                                            <div class="col-md-10">
-
-                                                @switch (Model.Contactos.EstadoID)
-                                                {
-                                                    case 1:
-                                                        {
-                                                            @Html.TextBox("Estado", "Activo", htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-                                                            break;
-                                                        }
-                                                    case 2:
-                                                        {
-                                                            @Html.TextBox("Estado", "Inactivo", htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-                                                            break;
-                                                        }
-                                                }
-                                                @Html.DropDownList("EstadoID", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-                                                @Html.ValidationMessageFor(model => model.Contactos.EstadoID, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    }*@
-
-
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Contactos.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Contactos.Email, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Contactos.Email, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <hr />
-                            </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Contactos.Nombres, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Contactos.Nombres, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Contactos.Nombres, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                    <hr />
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Contactos.Apellidos, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Contactos.Apellidos, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Contactos.Apellidos, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Contactos.DepartamentoID, "Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.Contactos.DepartamentoID, (SelectList)ViewBag.DepartamentoID, "Seleccionar", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Contactos.DepartamentoID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Contactos.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Contactos.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Contactos.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <hr />
                 </div>
 
             </div>
@@ -168,8 +138,6 @@
                 </div>
 
                 <div class="panel-body">
-
-                    <div id="personales" class="tab-pane">
                         <hr />
                         <div class="form-group">
                             @Html.LabelFor(model => model.Telefonos[0].NumeroTel, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -215,8 +183,6 @@
 
                             </div>
                         </div>
-                        
-                    </div>
 
                 </div>
             </div>

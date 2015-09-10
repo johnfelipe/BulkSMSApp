@@ -2174,7 +2174,7 @@ fieldset[disabled] .btn-warning.active {
 .btn-danger {
   color: #ffffff;
   background-color: #d9534f;
-  border-color: #d43f3a;
+  border-color: #fff;
 }
 
 .btn-danger:hover,

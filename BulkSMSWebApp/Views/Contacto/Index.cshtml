@@ -1,18 +1,21 @@
 ﻿@model BulkSMSWebApp.ViewModels.ContactoCelGrupo
+@using BulkSMSWebApp.Helpers;
+
 
 @{
     ViewBag.Title = "Listado de Contactos";
 }
 
-
-    @*@Html.ActionLink("Agregar Contacto", "Create", new { @class = "btn btn-primary btn-lg" })*@
-<p><a href="@Url.Action("Create","Contacto")" class="btn btn-info">
-    Nuevo Contacto
-       <span class="fa fa-fw fa-plus-circle"></span>
-    </a></p>
+<p>
+    <a href="@Url.Action("Create","Contacto")" class="btn btn-info">
+        Nuevo Contacto
+        <span class="fa fa-fw fa-plus-circle"></span>
+    </a>
+</p>
 
 
 <script>
+
     $(function () {
 
         var table = $('#myTable').dataTable({
@@ -29,6 +32,21 @@
             $(this).parents('tr').addClass('success');
         });
 
+
+        $("#myTable").delegate(".open-dialog", "click", function () {
+            var idActual = $(this).data('id');
+            $(".idContacto").prepend("<input type='hidden' name='id' value='" + idActual + "'>");
+        })
+
+        $("#myTable").delegate(".activar_opendialog", "click", function () {
+            var idActual = $(this).data('id');
+            $(".idContacto").prepend("<input type='hidden' name='id' value='" + idActual + "'>");
+        })
+
+        $("#myTable").delegate(".detalles", "click", function () {
+            var idActual = $(this).data('id');
+            $(".divhidden #contactoid").val(idActual);
+        })
     });
 </script>
 
@@ -40,6 +58,7 @@
             <tr class="label-info">
                 <th> Nombres </th>
                 <th> Apellidos </th>
+                <th> Departamento </th>
                 <th> Email </th>
                 <th> Estado </th>
                 <th>Opciones</th>
@@ -57,6 +76,9 @@
                         @Html.DisplayFor(modelItem => item.Apellidos)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.Departamento.NombreDepartameto)
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Email)
                     </td>
                     <td>
@@ -64,27 +86,44 @@
                     </td>
 
                     <td>
-                        @Ajax.ActionLink("Seleccionar", "Index", new { id = item.ContactoID }, new AjaxOptions
-                                                                    {
-                                                                        HttpMethod = "GET",
-                                                                        UpdateTargetId = "tablaTelefonos",
-                                                                        InsertionMode = InsertionMode.Replace
-                                                                    }, new { @class = "selected" })
-
-                        @*@Html.ActionLink("Seleccionar", "Index", new { id = item.ContactoID })*@ |
-                        @Html.ActionLink("Editar", "Edit", new { id = item.ContactoID }) |
-                        @Html.ActionLink("Detalles", "Details", new { id = item.ContactoID }) |
-
-                        @if (item.EstadoID == 1)
+                        @Ajax.RawActionLink(string.Format("<span class='fa fa-hand-pointer-o'> Seleccionar </span>"), "Index", "Contacto", new { id = item.ContactoID },
+                        new AjaxOptions
                         {
-                            @Html.ActionLink("Desactivar", "Delete", new { id = item.ContactoID })
-                            @Html.Raw(" | ");
+                            HttpMethod = "GET",
+                            UpdateTargetId = "tablaTelefonos",
+                            InsertionMode = InsertionMode.Replace
+                        }, new { @class = "selected" })
+
+
+
+                        <br />
+                        <a href="@Url.Action("Edit", "Contacto", new { id = @item.ContactoID })">
+                            <span class="fa fa-edit"></span>
+                            Editar
+                        </a>
+                        <br />
+
+                        @*<a data-toggle="modal" data-id="@item.ContactoID" class=".detalles selected" href="#detalleContacto">
+                        
+                            <span class="fa fa-info-circle"></span>
+                            Detalles
+                        </a>
+                        <br />*@
+                      
+                        @if (item.EstadoID == 1 && User.IsInRole("Administrador"))
+                        {
+                            <a data-toggle="modal" data-id="@item.ContactoID" class="open-dialog selected" href="#deleteConfirmModal">
+                                <span class="fa fa-trash"></span>
+                                Desactivar
+                            </a>
                         }
 
-                        @if (item.EstadoID == 2)
+                        @if (item.EstadoID == 2 && User.IsInRole("Administrador"))
                         {
-                            @Html.ActionLink("Activar", "Activar", new { id = item.ContactoID })
-                            @Html.Raw(" | ");
+                            <a data-toggle="modal" data-id="@item.ContactoID" class="activar_opendialog selected" href="#activeConfirmModal">
+                                <span class="fa fa-check"></span>
+                                Activar
+                            </a>
                         }
 
                     </td>
@@ -103,3 +142,14 @@
 
 
 
+@section Modal {
+
+    @{ Html.RenderPartial("_ActivarConfirmationModal"); }
+    @{ Html.RenderPartial("_DeleteConfirmationModal"); }
+
+
+}
+
+@section Scripts{
+
+}

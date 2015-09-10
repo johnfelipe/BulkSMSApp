@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNet.Identity
+@using BulkSMSWebApp.Helpers;
 <div class="sidebar-nav">
     <ul>
-        <li><a href="@Url.Action("Index","Home")"class="nav-header"><i class="fa fa-fw fa-2x fa-home"></i> Inicio </a></li>
+        <li><a href="@Url.Action("Index","Home")" class="nav-header"><i class="fa fa-fw fa-2x fa-home"></i> Inicio </a></li>
 
         <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-users fa-2x"></i> Contactos @*<i class="fa fa-collapse"></i>*@ <span class="label label-info">+2</span></a></li>
         <li>
@@ -65,6 +66,9 @@
                     </a>
                 </li>
             </ul>
+
+  
+
         </li>
 
         @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
@@ -82,7 +86,7 @@
 
                 <ul class="users-menu nav nav-list collapse">
                     <li>
-                        <a href="@Url.Action("Index","Account")" class="btn btn-navbar">
+                        <a href="@Url.Action("UserList","Account")" class="btn btn-navbar">
                             Mostrar Usuarios
                             <span class="fa fa-fw fa-2x fa-edit"></span>
                         </a>

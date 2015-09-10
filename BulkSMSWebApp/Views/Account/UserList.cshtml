@@ -1,0 +1,65 @@
+﻿@using BulkSMSWebApp.Helpers;
+@model List<BulkSMSWebApp.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Usuarios Registrados";
+    Layout = "~/Views/Shared/_MasterPage.cshtml";
+}
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr class="label-info">
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Email</th>
+                <th>Fecha de Registro</th>
+                <th>Estado</th>
+                <th>Tipo de Usuario</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var item = 0; item < Model.Count(); item++)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => modelItem[item].Nombres)</td>
+                    <td>@Html.DisplayFor(modelItem => modelItem[item].Apellidos)</td>
+                    <td>@Html.DisplayFor(modelItem => modelItem[item].Email)</td>
+                    <td>@Html.DisplayFor(modelItem => modelItem[item].fecha_registro)</td>
+                  
+                    @if (Model[item].EstadoID == 1)
+                    {
+                        <td>Activo</td>
+                    }
+                    @if (Model[item].EstadoID == 0)
+                    {
+                        <td>Inactivo</td>
+                    }
+                    
+                    <td>@ViewBag.Roles[item]</td>
+              
+                    <td>
+                        @if (Model[item].EstadoID == 1)
+                        {
+                            <a href="@Url.Action("Desactivar","Account")" id="@Model[item].Email">
+                                <span class="fa fa-fw fa-trash"></span>
+                                 Desactivar 
+                            </a> <br />
+                        }
+
+                        @if (Model[item].EstadoID == 0)
+                        {
+                            <a href="@Url.Action("Activar","Account")" id="@Model[item].Email">
+                                <span class="fa fa-fw fa-check"></span>
+                                Activar
+                            </a>
+                        }
+                    </td>
+                    
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
