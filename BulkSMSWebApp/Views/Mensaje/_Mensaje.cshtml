@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<BulkSMSWebApp.Models.Mensaje>
 
 
-<div class="table-responsive">
     <table class="table table-striped table-hover" id="MyTable">
         <thead>
             <tr>
@@ -20,17 +19,19 @@
                 <th> Opciones </th>
             </tr>
         </thead>
-        
+
         <tbody>
 
             @foreach (var item in Model)
             {
-                <tr>
+                string bold = item.EstadoID == 6 ? "font-weight: bold" : null;
+
+                <tr style="@bold">
                     <td>@Html.DisplayFor(modelItem => item.Contacto.NombreCompleto)</td>
 
                     @*<td>
-                    @Html.DisplayFor(modelItem => item.Contacto.Celular)
-                </td>*@
+                            @Html.DisplayFor(modelItem => item.Contacto.Celular)
+                        </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.FechaMensaje)
                     </td>
@@ -46,16 +47,27 @@
 
 
                     <td>
-                        @*@Html.ActionLink("Edit", "Edit", new { id = item.ID }) |*@
-                        @Html.ActionLink("Detalles", "Details", new { id = item.MensajeID }) |
-                        @Html.ActionLink("Eliminar", "Delete", new { id = item.MensajeID })
+                        @if (item.EstadoID != 7 && User.IsInRole("Administrador"))
+                        {
+                            <a data-toggle="modal" data-id="@item.MensajeID" class="deleteMessage selected" href="#DesactivarMensaje">
+                                <span class="fa fa-trash"></span>
+                                Eliminar
+                            </a>
+                            <br />
+                        }
+
+                        @using (Html.BeginForm("Details", "Mensaje", FormMethod.Post, new { @class = "id" }))
+                        {
+                            <a data-id="@item.MensajeID" href="#" class="messageDetail">
+                                <span class="fa fa-info-circle"></span>
+                                Detalles
+                            </a>
+
+                        }
+
                     </td>
                 </tr>
             }
 
         </tbody>
-       
-
     </table>
-
-</div>

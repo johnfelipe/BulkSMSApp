@@ -7,7 +7,7 @@ namespace BulkSMSWebApp.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.AspNetUsers", "EstadoID", c => c.Int(nullable: true));
+            //AddColumn("dbo.AspNetUsers", "EstadoID", c => c.Int(nullable: true));
         }
         
         public override void Down()

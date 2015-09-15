@@ -4,14 +4,22 @@
     ViewBag.Title = "Detalles";
 }
 
-<h2>Detalles del Mensaje</h2>
 
-<div>
-    <h4>Mensaje</h4>
-    <hr />
-    @Html.Partial("_DeleteDetail", Model)
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel">
+            <div class="panel-heading">
+                <h2 class="text-center">Detalles del Mensaje</h2>
+            </div>
+            <div class="panel-body">
+                @Html.Partial("_DeleteDetail", Model)
+                <hr />
+                <p">
+                    @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-lg btn-info", @style="width:100%" })
+                </p>
+            </div>
+        </div>
+    </div>
+
 </div>
-<p>
-    @*@Html.ActionLink("Editar", "Edit", new { id = Model.ID }) |*@
-    @Html.ActionLink("Volver", "Index")
-</p>
+

@@ -1,71 +1,70 @@
 ﻿@model BulkSMSWebApp.Models.Mensaje
 
-<dl class="dl-horizontal">
+<dl class="dl-horizontal col-md-12 col-md-offset-0">
 
     @if (Model.FlujoID == 1)
     {
-        @*<dt>
-            Número Destinatario
-        </dt>*@
-
-        @*<dd>
-            @Html.DisplayFor(model => model.Contacto.Celular)
-        </dd>*@
-
         <dt>
-            Nombre Destinatario
+            Nombre Destinatario:
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Contacto.NombreCompleto)
         </dd>
+        <hr />
+        <dt>Enviado por: </dt>
+
+        <dd>@Html.DisplayFor(model => model.EnviadoPor)</dd>
+    <hr />
     }
     else
     {
-        @*<dt>
-            Número Remitente
-        </dt>*@
-
-        @*<dd>
-            @Html.DisplayFor(model => model.Contacto.Celular)
-        </dd>*@
-
         <dt>
-            Nombre Remitente
+            Nombre Remitente:
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Contacto.NombreCompleto)
         </dd>
+    <hr />
     }
 
-
     <dt>
-        @Html.DisplayNameFor(model => model.Estado.NombreEstado)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.Estado.NombreEstado)
-    </dd>
-
-    @*<dt>
-        @Html.DisplayNameFor(model => model.Flujo_Mensaje.NombreFlujo)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.Flujo_Mensaje.NombreFlujo)
-    </dd>*@
-
-    <dt>
-        @Html.DisplayNameFor(model => model.FechaMensaje)
+        @Html.DisplayNameFor(model => model.FechaMensaje):
     </dt>
 
     <dd>
         @Html.DisplayFor(model => model.FechaMensaje)
     </dd>
+    <hr />
+
 
     <dt>
-        @Html.DisplayNameFor(model => model.CuerpoMensaje)
+        @Html.DisplayNameFor(model => model.Estado.NombreEstado):
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Estado.NombreEstado)
+    </dd>
+    <hr />
+
+    @if (Model.EstadoID == 7)
+    {
+        <dt>Eliminado por:</dt> 
+        <dd>@Html.DisplayFor(model => model.DesactivadoPor)</dd>
+        <hr />
+    }
+    @*<dt>
+            @Html.DisplayNameFor(model => model.Flujo_Mensaje.NombreFlujo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Flujo_Mensaje.NombreFlujo)
+        </dd>*@
+
+
+    <dt>
+        @Html.DisplayNameFor(model => model.CuerpoMensaje):
     </dt>
 
     <dd>

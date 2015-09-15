@@ -60,9 +60,47 @@ namespace BulkSMSWebApp.Controllers
             }
         }
 
+
+        
+
+
+        //POST// Account/Activar 
+        [Authorize(Roles = "Administrador")]
+        [NoCache]
+        [HttpPost, ActionName("Activar")]
+        [ValidateAntiForgeryToken]
+        public ActionResult ActivarConfirmado(string Email)
+        {
+            ApplicationUser usuario = UserManager.FindByEmail(Email);
+
+            usuario.EstadoID = 1;
+
+            UserManager.Update(usuario);
+
+            Information(String.Format("El Usuario <b>{0}</b> fué Activado correctamente.", usuario.Nombres), true);
+            return RedirectToAction("UserList");
+        }
+
+        // POST: Usuario/Delete/?
+        [Authorize(Roles = "Administrador")]
+        [NoCache]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(string Email)
+        {
+            ApplicationUser usuario = UserManager.FindByEmail(Email);
+
+            usuario.EstadoID = 0;
+
+            UserManager.Update(usuario);
+
+            Information(String.Format("El Usuario <b>{0}</b> fué Desactivado correctamente.", usuario.Nombres), true);
+            return RedirectToAction("UserList");
+        }
+
+
         // GET: /Account/UserList
         [NoCache]
-
         public ActionResult UserList()
         {
             var Users = context.Users.ToList();

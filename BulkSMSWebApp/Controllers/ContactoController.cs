@@ -176,7 +176,7 @@ namespace BulkSMSWebApp.Controllers
                     }
 
                     //Mostramos una alerta de éxito.
-                    Success(String.Format("El Contacto <b>{0}</b> fué agregado correctamente.", contacto.Contactos.Nombres), true);
+                    Information(String.Format("El Contacto <b>{0}</b> fué agregado correctamente.", contacto.Contactos.Nombres), true);
                     return RedirectToAction("Index");
                 }
                 else

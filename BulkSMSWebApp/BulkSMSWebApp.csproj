@@ -248,6 +248,10 @@
     <Compile Include="Migrations\201508252246178_EstadoID.Designer.cs">
       <DependentUpon>201508252246178_EstadoID.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509142141186_updateMessageModel.cs" />
+    <Compile Include="Migrations\201509142141186_updateMessageModel.Designer.cs">
+      <DependentUpon>201509142141186_updateMessageModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FlujoMensaje.cs" />
@@ -372,7 +376,6 @@
     <Content Include="Views\Shared\_MasterPage.cshtml" />
     <Content Include="Views\Shared\_Navegacion.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
-    <Content Include="Views\Shared\_Content.cshtml" />
     <Content Include="Scripts\knob.jquery.json" />
     <Content Include="Views\Shared\_LoginPage.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
@@ -381,6 +384,11 @@
     <Content Include="Views\Contacto\_MostrarNotificacion.js.cshtml" />
     <Content Include="Views\Contacto\_ActivarConfirmationModal.cshtml" />
     <Content Include="Views\Contacto\_DetalleContacto.cshtml" />
+    <Content Include="Views\Account\_ActivarUsuario.cshtml" />
+    <Content Include="Views\Account\_DesactivarUsuario.cshtml" />
+    <Content Include="Views\Mensaje\_DesactivarMensaje.cshtml" />
+    <Content Include="Views\Mensaje\_Eliminados.cshtml" />
+    <Content Include="Views\Mensaje\_Enviados.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -442,6 +450,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508252246178_EstadoID.resx">
       <DependentUpon>201508252246178_EstadoID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509142141186_updateMessageModel.resx">
+      <DependentUpon>201509142141186_updateMessageModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

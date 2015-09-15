@@ -6,8 +6,41 @@
     Layout = "~/Views/Shared/_MasterPage.cshtml";
 }
 
+
+<script>
+    $(function () {
+
+
+        var table = $('#myTable').dataTable({
+            "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "Todos"]]
+        });
+
+        var tabla = $('#myTable').DataTable()
+        var allRows = table.fnGetNodes();
+
+        $('#myTable').delegate(".selected", "click", function () {
+            for (var i = 0; i < allRows.length; i++) {
+                tabla.rows('.success').nodes().to$().removeClass('success');
+            }
+            $(this).parents('tr').addClass('success');
+        });
+
+        $("#myTable").delegate(".open-dialog", "click", function () {
+            var email = $(this).data('id');
+            $(".email").prepend("<input type='hidden' name='Email' value='" + email + "'>");
+        })
+
+
+        $("#myTable").delegate(".activar_opendialog", "click", function () {
+            var email = $(this).data('id');
+            $(".email").prepend("<input type='hidden' name='Email' value='" + email + "'>");
+        })
+
+    });
+</script>
+
 <div class="table-responsive">
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover" id="myTable">
         <thead>
             <tr class="label-info">
                 <th>Nombres</th>
@@ -27,7 +60,7 @@
                     <td>@Html.DisplayFor(modelItem => modelItem[item].Apellidos)</td>
                     <td>@Html.DisplayFor(modelItem => modelItem[item].Email)</td>
                     <td>@Html.DisplayFor(modelItem => modelItem[item].fecha_registro)</td>
-                  
+
                     @if (Model[item].EstadoID == 1)
                     {
                         <td>Activo</td>
@@ -36,30 +69,42 @@
                     {
                         <td>Inactivo</td>
                     }
-                    
+
                     <td>@ViewBag.Roles[item]</td>
-              
+
                     <td>
-                        @if (Model[item].EstadoID == 1)
+                        @if (Model[item].EstadoID == 1 && User.IsInRole("Administrador"))
                         {
-                            <a href="@Url.Action("Desactivar","Account")" id="@Model[item].Email">
-                                <span class="fa fa-fw fa-trash"></span>
-                                 Desactivar 
+
+                            <a data-toggle="modal" data-id="@Model[item].Email" class="open-dialog selected" href="#DesactivarUsuario">
+                                <span class="fa fa-trash"></span>
+                                Desactivar
                             </a> <br />
                         }
 
-                        @if (Model[item].EstadoID == 0)
+                        @if (Model[item].EstadoID == 0 && User.IsInRole("Administrador"))
                         {
-                            <a href="@Url.Action("Activar","Account")" id="@Model[item].Email">
+                            <a data-toggle="modal" data-id="@Model[item].Email" class="activar_opendialog selected" href="#activeUserConfirmModal">
                                 <span class="fa fa-fw fa-check"></span>
                                 Activar
                             </a>
                         }
                     </td>
-                    
 
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+@section Modal {
+
+    @{ Html.RenderPartial("_ActivarUsuario"); }
+    @{ Html.RenderPartial("_DesactivarUsuario"); }
+
+
+}
+
+@section Scripts{
+
+}

@@ -1,0 +1,25 @@
+﻿@model BulkSMSWebApp.Models.Mensaje
+
+@{
+    ViewBag.Title = "Eliminar Mensaje";
+}
+
+<h2>Eliminar Mensaje</h2>
+
+<h3>¿Confirma que desea Eliminar el Mensaje Seleccionado?</h3>
+<div>
+    <h4>Mensaje</h4>
+    <hr />
+
+    @Html.Partial("_DeleteDetail", Model)
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Confirmar" class="btn btn-success" /> |
+            @Html.ActionLink("Volver", "Index")
+        </div>
+    }
+</div>

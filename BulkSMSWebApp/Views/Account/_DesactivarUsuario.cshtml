@@ -1,16 +1,16 @@
-﻿@using (Html.BeginForm("Delete", "Contacto", FormMethod.Post, new { @class = "idContacto", role = "form" }))
+﻿@using (Html.BeginForm("Delete", "Account", FormMethod.Post, new { @class = "email", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+    <div class="modal fade" id="DesactivarUsuario" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="deleteLabel">Desactivar Contacto</h4>
+                    <h4 class="modal-title" id="deleteLabel">Desactivar Usuario</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Has seleccionado la opción Desactivar Contacto</p>
+                    <p>Has seleccionado la opción Desactivar Usuario</p>
                     <p>
-                        Si realmente deseas Desactivar el contacto seleccionado presiona "Si Confirmar!!" de lo contrario
+                        Si realmente deseas Desactivar el Usuario seleccionado presiona "Si Confirmar!!" de lo contrario
                         presiona "No, Cancelar".
                     </p>
                 </div>
@@ -22,4 +22,5 @@
         </div>
     </div>
 }
+
 

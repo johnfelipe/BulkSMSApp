@@ -1,0 +1,83 @@
+﻿@model IEnumerable<BulkSMSWebApp.Models.Mensaje>
+
+
+<table class="table table-striped table-hover" id="MyTable">
+    <thead>
+        <tr>
+            <th> Enviado por</th>
+
+            <th>Nombre Contacto</th>
+
+            @*<th> N° Celular</th>*@
+
+            <th>  Fecha del Mensaje </th>
+
+            @*<th> Mensaje </th>*@
+
+            <th>   Flujo del Mensaje </th>
+
+            <th> @Html.DisplayNameFor(model => model.Estado.NombreEstado) </th>
+
+            <th> Eliminado por</th>
+
+            <th> Opciones </th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            string bold = item.EstadoID == 6 ? "font-weight: bold" : null;
+
+            <tr style="@bold">
+
+                <td>@Html.DisplayFor(modelItem => item.EnviadoPor) </td>
+
+                <td>@Html.DisplayFor(modelItem => item.Contacto.NombreCompleto)</td>
+
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Contacto.Celular)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaMensaje)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flujo_Mensaje.NombreFlujo)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado.NombreEstado)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.DesactivadoPor)
+                </td>
+
+                <td>
+                    @if (item.EstadoID != 7 && User.IsInRole("Administrador"))
+                    {
+                        <a data-toggle="modal" data-id="@item.MensajeID" class="deleteMessage selected" href="#DesactivarMensaje">
+                            <span class="fa fa-trash"></span>
+                            Eliminar
+                        </a>
+                        <br />
+                    }
+
+                    @using (Html.BeginForm("Details", "Mensaje", FormMethod.Post, new { @class = "id" }))
+                    {
+                        <a data-id="@item.MensajeID" href="#" class="messageDetail">
+                            <span class="fa fa-info-circle"></span>
+                            Detalles
+                        </a>
+
+                    }
+
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+

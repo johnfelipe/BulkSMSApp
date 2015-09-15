@@ -27,7 +27,7 @@ namespace BulkSMSWebApp.Models
 
     public class SetPasswordViewModel
     {
-        [Required(ErrorMessage = "El Campo Email es Obligatorio")]
+        [Required(ErrorMessage = "El Campo Contraseña es Obligatorio")]
         [StringLength(100, ErrorMessage = "La Contraseña debe tener 6 caracteres como mínimo", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Nueva Contraseña")]
@@ -41,7 +41,7 @@ namespace BulkSMSWebApp.Models
 
     public class ChangePasswordViewModel
     {
-        [Required(ErrorMessage="El Campo Email es Obligatorio")]
+        [Required(ErrorMessage="El Campo Contraseña es Obligatorio")]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña Actual")]
         public string OldPassword { get; set; }
