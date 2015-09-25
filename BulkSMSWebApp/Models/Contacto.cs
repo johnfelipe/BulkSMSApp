@@ -11,12 +11,13 @@ namespace BulkSMSWebApp.Models
     {
         public int ContactoID { get; set; }
 
+        [Required(ErrorMessage="El campo Nombres es requerido")]
         [MaxLength(36, ErrorMessage = "El texto ingresado excede el límite de caractéres permitidos")]
         [MinLength(3, ErrorMessage = "El Nombre debe tener al menos 3 caracteres")]
         public String Nombres { get; set; }
 
+        [Required(ErrorMessage = "El campo Apellidos es requerido")]
         [MinLength(3, ErrorMessage = "El Apellido debe tener al menos 3 caracteres")]
-
         [MaxLength(36, ErrorMessage = "El texto ingresado excede el límite de caractéres permitidos")]
         public String Apellidos { get; set; }
 
@@ -43,7 +44,6 @@ namespace BulkSMSWebApp.Models
         // Propiedades de Navegacioon
         public virtual Estado Estado { get; set; }
         public virtual Departamento Departamento { get; set; }
-        public virtual ICollection<Grupo> Grupos { get; set; }
         public virtual ICollection<Telefono> Telefonos { get; set; }
 
     }

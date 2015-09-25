@@ -1,0 +1,53 @@
+﻿@model List<BulkSMSWebApp.ViewModels.GrupoContacto>
+@using BulkSMSWebApp.Helpers;
+
+
+<h3 class="text-center">Contactos del Grupo Seleccionado</h3>
+
+<p>
+
+    @Ajax.RawActionLink(string.Format("Agregar Contactos <span class='fa fa-user-plus'> </span>"), "ContactosNotInGroup", "Grupo", new { id = Model[0].GrupoID },
+                        new AjaxOptions
+                        {
+                            HttpMethod = "GET",
+                            UpdateTargetId = "edit-container",
+                            InsertionMode = InsertionMode.Replace,
+                            //OnBegin = "limpiar",
+                            LoadingElementId = "LoadingDiv",
+                            OnSuccess = "mostrarModal()"
+                        }, new { @class = "btn btn-info" })
+
+    <br />
+
+</p>
+
+
+
+
+
+<table class="table table-bordered table-striped table-hover" id="Table">
+    <thead>
+        <tr class="label-info">
+            <th>ID del Grupo</th>
+            <th class="text-center"> Nombres Contacto </th>
+            <th class="text-center"> Departamento </th>
+            <th class="text-center"> N° Teléfono </th>
+            <th class="text-center"> Tipo Telefono </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.GrupoID</td>
+                <td>@item.Nombres</td>
+                <td>@item.NombreDepartameto</td>
+                <td>@item.NumeroTel</td>
+                <td>@item.Descripcion</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

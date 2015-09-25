@@ -15,7 +15,7 @@
         <dt>Enviado por: </dt>
 
         <dd>@Html.DisplayFor(model => model.EnviadoPor)</dd>
-    <hr />
+        <hr />
     }
     else
     {
@@ -26,8 +26,16 @@
         <dd>
             @Html.DisplayFor(model => model.Contacto.NombreCompleto)
         </dd>
-    <hr />
+        <hr />
     }
+
+
+    <dt>
+        Flujo del Mensaje
+    </dt>
+
+    <dd>@Html.DisplayFor(model => model.Flujo_Mensaje.NombreFlujo)</dd>
+    <hr />
 
     <dt>
         @Html.DisplayNameFor(model => model.FechaMensaje):
@@ -50,7 +58,7 @@
 
     @if (Model.EstadoID == 7)
     {
-        <dt>Eliminado por:</dt> 
+        <dt>Eliminado por:</dt>
         <dd>@Html.DisplayFor(model => model.DesactivadoPor)</dd>
         <hr />
     }

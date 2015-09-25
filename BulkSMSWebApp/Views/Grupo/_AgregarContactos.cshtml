@@ -1,0 +1,115 @@
+﻿@model List<BulkSMSWebApp.ViewModels.GrupoContacto>
+@using BulkSMSWebApp.DAL;
+
+
+@using (Html.BeginForm("UpdateGrupo", "Grupo", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @*<div class="modal fade" id="updateGrupoContacto" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">*@
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="deleteLabel">Agregar Contactos</h4>
+                </div>
+                <div class="modal-body">
+                    <h3 class="text-center">Selecciona los Contactos que deseas agregar y presiona Click en el botón Agregar</h3><br />
+                    <input type="hidden" value="@ViewData["CodGrupo"]" name="CodGrupo" />
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped table-bordered" id="mitabla" width="100%">
+                                <thead>                                  
+                                    <div class="text-center">
+                                        <input name="Custodians" type="checkbox" value="All" id="check_all">&nbsp;
+                                        <label>Seleccionar Todos</label>
+                                    </div>
+
+                                    <tr class="label-info">
+                                        <td class="text-center">Marcar</td>
+                                        <td class="text-center">Nombre Contacto</td>
+                                        <td class="text-center">Departamento</td>
+                                        <td class="text-center">Telefono</td>
+                                        <td class="text-center">Tipo de Teléfono</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>  
+                                                <input type="checkbox" id="@item.TelefonoID" />
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => item.Nombres)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => item.NombreDepartameto)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => item.NumeroTel)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => item.Descripcion)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info" id="btnSave" style="width:49%"> Agregar!! </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" style="width:49%">Cancelar!!</button> 
+                </div>
+            </div>
+        </div>
+    @*</div>*@
+}
+
+
+
+<script type="text/javascript">
+    $(function () {
+        var table = $('#mitabla').DataTable({
+            responsive:true,
+            "lengthMenu": [[3, 6, 10, -1], [3, 6, 10, "Todos"]],
+            "bDestroy": true,
+            "autoWidth": false         
+        });
+
+        $("#check_all").change(function () {
+            var checked = $(this).is(":checked");
+            $("input", table.rows({ search: 'applied' }).nodes()).prop('checked', checked);
+        });
+
+        $('#btnSave').on('click', function (e) {
+
+            var listName = "TelefonoID";
+            var qtd = 0;
+            //e.preventDefault();
+
+            var seleccionados = $("input:checked", table.rows({ search: 'applied' }).nodes());
+
+            if (seleccionados.length == 0) {
+                e.preventDefault();
+                alert("Error!! Debe Seleccionar al menos un número para agregar al grupo \n\nPor favor Seleccione un número e intente nuevamente");
+            }
+
+            $("input:checked", table.rows({ search: 'applied' }).nodes()).each(function () {
+
+                var telID = $(this).attr('id');
+                alert('Númwero: ' + qtd + ' ' + telID);
+
+
+                $(".form-horizontal").prepend("<input type='hidden' name='" + listName + "[" + qtd + "]' value='" + telID + "'>");
+                qtd += 1;
+
+            })
+
+        });
+
+
+
+
+    });
+</script>
+

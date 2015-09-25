@@ -18,5 +18,6 @@ namespace BulkSMSWebApp.Models
         // Propiedades de Navegación
         public virtual ICollection<Contacto> Contactos { get; set; }
         public virtual ICollection<Mensaje> Mensajes { get; set; }
+        public virtual ICollection<Grupo> Grupos { get; set; }
     }
 }

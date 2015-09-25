@@ -24,7 +24,7 @@
             //Si la tabla solo contiene la fila del header (no hay datos), evitamos que envíe el submit a través de e.preventDefault y mostramos una alerta.
             if (fila.length === 1) {
                 e.preventDefault();
-                alert("Debe agregar al menos un número de contacto");
+                alert("ERROR!! Debe agregar al menos un número de contacto \n \nPor Favor agregue un número de teléfono e intente nuevamente");
             }
             else { // Si hay datos entonces obtenemos la lista de telefonos y a través de la función prepend le mandamos esa lista como parametro al 
                 // al form que tiene la clase .form-horizontal y así se manda la lista al controller.
@@ -44,8 +44,18 @@
             var telefono = $("#Tel_NumeroTel").val(); //obtenemos el valor del teléfono a agregar
             var descripcion = $("#Tel_Descripcion").val(); //obtenemos el valor del tipo de telefono seleccionado
 
+            var regex = new RegExp("^([+][5][0][5])?[2|5|8|7][0-9]{7}$"); //Definimos la expresión regular
+            if (!regex.test(telefono)) // si el valor ingresado no corresponde con la expresion regular, mandamos una alerta y enfocamos el elemento.
+            {
+
+                alert("ERROR!! El Teléfono ingresado no es válido. \n\nPor favor provee un número telefónico válido e intenta nuevamente");
+                $("#Tel_NumeroTel").focus();
+                return;
+            }
+
+
             if (telefono == "" || descripcion == "") { // si no se han ingresado los datos se manda una alerta.
-                alert("Debe Escribir un Número de Teléfono y Seleccionar el Tipo de Teléfono");
+                alert("ERROR!! \n\nDebe Escribir un Número de Teléfono y Seleccionar el Tipo de Teléfono");
             }
             else {
                 var tabla = document.getElementById("phonesTable");  //obtenemos la tabla con el id = phonesTable
@@ -57,7 +67,7 @@
                     for (var i = 0; i < fila.length; i++) {
                         var valor = tabla.rows[i].cells[0].innerHTML;
                         if (valor === telefono) { // verificamos que no se ingrese un número repetido
-                            alert("El Número ingresado ya ha sido agregado, por favor provea un número diferente");
+                            alert("ERROR!! El Número ingresado ya ha sido agregado. \n\nPor favor provea un número diferente e intente nuevamente");
                             return;
                         }
                     }
@@ -80,6 +90,7 @@
     });
 </script>
 
+
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
         @using (Html.BeginForm("Create", "Contacto", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -87,7 +98,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 class="text-center">Datos Generales</h2>
+                    <h4 class="text-center">Datos Generales</h4>
                 </div>
 
                 <div class="panel-body col-md-offset-0">
@@ -127,23 +138,23 @@
                         </div>
                     </div>
 
-                    <hr />
                 </div>
 
             </div>
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 class="text-center">Números de Contacto</h2>
+                    <h4 class="text-center">Números de Contacto</h4>
                 </div>
 
                 <div class="panel-body">
                         <hr />
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Telefonos[0].NumeroTel, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Telefonos[0].NumeroTel, "Num. Teléfono", new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
-                                @Html.Editor("NumeroTel", new { htmlAttributes = new { @class = "form-control", id = "Tel_NumeroTel" } })
-                                @*@Html.ValidationMessageFor(model => model.Tel.NumeroTel, "", new { @class = "text-danger" })*@
+                                @Html.TextBoxFor(model => model.Telefonos[0].NumeroTel, new { @class = "form-control", @id = "Tel_NumeroTel" })
+                                @*@Html.Editor("NumeroTel", new { htmlAttributes = new { @class = "form-control", id = "Tel_NumeroTel" } })*@
+                                @Html.ValidationMessageFor(model => model.Telefonos[0].NumeroTel, "", new { @class = "text-danger" })
                             </div>
                             @Html.LabelFor(model => model.Telefonos[0].Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-3">
@@ -172,7 +183,7 @@
 
                                 <table id="phonesTable" class="table table-bordered table-striped table-hover">
                                     <thead>
-                                        <tr class="label-info">
+                                        <tr class="label-info white">
                                             <th class="text-center">Número de Contacto</th>
                                             <th class="text-center">Tipo de Número</th>
                                             <th class="text-center">Opciones</th>
@@ -187,15 +198,31 @@
                 </div>
             </div>
 
-            <div class="col-md-12">
-                <input type="submit" class="btn btn-lg btn-info" value="Registrar" style="width:49%" id="btnGuardar" />&nbsp;
-                <a class="btn btn-lg btn-danger" href="javascript:void(0);" onclick="history.go(-1);" style="width:49%">Cancelar</a>
+            @*<div class="col-md-12">*@
+                <div class="panel">
+                    <div class="panel-body">
+                        <input type="submit" class="btn btn-lg btn-info" value="Registrar" style="width:49%" id="btnGuardar" />&nbsp;
+                        <a class="btn btn-lg btn-danger" href="javascript:void(0);" onclick="history.go(-1);" style="width:49%">Cancelar</a>
+                    </div>
+                @*</div>*@
+               
+                
             </div>
 
         }
 
     </div>
 </div>
+
+
+
+@section Modal {
+
+    @{ Html.RenderPartial("_DeleteConfirmationModal"); }
+
+}
+
+
 
 
 @section Scripts {

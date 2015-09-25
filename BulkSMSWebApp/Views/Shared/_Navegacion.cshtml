@@ -4,7 +4,7 @@
     <ul>
         <li><a href="@Url.Action("Index","Home")" class="nav-header"><i class="fa fa-fw fa-2x fa-home"></i> Inicio </a></li>
 
-        <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-users fa-2x"></i> Contactos @*<i class="fa fa-collapse"></i>*@ <span class="label label-info">+2</span></a></li>
+        <li><a href="javascript:void(0);" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-users fa-2x"></i> Contactos @*<i class="fa fa-collapse"></i>*@ <span class="label label-info">+2</span></a></li>
         <li>
             <ul class="dashboard-menu nav nav-list collapse">
                 <li>
@@ -26,7 +26,7 @@
 
         </li>
 
-        <li><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-object-group fa-2x"></i> Grupos <span class="label label-info">+2</span></a></li>
+        <li><a href="javascript:void(0);" data-target=".accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-object-group fa-2x"></i> Grupos <span class="label label-info">+2</span></a></li>
         <li>
             <ul class="accounts-menu nav nav-list collapse">
                 <li>
@@ -47,7 +47,7 @@
             </ul>
         </li>
 
-        <li><a href="#" data-target=".message-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-envelope fa-2x"></i> Mensajes <span class="label label-info">+2</span></a></li>
+        <li><a href="javascript:void(0);" data-target=".message-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-envelope fa-2x"></i> Mensajes <span class="label label-info">+2</span></a></li>
         <li>
             <ul class="message-menu nav nav-list collapse">
                 <li>
@@ -73,7 +73,7 @@
 
         @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
         {
-            <li><a href="#" data-target=".users-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-users fa-2x"></i> Usuarios <span class="label label-info">+2</span></a></li>
+            <li><a href="javascript:void(0);" data-target=".users-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-users fa-2x"></i> Usuarios <span class="label label-info">+2</span></a></li>
             <li>
                 <ul class="users-menu nav nav-list collapse">
                     <li>

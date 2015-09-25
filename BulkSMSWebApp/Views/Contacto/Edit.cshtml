@@ -26,12 +26,21 @@
             //Si la tabla solo contiene la fila del header (no hay datos), evitamos que envíe el submit a través de e.preventDefault y mostramos una alerta.
             if (fila.length === 1) {
                 e.preventDefault();
-                alert("No se puede proceder a guardar debido a que no hay ningún teléfono agregado. Ingrese al menos un teléfono e intente nuevamente");
+                alert("ERROR!! No se puede proceder a guardar debido a que no hay ningún teléfono agregado!! \n \nPor favor ingrese al menos un número de teléfono e intente nuevamente");
             }
             else { // Si hay datos entonces obtenemos la lista de telefonos y a través de la función prepend le mandamos esa lista como parametro al
                 // al form que tiene la clase .form-horizontal y así se manda la lista al controller.
                 $("#myTable > tbody > tr").each(function () {
                     var telefono = $(tabla.rows.item(qtd + 1).cells[0]).find('input').val();
+                    var regex = new RegExp("^([+][5][0][5])?[2|5|8|7][0-9]{7}$"); //Definimos la expresión regular
+
+                    if (!regex.test(telefono)) // si uno de los teléfonos ingresados no corresponde con la expresion regular, mandamos una alerta y enfocamos el elemento.
+                    {
+                        e.preventDefault();
+                        alert("Error!! El Teléfono ingresado no es válido. \n\nPor favor provee un número telefónico válido e intenta nuevamente");
+                        $(tabla.rows.item(qtd + 1).cells[0]).find('input').focus();
+                    }
+
                     var tipoTel = $(tabla.rows.item(qtd + 1).cells[1]).find('*').val();
                     var id = $(this).attr("id");
                     var descripcion;
@@ -84,14 +93,14 @@
                 var regex = new RegExp("^([+][5][0][5])?[2|5|8|7][0-9]{7}$"); //Definimos la expresión regular
                 var valor = $(tabla.rows.item(fila.length-1).cells[0]).find('input').val(); //obtenemos el valor del textbox dentro de la primera columna de la ultima fila de la tabla
                 if (valor == "") {  // Si está vacío mandamos una alerta para que lo ingrese y evitamos que siga la ejecución haciendo el llamado a return.
-                    alert("No se ha ingresado el número de teléfono. Por favor provee un número de teléfono e intenta nuevamente");
+                    alert("Error!! No se ha ingresado el número de teléfono \n \nPor favor provee un número de teléfono e intenta nuevamente");
                     $(tabla.rows.item(fila.length-1).cells[0]).find('input').focus();
                     return;
                 }
                 if (!regex.test(valor)) // si el valor ingresado no corresponde con la expresion regular, mandamos una alerta y enfocamos el elemento.
                 {
 
-                    alert("El Teléfono ingresado no es válido. Por favor provee un número telefónico válido e intenta nuevamente");
+                    alert("Error!! El Teléfono ingresado no es válido. \n\nPor favor provee un número telefónico válido e intenta nuevamente");
                     $(tabla.rows.item(fila.length - 1).cells[0]).find('input').focus();
                     return;
                 }
@@ -125,7 +134,7 @@
                 <div class="panel panel-default">
 
                     <div class="panel-heading">
-                        <h2 class="text-center">Datos Generales</h2>
+                        <h4 class="text-center">Datos Generales</h4>
                     </div>
 
                     <div class="panel-body col-md-offset-0">
@@ -179,7 +188,7 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h2 class="text-center">Números de Contacto</h2>
+                        <h4 class="text-center">Números de Contacto</h4>
                     </div>
 
                     <div class="panel-body col-md-offset-0">
@@ -202,7 +211,7 @@
                                     {
                                         <tr id="@telefonos[i].TelefonoID">
                                             <td>
-                                                <div contenteditable="true">@Html.TextBoxFor(t => telefonos[i].NumeroTel, new { @class = "form-control text-center" })</div>
+                                                @Html.TextBoxFor(t => telefonos[i].NumeroTel, new { @class = "form-control text-center" })
                                                 @Html.ValidationMessageFor(item => telefonos[i].NumeroTel, "", new { @class = "text-danger" })
                                             </td>
 
@@ -233,9 +242,12 @@
 
 
 
-                <div class="col-md-12">
-                    <input type="submit" class="btn btn-lg btn-info" value="Actualizar" style="width:49%" id="btnActualizar" />
-                    <a class="btn btn-lg btn-danger" href="@Url.Action("Index","Contacto")" style="width:49%">Cancelar</a>
+                <div class="panel">
+                    <div class="panel-body">
+                        <input type="submit" class="btn btn-lg btn-info" value="Actualizar" style="width:49%" id="btnActualizar" />&nbsp;
+                        <a class="btn btn-lg btn-danger" href="@Url.Action("Index","Contacto")" style="width:49%">Cancelar</a>
+                    </div>
+                    
                 </div>
 
             </div> @*fin form horizontal*@

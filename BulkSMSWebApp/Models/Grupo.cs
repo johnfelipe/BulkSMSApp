@@ -22,8 +22,10 @@ namespace BulkSMSWebApp.Models
         [Display(Name="Fecha de Creación")]
         [DataType(DataType.Date)]
         public DateTime FechaCreacion { get; set; }
+        public int EstadoID { get; set; }
+        public virtual IList<Telefono> Telefonos { get; set; }
 
-        //Propiedades de Navegacion 
-        public virtual ICollection<Contacto> Contactos { get; set; }
+        //propiedades de navegación
+        public virtual Estado Estado { get; set; }
     }
 }

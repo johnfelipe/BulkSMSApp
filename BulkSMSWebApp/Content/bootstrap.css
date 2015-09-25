@@ -2173,7 +2173,7 @@ fieldset[disabled] .btn-warning.active {
 
 .btn-danger {
   color: #ffffff;
-  background-color: #d9534f;
+  background-color: #CD5C5C;
   border-color: #fff;
 }
 
@@ -2183,7 +2183,7 @@ fieldset[disabled] .btn-warning.active {
 .btn-danger.active,
 .open .dropdown-toggle.btn-danger {
   color: #ffffff;
-  background-color: #d2322d;
+  background-color: #ca0002;
   border-color: #ac2925;
 }
 
@@ -4934,8 +4934,12 @@ a.list-group-item.active > .badge,
   font-size: 21px;
   font-weight: 200;
   line-height: 2.1428571435;
+  height:200px;
   color: inherit;
-  background-color: #eeeeee;
+
+  background-image: url('../Images/Banner App.png');
+  /*background-color: #eeeeee;*/
+
 }
 
 .jumbotron h1 {
@@ -5617,9 +5621,10 @@ body.modal-open,
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1040;
+  outline: 0 none;
+  z-index: 1050;
   display: none;
-  overflow: auto;
+  overflow-x: auto;
   overflow-y: scroll;
 }
 
@@ -5657,6 +5662,7 @@ body.modal-open,
   -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
           box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
   background-clip: padding-box;
+
 }
 
 .modal-backdrop {

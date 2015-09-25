@@ -1,39 +1,63 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Página de Inicio";
 }
 
 <div class="col-lg-12 col-lg-offset-0">
-    <img src="~/Images/sms.png" class="img-responsive"/>
+    @*<img src="~/Images/sms.png" class="img-responsive"/>*@
 </div>
 
-@*<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+
+
+<div class="col-md-12">
+
+    <img src="~/Images/Banner App.png" class="img-responsive" style="height:200px;"/>
+
+</div>
+<hr />
+<div class="row col-md-12">
+    <div class="col-md-3">
+        
+        <h2 class="text-center">Contactos</h2>
+        <p class="text-center"><span class="fa fa-5x fa-user"></span></p>
+       
+        <p style="text-align:justify"><br />
+            Éste módulo te permite la adminstración de los contactos. Puedes crear nuevos contactos, ver la lista de contactos registrados en la base de datos y si eres usuario
+            Administrador también puedes dar de baja a determinados contactos.
         </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    <div class="col-md-3">
+        <h2 class="text-center">Grupos</h2>
+        <p class="text-center"><span class="fa fa-5x fa-object-group"></span></p>
+
+        <p style="text-align:justify">
+            <br />
+            Éste módulo te permite la adminstración de los grupos de ontactos. Puedes crear nuevos grupos, ver la lista de grupos registrados en la base de datos y los contactos registrados
+            en dicho grupo, de igual manera, si eres usuario
+            Administrador también puedes dar de baja a determinados grupos.
+        </p>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="col-md-3">
+        <h2 class="text-center">Mensajes</h2>
+        <p class="text-center"><span class="fa fa-5x fa-envelope"></span></p>
+
+        <p style="text-align:justify">
+            <br />
+            Éste módulo te permite la gestion de mensajes. Puedes enviar mensajes a un contacto o a un grupo de contactos, puedes ver la lista de 
+            mensajes tanto enviados como recibidos y eliminados y si eres un usuario Administrador puedes dar de baja a cualquier mensaje que desees.
+        </p>
     </div>
-</div>*@
+    <div class="col-md-3">
+        <h2 class="text-center">Usuarios</h2>
+        <p class="text-center"><span class="fa fa-5x fa-users"></span></p>
+
+        <p style="text-align:justify">
+            <br />
+            Éste módulo es específicamente para el usuario Administrador. permite la gestion de los usuarios de la aplicación, puedes crear nuevos usuarios,
+            ver la lista de los usuarios registrados, dar de baja a cualquier usuario o bien, darle alta nuevamente a un usuario inactivo.
+        </p>
+    </div>
+</div>
 
 @*@section Scripts {
     @Scripts.Render("~/bundles/jquery")

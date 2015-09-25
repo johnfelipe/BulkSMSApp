@@ -29,6 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -182,6 +183,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ContactoController.cs" />
+    <Compile Include="Controllers\GrupoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MensajeController.cs" />
@@ -252,6 +254,22 @@
     <Compile Include="Migrations\201509142141186_updateMessageModel.Designer.cs">
       <DependentUpon>201509142141186_updateMessageModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509170509078_change_GrupoContactoToGrupoTel.cs" />
+    <Compile Include="Migrations\201509170509078_change_GrupoContactoToGrupoTel.Designer.cs">
+      <DependentUpon>201509170509078_change_GrupoContactoToGrupoTel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509170544168_changeTelephoneValidation.cs" />
+    <Compile Include="Migrations\201509170544168_changeTelephoneValidation.Designer.cs">
+      <DependentUpon>201509170544168_changeTelephoneValidation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509170603295_changeContactoValidations.cs" />
+    <Compile Include="Migrations\201509170603295_changeContactoValidations.Designer.cs">
+      <DependentUpon>201509170603295_changeContactoValidations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509192136180_AddEstadoIDToGroupClass.cs" />
+    <Compile Include="Migrations\201509192136180_AddEstadoIDToGroupClass.Designer.cs">
+      <DependentUpon>201509192136180_AddEstadoIDToGroupClass.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FlujoMensaje.cs" />
@@ -268,6 +286,8 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ContactoCelGrupo.cs" />
     <Compile Include="ViewModels\CreateEditContacto.cs" />
+    <Compile Include="ViewModels\CreateEditGrupo.cs" />
+    <Compile Include="ViewModels\GrupoContacto.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -288,6 +308,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\Banner App.png" />
     <Content Include="Images\Header.PNG" />
     <Content Include="Images\sms.PNG" />
     <Content Include="Images\spiffygif_32x32.gif" />
@@ -383,12 +404,19 @@
     <Content Include="Views\Contacto\_DeleteConfirmationModal.cshtml" />
     <Content Include="Views\Contacto\_MostrarNotificacion.js.cshtml" />
     <Content Include="Views\Contacto\_ActivarConfirmationModal.cshtml" />
-    <Content Include="Views\Contacto\_DetalleContacto.cshtml" />
     <Content Include="Views\Account\_ActivarUsuario.cshtml" />
     <Content Include="Views\Account\_DesactivarUsuario.cshtml" />
     <Content Include="Views\Mensaje\_DesactivarMensaje.cshtml" />
     <Content Include="Views\Mensaje\_Eliminados.cshtml" />
     <Content Include="Views\Mensaje\_Enviados.cshtml" />
+    <Content Include="Views\Grupo\Create.cshtml" />
+    <Content Include="Views\Grupo\Delete.cshtml" />
+    <Content Include="Views\Grupo\Details.cshtml" />
+    <Content Include="Views\Grupo\Edit.cshtml" />
+    <Content Include="Views\Grupo\Index.cshtml" />
+    <Content Include="Views\Contacto\_ErrorAlert.cshtml" />
+    <Content Include="Views\Grupo\_contactosGrupos.cshtml" />
+    <Content Include="Views\Grupo\_AgregarContactos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -453,6 +481,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509142141186_updateMessageModel.resx">
       <DependentUpon>201509142141186_updateMessageModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509170509078_change_GrupoContactoToGrupoTel.resx">
+      <DependentUpon>201509170509078_change_GrupoContactoToGrupoTel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509170544168_changeTelephoneValidation.resx">
+      <DependentUpon>201509170544168_changeTelephoneValidation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509170603295_changeContactoValidations.resx">
+      <DependentUpon>201509170603295_changeContactoValidations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509192136180_AddEstadoIDToGroupClass.resx">
+      <DependentUpon>201509192136180_AddEstadoIDToGroupClass.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

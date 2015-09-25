@@ -28,6 +28,10 @@
         .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover {
             color: #fff;
         }
+
+        #span {
+            color: white !important;
+        }
     </style>
 
     <script type="text/javascript">
@@ -38,31 +42,43 @@
         });
     </script>
 
+
     @Html.Partial("_Header")
 
     @Html.Partial("_Navegacion")
+
 
     <div class="content">
         <div class="header text-center">
 
             <h1 class="page-title">@ViewBag.Title</h1>
-            @if (ViewBag.Title != "Página de Inicio")
+
+            @if (ViewBag.Title.ToString().ToUpper().Contains("REGISTRAR") || ViewBag.Title.ToString().ToUpper().Contains("CREAR")
+                    || ViewBag.Title.ToString().ToUpper().Contains("ENVIAR"))
             {
                 <p>Los Campos con el símbolo <strong class="text-danger"> * </strong> son obligatorios</p>
             }
 
         </div>
-        <div class="main-content">
+        <div class="modal fade" id="agregarContactos" tabindex="-1" role="dialog" aria-labelledby="updateGroup" aria-hidden="true">
+            <div id="edit-container">
 
-            @{ Html.RenderPartial("_Alert"); }
-            @RenderBody()
-
+            </div>
         </div>
-        <footer>
+        @{ Html.RenderPartial("_Alert"); }
+        @RenderBody()
+
+
+        <div class="footer">
+            @*<footer> *@
             <hr>
             <p class="text-center">© @DateTime.Now.Year Equipos y Sistemas S.A </p>
-        </footer>
+            @*</footer>*@
+        </div>
+
     </div>
+
+
 
     @RenderSection("scripts", required: false)
 

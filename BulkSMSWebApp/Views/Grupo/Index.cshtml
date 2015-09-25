@@ -1,0 +1,138 @@
+﻿@model IEnumerable<BulkSMSWebApp.Models.Grupo>
+@using BulkSMSWebApp.Helpers;
+@{
+    ViewBag.Title = "Grupos Registrados";
+    Layout = "~/Views/Shared/_MasterPage.cshtml";
+}
+
+<script>
+
+    function limpiar()
+    {
+        $("#tablaContactos").empty();
+    }
+
+    function applyDatatable()
+    {
+        var table = $('#Table').dataTable({
+            "lengthMenu": [[4, 10, 20, -1], [4, 10, 20, "Todos"]],
+            "bDestroy": true
+        });
+    }
+
+    function mostrarModal() {
+        $('#agregarContactos').modal('show');
+      
+    }
+
+
+    $(function () {
+
+        var table = $('#MyTable').dataTable({
+            "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "Todos"]]
+        });
+
+        var tabla = $('#MyTable').DataTable()
+        var allRows = table.fnGetNodes();
+
+        $('#MyTable').delegate(".selected", "click", function () {
+            for (var i = 0; i < allRows.length; i++) {
+                tabla.rows('.success').nodes().to$().removeClass('success');
+            }
+            $(this).parents('tr').addClass('success');
+        });
+
+    });
+</script>
+
+
+
+
+<p>
+    <a href="@Url.Action("Create", "Grupo")" class="btn btn-info">
+        Nuevo Grupo
+        <span class="fa fa-plus-circle"></span>
+    </a>
+</p>
+<br />
+
+
+<div class="table-responsive">
+
+    <table class="table table-bordered table-striped table-hover" id="MyTable">
+        <thead>
+            <tr class="label-info">
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.NombreGrupo)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.FechaCreacion)
+                </th>
+                <th class="text-center">Opciones</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreGrupo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaCreacion)
+                    </td>
+                    <td>
+
+                        @Ajax.RawActionLink(string.Format("<span class='fa fa-info-circle'> Mostrar Contactos </span>"), "ContactosGrupo", "Grupo", new { id = item.GrupoID },
+                        new AjaxOptions
+                        {
+                            HttpMethod = "GET",
+                            UpdateTargetId = "tablaContactos",
+                            InsertionMode = InsertionMode.Replace,
+                            OnBegin="limpiar",
+                  
+                            LoadingElementId="LoadingDiv",
+                            OnFailure="alert('No se logró establecer comunicación con el servidor \n Verifica tu conexión e intenta nuevamente')",
+                            OnSuccess = "applyDatatable()"
+                        }, new { @class = "selected" })
+
+                        <br />
+
+                        <a href="@Url.Action("Edit", "Grupo", new { id = @item.GrupoID })">
+                            <span class="fa fa-edit"></span>
+                            Editar
+                        </a>
+                        <br />
+
+
+
+                        @*@Html.ActionLink("Details", "Details", new { id = item.GrupoID }) <br />
+                            @Html.ActionLink("Delete", "Delete", new { id = item.GrupoID })*@
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+</div>
+<hr />
+
+
+
+<div class="text-center" id="LoadingDiv" style="display:none">
+    <img src="~/Images/spiffygif_32x32.gif" />
+</div>
+<div class="table-responsive" id="tablaContactos">
+  
+</div>
+
+
+@*@{Html.RenderPartial("_AgregarContactos");}*@

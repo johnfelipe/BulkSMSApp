@@ -1,6 +1,7 @@
 ﻿using BulkSMSWebApp.Models;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using BulkSMSWebApp.ViewModels;
 
 namespace BulkSMSWebApp.DAL
 {
@@ -21,10 +22,10 @@ namespace BulkSMSWebApp.DAL
 
             // Manejamos una relacion de muchos a muchos creando una tabla intermedia
             modelBuilder.Entity<Grupo>()
-                .HasMany(c => c.Contactos)
+                .HasMany(c => c.Telefonos)
                 .WithMany(i => i.Grupos)
                 .Map(t => t.MapLeftKey("GrupoID")
-                            .MapRightKey("ContactoID")
+                            .MapRightKey("TelefonoID")
                             .ToTable("GrupoContacto"));
 
            // le decimos que EstadoID es ForeingKey en la tabla Contacto pero deshabilitamos la eliminacion en cascada
