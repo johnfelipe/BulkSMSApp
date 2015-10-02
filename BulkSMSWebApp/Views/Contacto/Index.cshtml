@@ -16,10 +16,16 @@
 
 <script>
 
+    //function HideDiv()
+    //{
+    //    $('#DivCarga h5').remove
+    //    $('#DivCarga').hide;
+    //}
+
     $(function () {
 
         var table = $('#myTable').dataTable({
-            "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "Todos"]]
+            "lengthMenu": [[4, 10, 20, -1], [4, 10, 20, "Todos"]]
         });
 
         var tabla = $('#myTable').DataTable()
@@ -52,16 +58,24 @@
 
 </br>
 
+
+<div id="DivCarga" class="alert alert-info alert-dismissable text-center" style="display:none">
+
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <img src="~/Images/spiffygif_32x32.gif" />
+    <h5>Por Favor espere mientras se realiza la operación solicitada</h5>
+</div>
+
 <div class="table-responsive">
-    <table class="table table-hover table-striped" id="myTable">
+    <table class="table table-hover table-striped table-bordered" id="myTable">
         <thead>
             <tr class="label-info">
-                <th> Nombres </th>
-                <th> Apellidos </th>
-                <th> Departamento </th>
-                <th> Email </th>
-                <th> Estado </th>
-                <th>Opciones</th>
+                <th class="text-center"> Nombres </th>
+                <th class="text-center"> Apellidos </th>
+                <th class="text-center"> Departamento </th>
+                <th class="text-center"> Email </th>
+                <th class="text-center"> Estado </th>
+                <th class="text-center">Opciones</th>
             </tr>
         </thead>
 
@@ -69,29 +83,31 @@
             @foreach (var item in Model.Contactos)
             {
                 <tr>
-                    <td>
+                    <td width="16.6%" class="text-center">
                         @Html.DisplayFor(modelItem => item.Nombres)
                     </td>
-                    <td>
+                    <td width="16.6%" class="text-center">
                         @Html.DisplayFor(modelItem => item.Apellidos)
                     </td>
-                    <td>
+                    <td width="16.6%" class="text-center">
                         @Html.DisplayFor(modelItem => item.Departamento.NombreDepartameto)
                     </td>
-                    <td>
+                    <td width="17%" class="text-center">
                         @Html.DisplayFor(modelItem => item.Email)
                     </td>
-                    <td>
+                    <td width="16%" class="text-center">
                         @Html.DisplayFor(modelItem => item.Estado.NombreEstado)
                     </td>
 
-                    <td>
-                        @Ajax.RawActionLink(string.Format("<span class='fa fa-hand-pointer-o'> Seleccionar </span>"), "Index", "Contacto", new { id = item.ContactoID },
+                    <td width="16.6%">
+                        @Ajax.RawActionLink(string.Format("<span class='fa fa-hand-pointer-o'> Mostrar Teléfono </span>"), "Index", "Contacto", new { id = item.ContactoID },
                         new AjaxOptions
                         {
                             HttpMethod = "GET",
                             UpdateTargetId = "tablaTelefonos",
-                            InsertionMode = InsertionMode.Replace
+                            InsertionMode = InsertionMode.Replace,
+                            LoadingElementId = "DivCarga",
+                            OnSuccess = "document.location='#DivCarga'"
                         }, new { @class = "selected" })
 
 
@@ -103,13 +119,6 @@
                         </a>
                         <br />
 
-                        @*<a data-toggle="modal" data-id="@item.ContactoID" class=".detalles selected" href="#detalleContacto">
-                        
-                            <span class="fa fa-info-circle"></span>
-                            Detalles
-                        </a>
-                        <br />*@
-                      
                         @if (item.EstadoID == 1 && User.IsInRole("Administrador"))
                         {
                             <a data-toggle="modal" data-id="@item.ContactoID" class="open-dialog selected" href="#deleteConfirmModal">

@@ -148,6 +148,7 @@
                 </div>
 
                 <div class="panel-body">
+                    <p class="text-center">Ingresa el Número de Teléfono, selecciona el Tipo de Teléfono y presiona el botón Agregar</p>
                         <hr />
                         <div class="form-group">
                             @Html.LabelFor(model => model.Telefonos[0].NumeroTel, "Num. Teléfono", new { @class = "control-label col-md-2" })
@@ -172,7 +173,10 @@
 
 
                             <div class="col-md-3">
-                                <button type="button" id="btnAgregar" style="width:100%" class="btn btn-info">Agregar</button>
+                                <button type="button" id="btnAgregar" style="width:100%" class="btn btn-info">
+                                    Agregar
+                                    <span class="fa fa-plus-circle"></span>
+                                </button>
                             </div>
 
                         </div>

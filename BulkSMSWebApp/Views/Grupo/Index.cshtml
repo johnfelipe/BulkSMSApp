@@ -7,24 +7,55 @@
 
 <script>
 
-    function limpiar()
+    function mensajeAlerta(accion)
     {
+        switch (accion)
+        {
+            case "Editar":
+                $('#LoadingDiv h5').remove();
+                $('#LoadingDiv').append('<h5>  <span class="fa fa-info-circle"> </span> Por favor espere mientras se cargan los datos </h5>')
+                break;
+
+            case "MostrarC":
+                $('#LoadingDiv h5').remove();
+                $('#LoadingDiv').append('<h5>  <span class="fa fa-info-circle"> </span> Por favor espere mientras se cargan los contactos del grupo seleccionado </h5>')
+                break;
+
+            case "EditSuccess":
+                $('#agregarContactos').modal('hide');
+                $('#succesDiv h5').remove();
+                $('#succesDiv').append(' <h5>  <span class="fa fa-check">  </span> Los Cambios se guardaron Correctamente </h5>')
+                $('#succesDiv').show();
+                $("#succesDiv").fadeTo(3000, 400).slideUp(400, function () {
+                    $("#succesDiv").hide();
+                });
+                break;
+
+            case "DeleteSuccess":
+                $('#DivExito h5').remove();
+                $('#DivExito img').remove();
+                $('#DivExito').append('<h5>  <span class="fa fa-check">  </span> Contactos Eliminados Correctamente </h5>')
+                $('#DivExito').show();
+                $("#DivExito").fadeTo(3000, 400).slideUp(400, function () {
+                    $("#DivExito").hide();
+                });
+                break;
+        }
+        
+    }
+
+    function limpiar() {
         $("#tablaContactos").empty();
     }
 
-    function applyDatatable()
-    {
-        var table = $('#Table').dataTable({
-            "lengthMenu": [[4, 10, 20, -1], [4, 10, 20, "Todos"]],
-            "bDestroy": true
-        });
+    function applyDatatable() {
+        document.location = "#tablaContactos";
     }
 
     function mostrarModal() {
         $('#agregarContactos').modal('show');
-      
-    }
 
+    }
 
     $(function () {
 
@@ -45,11 +76,18 @@
     });
 </script>
 
+<div id="succesDiv" class="alert alert-info alert-dismissable text-center" style="display:none">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> 
+</div>
 
+<div id="LoadingDiv" class="alert alert-info alert-dismissable text-center" style="display:none">
 
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <img src="~/Images/spiffygif_32x32.gif" />
+</div>
 
 <p>
-    <a href="@Url.Action("Create", "Grupo")" class="btn btn-info">
+    <a href="@Url.Action("Create", "Grupo")" class="btn btn-info" style="width:200px;">
         Nuevo Grupo
         <span class="fa fa-plus-circle"></span>
     </a>
@@ -59,79 +97,23 @@
 
 <div class="table-responsive">
 
-    <table class="table table-bordered table-striped table-hover" id="MyTable">
-        <thead>
-            <tr class="label-info">
-                <th class="text-center">
-                    @Html.DisplayNameFor(model => model.NombreGrupo)
-                </th>
-                <th class="text-center">
-                    @Html.DisplayNameFor(model => model.Descripcion)
-                </th>
-                <th class="text-center">
-                    @Html.DisplayNameFor(model => model.FechaCreacion)
-                </th>
-                <th class="text-center">Opciones</th>
-            </tr>
+    <div id="TablaIndex">
 
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NombreGrupo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Descripcion)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FechaCreacion)
-                    </td>
-                    <td>
+        @Html.Partial("_IndexPartialView", Model)
+        <br />
 
-                        @Ajax.RawActionLink(string.Format("<span class='fa fa-info-circle'> Mostrar Contactos </span>"), "ContactosGrupo", "Grupo", new { id = item.GrupoID },
-                        new AjaxOptions
-                        {
-                            HttpMethod = "GET",
-                            UpdateTargetId = "tablaContactos",
-                            InsertionMode = InsertionMode.Replace,
-                            OnBegin="limpiar",
-                  
-                            LoadingElementId="LoadingDiv",
-                            OnFailure="alert('No se logró establecer comunicación con el servidor \n Verifica tu conexión e intenta nuevamente')",
-                            OnSuccess = "applyDatatable()"
-                        }, new { @class = "selected" })
+    </div>
 
-                        <br />
-
-                        <a href="@Url.Action("Edit", "Grupo", new { id = @item.GrupoID })">
-                            <span class="fa fa-edit"></span>
-                            Editar
-                        </a>
-                        <br />
-
-
-
-                        @*@Html.ActionLink("Details", "Details", new { id = item.GrupoID }) <br />
-                            @Html.ActionLink("Delete", "Delete", new { id = item.GrupoID })*@
-                    </td>
-                </tr>
-            }
-
-        </tbody>
-
-    </table>
 </div>
+
+
+
 <hr />
 
 
 
-<div class="text-center" id="LoadingDiv" style="display:none">
-    <img src="~/Images/spiffygif_32x32.gif" />
-</div>
 <div class="table-responsive" id="tablaContactos">
-  
+
 </div>
 
 

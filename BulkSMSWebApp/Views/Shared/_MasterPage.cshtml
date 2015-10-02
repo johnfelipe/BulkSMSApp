@@ -60,11 +60,15 @@
             }
 
         </div>
+
+        @*En este Div se carga el modal cuando se va a actualizar un grupo o los miembros de un grupo*@
         <div class="modal fade" id="agregarContactos" tabindex="-1" role="dialog" aria-labelledby="updateGroup" aria-hidden="true">
             <div id="edit-container">
 
             </div>
         </div>
+
+
         @{ Html.RenderPartial("_Alert"); }
         @RenderBody()
 

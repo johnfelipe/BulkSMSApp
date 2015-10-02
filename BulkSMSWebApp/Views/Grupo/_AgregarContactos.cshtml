@@ -1,73 +1,101 @@
 ﻿@model List<BulkSMSWebApp.ViewModels.GrupoContacto>
 @using BulkSMSWebApp.DAL;
 
-
-@using (Html.BeginForm("UpdateGrupo", "Grupo", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Ajax.BeginForm("UpdateGrupo", "Grupo", new AjaxOptions
 {
-    @Html.AntiForgeryToken()
-    @*<div class="modal fade" id="updateGrupoContacto" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">*@
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="deleteLabel">Agregar Contactos</h4>
-                </div>
-                <div class="modal-body">
-                    <h3 class="text-center">Selecciona los Contactos que deseas agregar y presiona Click en el botón Agregar</h3><br />
-                    <input type="hidden" value="@ViewData["CodGrupo"]" name="CodGrupo" />
-                        <div class="table-responsive">
-                            <table class="table table-hover table-striped table-bordered" id="mitabla" width="100%">
-                                <thead>                                  
-                                    <div class="text-center">
-                                        <input name="Custodians" type="checkbox" value="All" id="check_all">&nbsp;
-                                        <label>Seleccionar Todos</label>
-                                    </div>
+    HttpMethod = "POST",
+    UpdateTargetId = "tablaContactos",
+    InsertionMode = InsertionMode.Replace,
+    LoadingElementId = "DivCargando",
+    OnBegin="cerrarModal()",
+    OnFailure = "alert('No se logró establecer comunicación con el servidor \n Verifica tu conexión e intenta nuevamente')",
+    OnSuccess = "MostrarDiv()"
 
-                                    <tr class="label-info">
-                                        <td class="text-center">Marcar</td>
-                                        <td class="text-center">Nombre Contacto</td>
-                                        <td class="text-center">Departamento</td>
-                                        <td class="text-center">Telefono</td>
-                                        <td class="text-center">Tipo de Teléfono</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td>  
-                                                <input type="checkbox" id="@item.TelefonoID" />
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(model => item.Nombres)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(model => item.NombreDepartameto)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(model => item.NumeroTel)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(model => item.Descripcion)
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-info" id="btnSave" style="width:49%"> Agregar!! </button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" style="width:49%">Cancelar!!</button> 
+}, new { @class = "form-horizontal", role = "form" }))
+{
+
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="deleteLabel">Agregar Contactos</h4>
+            </div>
+            <div class="modal-body">
+                <h3 class="text-center">Selecciona los Contactos que deseas agregar y presiona Click en el botón Agregar</h3><br />
+                <input type="hidden" value="@ViewData["CodGrupo"]" name="CodGrupo" />
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped table-bordered" id="mitabla" width="100%">
+                        <thead>
+                            <div class="text-center">
+                                <input name="Custodians" type="checkbox" value="All" id="check_all">&nbsp;
+                                <label>Seleccionar Todos</label>
+                            </div>
+
+                            <tr class="label-info">
+                                <td class="text-center">Marcar</td>
+                                <td class="text-center">Nombre Contacto</td>
+                                <td class="text-center">Departamento</td>
+                                <td class="text-center">Telefono</td>
+                                <td class="text-center">Tipo de Teléfono</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" id="@item.TelefonoID" />
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Nombres)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.NombreDepartameto)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.NumeroTel)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Descripcion)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-info" id="btnSave" style="width:49%"> Agregar!! </button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" style="width:49%">Cancelar!!</button>
+            </div>
         </div>
-    @*</div>*@
+    </div>
+
 }
 
 
-
 <script type="text/javascript">
+
+    function cerrarModal()
+    {
+        $('#agregarContactos').modal('hide');
+        var table = $('#Table').dataTable({
+            "lengthMenu": [[4, 10, 20, -1], [4, 10, 20, "Todos"]],
+            "bDestroy": true
+        });
+    }
+
+    function MostrarDiv()
+    {
+        $('#DivExito h5').remove();
+        $('#DivExito').append(' <h5>  <span class="fa fa-check">  </span> Contactos agregados Correctamente </h5>')
+        $('#DivExito').show();
+        $("#DivExito").fadeTo(3000, 400).slideUp(400, function () {
+            $("#DivExito").hide();
+        });
+    }
+
     $(function () {
         var table = $('#mitabla').DataTable({
             responsive:true,
@@ -97,18 +125,12 @@
             $("input:checked", table.rows({ search: 'applied' }).nodes()).each(function () {
 
                 var telID = $(this).attr('id');
-                alert('Númwero: ' + qtd + ' ' + telID);
-
-
                 $(".form-horizontal").prepend("<input type='hidden' name='" + listName + "[" + qtd + "]' value='" + telID + "'>");
                 qtd += 1;
 
             })
 
         });
-
-
-
 
     });
 </script>

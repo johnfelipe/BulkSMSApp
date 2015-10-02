@@ -101,6 +101,7 @@ namespace BulkSMSWebApp.Controllers
 
         // GET: /Account/UserList
         [NoCache]
+        [Authorize(Roles = "Administrador")]
         public ActionResult UserList()
         {
             var Users = context.Users.ToList();

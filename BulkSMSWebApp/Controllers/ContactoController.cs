@@ -48,21 +48,22 @@ namespace BulkSMSWebApp.Controllers
             }
             return flag;
         }
-        public PartialViewResult GetTelephones(int? id)
-        {
-            var viewModel = new ContactoCelGrupo();
-            if (Request.IsAjaxRequest())
-            {
-                if (id != null)
-                {
-                    ViewBag.ContactoID = id.Value;
-                    viewModel.Telefonos = viewModel.Contactos.Where(i => i.ContactoID == id.Value).Single().Telefonos;
-                    return PartialView("_TelefonosContacto", viewModel);
-                }
-            }
+        //public PartialViewResult GetTelephones(int? id)
+        //{
+        //    var viewModel = new ContactoCelGrupo();
+        //    if (Request.IsAjaxRequest())
+        //    {
+        //        if (id != null)
+        //        {
+        //            ViewBag.ContactoID = id.Value;
+        //            viewModel.Telefonos = viewModel.Contactos.Where(i => i.ContactoID == id.Value).Single().Telefonos;
+                    
+        //            return PartialView("_TelefonosContacto", viewModel);
+        //        }
+        //    }
 
-            return PartialView();
-        }
+        //    return PartialView();
+        //}
 
         // GET: Contacto
         [NoCache]
@@ -81,6 +82,7 @@ namespace BulkSMSWebApp.Controllers
                 {
                     ViewBag.ContactoID = id.Value;
                     viewModel.Telefonos = viewModel.Contactos.Where(i => i.ContactoID == id.Value).Single().Telefonos;
+                    System.Threading.Thread.Sleep(1500);
                     return PartialView("_TelefonosContacto", viewModel);
 
                 }

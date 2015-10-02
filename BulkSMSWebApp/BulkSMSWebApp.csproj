@@ -417,6 +417,8 @@
     <Content Include="Views\Contacto\_ErrorAlert.cshtml" />
     <Content Include="Views\Grupo\_contactosGrupos.cshtml" />
     <Content Include="Views\Grupo\_AgregarContactos.cshtml" />
+    <Content Include="Views\Grupo\_EditGrupo.cshtml" />
+    <Content Include="Views\Grupo\_IndexPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

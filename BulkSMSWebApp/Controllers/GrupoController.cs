@@ -18,6 +18,9 @@ namespace BulkSMSWebApp.Controllers
     public class GrupoController : BaseController
     {
         private BulkSMSContext db = new BulkSMSContext();
+
+
+       //GET
         public ActionResult ContactosNotInGroup(int? id)
         {
             if (id == null)
@@ -38,17 +41,17 @@ namespace BulkSMSWebApp.Controllers
 
             if (Request.IsAjaxRequest())
             {
-  
                 return PartialView("_AgregarContactos", contactos);
             }
-            
+
             return View();
         }
 
 
+        //POST
+        [Authorize]
         public ActionResult UpdateGrupo(List<int> TelefonoID, int CodGrupo)
         {
-            
             if (TelefonoID == null)
             {
                 Danger("Error, no se ha encontrado el registro seleccionado", true);
@@ -56,33 +59,55 @@ namespace BulkSMSWebApp.Controllers
             }
             else
             {
-                foreach (var tel in TelefonoID)
+                try
                 {
-                    var query = db.Database.ExecuteSqlCommand("INSERT INTO GrupoContacto(GrupoID, TelefonoID) VALUES ({0},{1})", CodGrupo, tel);
+                    foreach (var tel in TelefonoID)
+                    {
+                        var query = db.Database.ExecuteSqlCommand("INSERT INTO GrupoContacto(GrupoID, TelefonoID) VALUES ({0},{1})", CodGrupo, tel);
+                    }
+
+                    var select = "SELECT T.TelefonoID, GR.GrupoID, C.Nombres+' '+C.Apellidos [Nombres],"
+                                  + " D.NombreDepartameto, T.NumeroTel, T.Descripcion"
+                                  + " FROM Contacto C, Telefono T, GrupoContacto G, Grupo GR , Departamento D"
+                                  + " WHERE (C.ContactoID=T.ContactoID and D.DepartamentoID=C.DepartamentoID"
+                                  + " and G.TelefonoID=T.TelefonoID and G.GrupoID=GR.GrupoID and C.EstadoID=1 and G.GrupoID={0})";
+
+                    var contactos = db.Database.SqlQuery<GrupoContacto>(select, CodGrupo).ToList();
+
+                    if (Request.IsAjaxRequest())
+                    {
+                        System.Threading.Thread.Sleep(1500);
+                        return PartialView("_contactosGrupos", contactos);
+                    }
                 }
 
-                Information(String.Format("Los Contactos seleccionados han sido agregados correctamente"), true);
-                return RedirectToAction("Index");
+                catch (Exception ex)
+                {
+                    Danger("Ha ocurrido un error, por favor contacta al Administrador del Sistema: \n Detalle del error: " + ex.Message);
+                    return RedirectToAction("Index");
+                }   
             }
+
+            return RedirectToAction("Index");
         }
 
+        //GET
         public ActionResult ContactosGrupo(int? id)
         {
-           
+
             if (id == null)
             {
                 Danger("Error, no se ha encontrado el registro seleccionado", true);
                 return View("Index");
             }
-            
-            var query = "SELECT GR.GrupoID, C.Nombres+' '+C.Apellidos [Nombres],"
-            + " D.NombreDepartameto, T.NumeroTel, T.Descripcion"
-            + " FROM Contacto C, Telefono T, GrupoContacto G, Grupo GR , Departamento D"
-            + " WHERE (C.ContactoID=T.ContactoID and D.DepartamentoID=C.DepartamentoID and G.TelefonoID=T.TelefonoID and G.GrupoID=GR.GrupoID and G.GrupoID={0})";
+
+            var query = "SELECT T.TelefonoID, GR.GrupoID, C.Nombres+' '+C.Apellidos [Nombres],"
+                                  + " D.NombreDepartameto, T.NumeroTel, T.Descripcion"
+                                  + " FROM Contacto C, Telefono T, GrupoContacto G, Grupo GR , Departamento D"
+                                  + " WHERE (C.ContactoID=T.ContactoID and D.DepartamentoID=C.DepartamentoID"
+                                  + " and G.TelefonoID=T.TelefonoID and G.GrupoID=GR.GrupoID and C.EstadoID=1 and G.GrupoID={0})";
 
             var contactos = db.Database.SqlQuery<GrupoContacto>(query, id).ToList();
-
-
 
             if (Request.IsAjaxRequest())
             {
@@ -94,13 +119,18 @@ namespace BulkSMSWebApp.Controllers
         }
 
 
+
+
         // GET: Grupo
+        [NoCache]
+        [Authorize]
         public async Task<ActionResult> Index()
         {
             return View(await db.Grupos.ToListAsync());
         }
 
         // GET: Grupo/Details/5
+        [Authorize]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -116,6 +146,8 @@ namespace BulkSMSWebApp.Controllers
         }
 
         // GET: Grupo/Create
+        [Authorize]
+        [NoCache]
         public ActionResult Create()
         {
             return View();
@@ -126,7 +158,7 @@ namespace BulkSMSWebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "GrupoID,NombreGrupo,Descripcion,FechaCreacion")] Grupo grupo, List<int> check)
+        public async Task<ActionResult> Create([Bind(Include = "GrupoID,NombreGrupo,Descripcion")] Grupo grupo, List<int> check)
         {
             if (ModelState.IsValid)
             {
@@ -150,7 +182,7 @@ namespace BulkSMSWebApp.Controllers
                 catch (Exception ex)
                 {
                     Danger("Ha ocurrido un error en la operación, no se guardaron los cambios!! Por favor contacta al Administrador del Sistema \n Detalles del error: " + ex.Message);
-                    return View(grupo); 
+                    return View(grupo);
                 }
             }
 
@@ -158,6 +190,7 @@ namespace BulkSMSWebApp.Controllers
         }
 
         // GET: Grupo/Edit/5
+        [Authorize]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -169,7 +202,9 @@ namespace BulkSMSWebApp.Controllers
             {
                 return HttpNotFound();
             }
-            return View(grupo);
+     
+            System.Threading.Thread.Sleep(1500);
+            return PartialView("_EditGrupo", grupo);
         }
 
         // POST: Grupo/Edit/5
@@ -181,37 +216,90 @@ namespace BulkSMSWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(grupo).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                try
+                {
+                    grupo.EstadoID = 1;
+                    db.Entry(grupo).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                    var grupos = db.Grupos.ToList();
+                    System.Threading.Thread.Sleep(1000);
+                    return PartialView("_IndexPartialView", grupos);
+                }
+                catch (Exception ex)
+                {
+ 
+                }
+                
             }
             return View(grupo);
         }
 
         // GET: Grupo/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Grupo grupo = await db.Grupos.FindAsync(id);
-            if (grupo == null)
-            {
-                return HttpNotFound();
-            }
-            return View(grupo);
-        }
+        //[Authorize]
+        //public async Task<ActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Grupo grupo = await db.Grupos.FindAsync(id);
+        //    if (grupo == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(grupo);
+        //}
 
         // POST: Grupo/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Delete(int id)
+        //{
+        //    Grupo grupo = await db.Grupos.FindAsync(id);
+        //    db.Grupos.Remove(grupo);
+        //    await db.SaveChangesAsync();
+        //    return RedirectToAction("Index");
+        //}
+
+        public ActionResult BorrarContactos(List<int> TelefonoID, int CodGrupo)
         {
-            Grupo grupo = await db.Grupos.FindAsync(id);
-            db.Grupos.Remove(grupo);
-            await db.SaveChangesAsync();
+            if (TelefonoID == null)
+            {
+                Danger("Error, no se ha encontrado el registro seleccionado", true);
+                return View("Index");
+            }
+            else
+            {
+                try
+                {
+                    foreach (var tel in TelefonoID)
+                    {
+                        var query = db.Database.ExecuteSqlCommand("DELETE FROM GrupoContacto WHERE GrupoID = {0} AND TelefonoID = {1}", CodGrupo, tel);
+                    }
+
+                    var select = "SELECT GR.GrupoID, C.Nombres+' '+C.Apellidos [Nombres],"
+                                  + " D.NombreDepartameto, T.NumeroTel, T.Descripcion"
+                                  + " FROM Contacto C, Telefono T, GrupoContacto G, Grupo GR , Departamento D"
+                                  + " WHERE (C.ContactoID=T.ContactoID and D.DepartamentoID=C.DepartamentoID"
+                                  + " and G.TelefonoID=T.TelefonoID and G.GrupoID=GR.GrupoID and C.EstadoID=1 and G.GrupoID={0})";
+
+                    var contactos = db.Database.SqlQuery<GrupoContacto>(select, CodGrupo).ToList();
+
+                    if (Request.IsAjaxRequest())
+                    {
+                        System.Threading.Thread.Sleep(1500);
+                        return PartialView("_contactosGrupos", contactos);
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    Danger("Ha ocurrido un error, por favor contacta al Administrador del Sistema: \n Detalle del error: " + ex.Message);
+                    return RedirectToAction("Index");
+                }
+            }
             return RedirectToAction("Index");
+ 
         }
 
         protected override void Dispose(bool disposing)

@@ -1,0 +1,69 @@
+﻿@model IEnumerable<BulkSMSWebApp.Models.Grupo>
+@using BulkSMSWebApp.Helpers
+
+<table class="table table-bordered table-striped table-hover" id="MyTable">
+    <thead>
+        <tr class="label-info">
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.NombreGrupo)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.FechaCreacion)
+            </th>
+            <th class="text-center">Opciones</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreGrupo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaCreacion)
+                </td>
+                <td>
+
+                    @Ajax.RawActionLink(string.Format("<span class='fa fa-info-circle'> Mostrar Contactos </span>"), "ContactosGrupo", "Grupo", new { id = item.GrupoID },
+                        new AjaxOptions
+                        {
+                            HttpMethod = "GET",
+                            UpdateTargetId = "tablaContactos",
+                            InsertionMode = InsertionMode.Replace,
+                            OnBegin = "limpiar(), mensajeAlerta('MostrarC')",
+                            LoadingElementId = "LoadingDiv",
+                            OnFailure = "alert('No se logró establecer comunicación con el servidor \n Verifica tu conexión e intenta nuevamente')",
+                            OnSuccess = "applyDatatable()"
+                        }, new { @class = "selected" })
+
+                    <br />
+
+                    @Ajax.RawActionLink(string.Format("<span class='fa fa-edit'> Editar </span>"), "Edit", "Grupo", new { id = item.GrupoID },
+                        new AjaxOptions
+                        {
+                            HttpMethod = "GET",
+                            UpdateTargetId = "edit-container",
+                            InsertionMode = InsertionMode.Replace,
+                            OnBegin="mensajeAlerta('Editar')",
+                            LoadingElementId = "LoadingDiv",
+                            OnSuccess = "mostrarModal()"
+                        }, new { @class = "" })
+
+
+                    <br />
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+

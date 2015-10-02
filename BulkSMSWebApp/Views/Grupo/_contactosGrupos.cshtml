@@ -1,10 +1,19 @@
 ﻿@model List<BulkSMSWebApp.ViewModels.GrupoContacto>
 @using BulkSMSWebApp.Helpers;
 
+<div id="DivExito" class="alert alert-info alert-dismissable text-center" style="display:none">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+</div>
+
+<div id="DivCargando" class=" alert alert-info alert-dismissable text-center" style="display:none">
+    <img src="~/Images/spiffygif_32x32.gif" />
+    <h5>Por Favor espere mientras se realiza la operación solicitada</h5>
+</div>
 
 <h3 class="text-center">Contactos del Grupo Seleccionado</h3>
 
-<p>
+<hr />
+<div class="col-md-12">
 
     @Ajax.RawActionLink(string.Format("Agregar Contactos <span class='fa fa-user-plus'> </span>"), "ContactosNotInGroup", "Grupo", new { id = Model[0].GrupoID },
                         new AjaxOptions
@@ -13,41 +22,100 @@
                             UpdateTargetId = "edit-container",
                             InsertionMode = InsertionMode.Replace,
                             //OnBegin = "limpiar",
-                            LoadingElementId = "LoadingDiv",
+                            //LoadingElementId = "LoadingDiv",
                             OnSuccess = "mostrarModal()"
-                        }, new { @class = "btn btn-info" })
+                        }, new { @class = "btn btn-info", @style = "width:200px" })
 
-    <br />
-
-</p>
+</div>
 
 
+@using (Ajax.BeginForm("BorrarContactos", "Grupo", new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "tablaContactos",
+    LoadingElementId = "DivCargando",
+    OnSuccess = "mensajeAlerta('DeleteSuccess')"
 
 
+}, new { @class = "form-post", role = "form" }))
+{
 
-<table class="table table-bordered table-striped table-hover" id="Table">
-    <thead>
-        <tr class="label-info">
-            <th>ID del Grupo</th>
-            <th class="text-center"> Nombres Contacto </th>
-            <th class="text-center"> Departamento </th>
-            <th class="text-center"> N° Teléfono </th>
-            <th class="text-center"> Tipo Telefono </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.GrupoID</td>
-                <td>@item.Nombres</td>
-                <td>@item.NombreDepartameto</td>
-                <td>@item.NumeroTel</td>
-                <td>@item.Descripcion</td>
+    <div class="text-center">
+        <input name="Custodians" type="checkbox" value="All" id="selectAll">&nbsp;
+        <label>Seleccionar Todos</label>
+    </div>
+    <table class="table table-bordered table-striped table-hover" id="Table">
+        <thead>
+            <tr class="label-info">
+                <th class="text-center">Seleccionar</th>
+                <th class="text-center"> Nombres Contacto </th>
+                <th class="text-center"> Departamento </th>
+                <th class="text-center"> N° Teléfono </th>
+                <th class="text-center"> Tipo Telefono </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        <input type="hidden" value="@item.GrupoID" name="CodGrupo" />
+                     
+                        <input type="checkbox" id="@item.TelefonoID" />
+                    </td>
+                    <td>@item.Nombres</td>
+                    <td>@item.NombreDepartameto</td>
+                    <td>@item.NumeroTel</td>
+                    <td>@item.Descripcion</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="col-md-12">
+        <button type="submit" class="btn btn-danger" id="btnDelete" style="width:200px">Eliminar Seleccionados <span class="fa fa-trash"> </span></button>
+    </div>
+
+}
 
 
+<script>
+    $(function () {
 
+        var table = $('#Table').DataTable({
+            "lengthMenu": [[4, 10, 20, -1], [4, 10, 20, "Todos"]],
+            "bDestroy": true
+        });
+
+        $("#selectAll").change(function () {
+            var checked = $(this).is(":checked");
+            $("input", table.rows({ search: 'applied' }).nodes()).prop('checked', checked);
+        });
+
+
+        $('#btnDelete').on("click", function (e) {
+            var listName = "TelefonoID";
+            var count = 0;
+            //e.preventDefault();
+
+            var checkedItems = $("input:checked", table.rows({ search: 'applied' }).nodes());
+
+            if (checkedItems.length == 0) {
+                e.preventDefault();
+                alert("Error!! Debe Seleccionar al menos un número para Eliminarlo del grupo \n\nPor favor Seleccione un número e intente nuevamente");
+            }
+
+            $("input:checked", table.rows({ search: 'applied' }).nodes()).each(function () {
+
+                var telID = $(this).attr('id');
+                $(".form-post").prepend("<input type='hidden' name='" + listName + "[" + count + "]' value='" + telID + "'>");
+                count += 1;
+
+            })
+        })
+
+
+    });
+
+</script>
