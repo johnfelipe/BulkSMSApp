@@ -1,24 +1,21 @@
-﻿@model IEnumerable<BulkSMSWebApp.Models.Mensaje>
+﻿@model IEnumerable<BulkSMSWebApp.ViewModels.MensajeEnviado>
+@using BulkSMSWebApp.Helpers;
 
 
-<table class="table table-striped table-hover" id="MyTable">
+<table class="table table-striped table-hover table-bordered" id="MyTable">
     <thead>
-        <tr>
-            <th>Nombre de Contacto</th>
+        <tr class="label-info">
+            <th class="text-center">Mensaje</th>
 
-            @*<th> N° Celular</th>*@
+            <th class="text-center"> Enviado Por</th>
 
-            <th>  Fecha del Mensaje </th>
+            <th class="text-center">  Fecha Enviado </th>
 
-            @*<th> Mensaje </th>*@
+            <th class="text-center"> Dirección </th>
 
-            <th>   Flujo del Mensaje </th>
+            <th class="text-center"> Estado </th>
 
-            <th> @Html.DisplayNameFor(model => model.Estado.NombreEstado) </th>
-
-            <th> Enviado por</th>
-
-            <th> Opciones </th>
+            <th class="text-center"> Opciones </th>
         </tr>
     </thead>
 
@@ -26,47 +23,66 @@
 
         @foreach (var item in Model)
         {
-            string bold = item.EstadoID == 6 ? "font-weight: bold" : null;
 
-            <tr style="@bold">
-                <td>@Html.DisplayFor(modelItem => item.Contacto.NombreCompleto)</td>
+            <tr>
+                <td class="text-center">@Html.Raw(item.CuerpoMensaje.Substring(0, 30) + " ...")</td>
 
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.Contacto.Celular)
-                    </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaMensaje)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Flujo_Mensaje.NombreFlujo)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Estado.NombreEstado)
-                </td>
-
-                <td>
+                <td class="text-center">
                     @Html.DisplayFor(modelItem => item.EnviadoPor)
                 </td>
 
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.FechaMensaje)
+                </td>
+
+                <td class="text-center">
+                    @switch (item.FlujoID)
+                    {
+                        case 1:
+                            { @Html.Raw("Salida"); break;
+                            }
+                        case 2:
+                            { @Html.Raw("Entrada"); break;
+                            }
+                    }
+                </td>
+
+                <td class="text-center">
+                    @switch (item.EstadoID)
+                    {
+                        case 3:
+                            {  @Html.Raw("Enviado"); break;
+                            }
+                        case 4:
+                            { @Html.Raw("No Enviado"); break;
+                            }
+                    }
+                </td>
+
                 <td>
+                    @Ajax.RawActionLink(string.Format("<span class='fa fa-hand-pointer-o'> Ver Destinatarios </span>"), "DestinoEnviados", "Mensaje", new { id = item.MensajeID },
+                        new AjaxOptions
+                        {
+                            HttpMethod = "GET",
+                            UpdateTargetId = "Numeros",
+                            InsertionMode = InsertionMode.Replace,
+                            LoadingElementId = "loadingDiv",
+                            OnSuccess = "ApplyTable()"
+                        }, new { @class = "selected" })
+
+                    <br />
+
+                    <a href="@Url.Action("Details", "Mensaje", new { id = 1017 })">
+                        <span class="fa fa-info-circle"></span>
+                        Detalles
+                    </a>
+                    <br />
                     @if (item.EstadoID != 7 && User.IsInRole("Administrador"))
                     {
                         <a data-toggle="modal" data-id="@item.MensajeID" class="deleteMessage selected" href="#DesactivarMensaje">
                             <span class="fa fa-trash"></span>
                             Eliminar
                         </a>
-                        <br />
-                    }
-
-                    @using (Html.BeginForm("Details", "Mensaje", FormMethod.Post, new { @class = "id" }))
-                    {
-                        <a data-id="@item.MensajeID" href="#" class="messageDetail">
-                            <span class="fa fa-info-circle"></span>
-                            Detalles
-                        </a>
-
                     }
 
                 </td>

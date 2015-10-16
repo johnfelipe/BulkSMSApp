@@ -4,6 +4,34 @@
     ViewBag.Title = "Enviar Mensaje";
 }
 
+<script>
+    $(function () {
+
+        var caracteres = $('#caracteres');
+        var mensajes = $('#mensajes')
+
+        $('#txtMessage').keyup(function (e) {
+            var chars = this.value.length;
+            var sms = Math.ceil(chars / 160);
+            var caract = sms * 160 - (chars % (sms * 160) || sms * 160);
+
+            if (sms == 0 && chars == 0 & e.keyCode==8)
+            {
+                    caracteres.text('160 Caracteres');
+                    mensajes.text('1 Mensaje(s)');
+            }
+            else
+            {
+                caracteres.text(caract + ' Caracteres');
+                mensajes.text(sms + ' Mensaje(s)');
+            }
+   
+          
+        });
+
+    });
+
+</script>
 
 
 <div class="row">
@@ -32,7 +60,8 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.CuerpoMensaje, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.CuerpoMensaje, new { htmlAttributes = new { @class = "form-control", rows = 5 } })
+                                  <p>@Html.EditorFor(model => model.CuerpoMensaje, new { htmlAttributes = new { @class = "form-control", rows = 5, @id = "txtMessage" } })
+                                  <span id="caracteres">160 Caracteres</span> / <span id="mensajes"> 1 Mensaje(s)</span></p>
                                     @Html.ValidationMessageFor(model => model.CuerpoMensaje, "", new { @class = "text-danger" })
                                 </div>
                             </div>

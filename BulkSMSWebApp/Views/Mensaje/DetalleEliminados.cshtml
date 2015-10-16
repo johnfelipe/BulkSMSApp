@@ -1,0 +1,112 @@
+﻿@model BulkSMSWebApp.ViewModels.Eliminados
+@{
+    ViewBag.Title = "Detalle Mensaje";
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel">
+            <div class="panel-heading">
+                <h4 class="text-center">Detalles del Mensaje</h4>
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal col-md-12 col-md-offset-0">
+
+                    <dt>
+                        Mensaje:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CuerpoMensaje)
+                    </dd>
+                    <hr />
+
+                    <dt>
+                        Teléfono:
+                    </dt>
+
+                    <dd>@Html.DisplayFor(model => model.Telefono)</dd>
+                    <hr />
+
+                    <dt>Nombre Contacto:</dt>
+                    <dd>@Html.DisplayFor(model => model.Nombres)</dd>
+                    <hr />
+
+                    <dt>
+                        Fecha Mensaje:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.FechaMensaje)
+                    </dd>
+                    <hr />
+
+                    <dt>
+                        Dirección:
+                    </dt>
+
+                    <dd>
+                        @switch (Model.FlujoID)
+                        {
+                            case 1:
+                                {
+                                    @Html.Raw("Salida"); break;
+                                }
+                            case 2:
+                                {
+                                    @Html.Raw("Entrada"); break;
+                                }
+                        }
+                    </dd>
+                    <hr />
+
+                    <dt>
+                        Estado:
+                    </dt>
+
+                    <dd>
+                        @Html.Raw("Desactivado")
+                    </dd>
+                    <hr />
+                    
+                    <dt>
+                        Enviado por:
+                    </dt>
+                    <dd>
+                        @if (String.IsNullOrEmpty(Model.EnviadoPor))
+                        {
+                            @Html.Raw("El Cliente");   
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(m => Model.EnviadoPor)
+                        }       
+                    </dd>
+                    <hr />
+                    <dt>
+                        Desactivado por:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(m => Model.DesactivadoPor)
+                    </dd>
+
+                </dl>
+                <hr />
+                <p>
+                    @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-lg btn-info", @style = "width:100%" })
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+

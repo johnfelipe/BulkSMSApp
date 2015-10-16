@@ -1,73 +1,91 @@
-﻿@model IEnumerable<BulkSMSWebApp.Models.Mensaje>
+﻿@model IEnumerable<BulkSMSWebApp.ViewModels.MensajeEntrante>
 
 
-    <table class="table table-striped table-hover" id="MyTable">
+    <table class="table table-striped table-hover table-bordered" id="MyTable">
         <thead>
-            <tr>
-                <th>Nombre de Contacto</th>
+            <tr class="label-info">
+                <th class="text-center">Teléfono</th>
 
-                @*<th> N° Celular</th>*@
+                <th class="text-center">Nombre Contacto</th>
 
-                <th>  Fecha del Mensaje </th>
+                <th class="text-center">  Fecha Recibido </th>
 
-                @*<th> Mensaje </th>*@
+                <th class="text-center"> Mensaje </th>
 
-                <th>   Flujo del Mensaje </th>
+                <th class="text-center">   Dirección </th>
 
-                <th> @Html.DisplayNameFor(model => model.Estado.NombreEstado) </th>
+                <th class="text-center"> Estado </th>
 
-                <th> Opciones </th>
+                <th class="text-center"> Opciones </th>
             </tr>
         </thead>
 
         <tbody>
 
-            @foreach (var item in Model)
-            {
-                string bold = item.EstadoID == 6 ? "font-weight: bold" : null;
-
-                <tr style="@bold">
-                    <td>@Html.DisplayFor(modelItem => item.Contacto.NombreCompleto)</td>
-
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.Contacto.Celular)
-                        </td>*@
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FechaMensaje)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Flujo_Mensaje.NombreFlujo)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Estado.NombreEstado)
-                    </td>
+           @foreach (var item in Model)
+           {
+               string bold = item.EstadoID == 6 ? "font-weight: bold" : null;
 
 
+            <tr style="@bold">
+                <td class="text-center">@Html.DisplayFor(modelItem => item.Telefono)</td>
 
-                    <td>
-                        @if (item.EstadoID != 7 && User.IsInRole("Administrador"))
-                        {
-                            <a data-toggle="modal" data-id="@item.MensajeID" class="deleteMessage selected" href="#DesactivarMensaje">
-                                <span class="fa fa-trash"></span>
-                                Eliminar
-                            </a>
-                            <br />
-                        }
+                <td class="text-center">@Html.DisplayFor(modelItem => item.Nombres)</td>
 
-                        @using (Html.BeginForm("Details", "Mensaje", FormMethod.Post, new { @class = "id" }))
-                        {
-                            <a data-id="@item.MensajeID" href="#" class="messageDetail">
-                                <span class="fa fa-info-circle"></span>
-                                Detalles
-                            </a>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.FechaMensaje)
+                </td>
 
-                        }
+                <td class="text-center">@Html.DisplayFor(modelItem => item.CuerpoMensaje)</td>
 
-                    </td>
-                </tr>
-            }
+                <td class="text-center">
+                    @switch (item.FlujoID)
+                    {
+                        case 1:
+                            { @Html.Raw("Salida"); break;
+                            }
+                        case 2:
+                            { @Html.Raw("Entrada"); break;
+                            }
+                    }
+
+                </td>
+
+                <td class="text-center">
+                    @switch (item.EstadoID)
+                    {
+                        case 5:
+                            {  @Html.Raw("Leído"); break;
+                            }
+                        case 6:
+                            { @Html.Raw("No Leído"); break;
+                            }
+                    }
+
+                </td>
+
+                <td class="text-center">
+
+                    @if (item.EstadoID != 7 && User.IsInRole("Administrador"))
+                    {
+                        <a data-toggle="modal" data-id="@item.MensajeID" class="deleteMessage selected" href="#DesactivarMensaje">
+                            <span class="fa fa-trash"></span>
+                            Eliminar
+                        </a>
+                        <br />
+                    }
+
+                    @using (Html.BeginForm("Details", "Mensaje", FormMethod.Post, new { @class = "id" }))
+                    {
+                        <a data-id="@item.MensajeID" href="#" class="messageDetail">
+                            <span class="fa fa-info-circle"></span>
+                            Detalles
+                        </a>
+
+                    }
+                </td>
+            </tr>
+           }
 
         </tbody>
     </table>

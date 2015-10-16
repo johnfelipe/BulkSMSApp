@@ -22,9 +22,6 @@ namespace BulkSMSWebApp.Models
         [Display(Name = "Mensaje")]
         public String CuerpoMensaje { get; set; }
 
-        [Display(Name = "Contacto")]
-        public int ContactoID { get; set; }
-
         [Display(Name = "Estado")]
         public int EstadoID { get; set; }
 
@@ -34,9 +31,8 @@ namespace BulkSMSWebApp.Models
         public string DesactivadoPor { get; set; }
 
         // Propiedades de Navegación
-
-        public virtual Contacto Contacto { get; set; }
         public virtual Estado Estado { get; set; }
         public virtual FlujoMensaje Flujo_Mensaje { get; set; }
+        public IList<Telefono> Telefonos { get; set; }
     }
 }

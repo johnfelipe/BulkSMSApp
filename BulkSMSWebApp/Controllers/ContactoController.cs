@@ -305,7 +305,7 @@ namespace BulkSMSWebApp.Controllers
                             tel.ContactoID = contacto.ContactoID;
                             var TelID = getTelephonesID(tel.NumeroTel, tel.ContactoID); //obtenemos el ID de cada teléfono de la lista entrante
 
-                            if (TelID == null || TelID == 0)  // si no se encuentra el ID del teléfono (significa que no está registrado)
+                            if (TelID == 0)  // si no se encuentra el ID del teléfono (significa que no está registrado)
                             {
                                 db.Telefonos.Add(tel);
                                 db.SaveChanges(); //como no está registrado, gregamos el nuevos teléfono a la lista de teléfonos del contacto

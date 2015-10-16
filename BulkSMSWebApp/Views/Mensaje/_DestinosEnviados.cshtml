@@ -1,0 +1,22 @@
+﻿@model IEnumerable<BulkSMSWebApp.ViewModels.DestinosEnviados>
+<hr />
+ <h4 class="text-center">Destinos del Mensaje Seleccionado</h4>
+<hr />
+
+<table id="PhoneList" class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr class="label-info">
+            <th class="text-center" width="50%">Número de Destino</th>
+            <th class="text-center" width="50%">Nombre de Contacto</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center"> @Html.DisplayFor(modeItem => item.Telefono)</td>
+                <td class="text-center"> @Html.DisplayFor(modeItem => item.Contacto)</td>
+            </tr>
+        }
+    </tbody>
+</table>

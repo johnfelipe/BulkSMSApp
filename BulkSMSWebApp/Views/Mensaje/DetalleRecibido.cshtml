@@ -1,0 +1,92 @@
+﻿@model BulkSMSWebApp.ViewModels.MensajeEntrante
+@{
+    ViewBag.Title = "Detalle Mensaje";
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="text-center">Detalles del Mensaje</h4>
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal col-md-12 col-md-offset-0">
+
+                    <dt>
+                        Mensaje:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CuerpoMensaje)
+                    </dd>
+                    <hr />
+
+                    <dt>
+                        Número Remitente:
+                    </dt>
+
+                    <dd>@Html.DisplayFor(model => model.Telefono)</dd>
+                    <hr />
+
+                    <dt>Nombre Remitente:</dt>
+                    <dd>@Html.DisplayFor(model => model.Nombres)</dd>
+                    <hr />
+
+                    <dt>
+                        Fecha Recibido:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.FechaMensaje)
+                    </dd>
+                    <hr />
+
+                    <dt>
+                        Dirección:
+                    </dt>
+
+                    <dd>
+                        @switch (Model.FlujoID)
+                        {
+                            case 1:
+                                {
+                                    @Html.Raw("Salida"); break;
+                                }
+                            case 2:
+                                {
+                                    @Html.Raw("Entrada"); break;
+                                }
+                        }
+                    </dd>
+                    <hr />
+
+                    <dt>
+                        Estado:
+                    </dt>
+
+                    <dd>
+                        @switch (Model.EstadoID)
+                        {
+                            case 5:
+                                {  @Html.Raw("Leído"); break;
+                                }
+                            case 6:
+                                { @Html.Raw("No Leído"); break;
+                                }
+                        }
+                    </dd>
+                    <hr />
+
+                </dl>
+                <hr />
+                <p">
+                    @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-lg btn-info", @style = "width:100%" })
+                    </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+

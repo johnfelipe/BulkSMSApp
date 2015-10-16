@@ -28,6 +28,15 @@ namespace BulkSMSWebApp.DAL
                             .MapRightKey("TelefonoID")
                             .ToTable("GrupoContacto"));
 
+
+            // Manejamos una relación de muchos mensajes con muchos telefonos a través de una tabla intermedia llamada MensajeTelefono
+            modelBuilder.Entity<Mensaje>()
+                .HasMany(t => t.Telefonos)
+                .WithMany(m => m.Mensajes)
+                .Map(t => t.MapLeftKey("MensajeID")
+                            .MapRightKey("TelefonoID")
+                            .ToTable("MensajeTelefono"));
+
            // le decimos que EstadoID es ForeingKey en la tabla Contacto pero deshabilitamos la eliminacion en cascada
             modelBuilder.Entity<Contacto>()
                 .HasRequired(e => e.Estado)
@@ -49,6 +58,7 @@ namespace BulkSMSWebApp.DAL
                 .HasForeignKey(me => me.FlujoID)
                 .WillCascadeOnDelete(false);
 
+            // Manejamos una relacion entre teléfono y contacto (contactoID es llave foranea en la tabla Telefono)
             modelBuilder.Entity<Telefono>()
                 .HasRequired(f => f.Contacto)
                 .WithMany(t => t.Telefonos)

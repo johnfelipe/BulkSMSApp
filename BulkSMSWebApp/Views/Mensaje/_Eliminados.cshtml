@@ -1,26 +1,24 @@
-﻿@model IEnumerable<BulkSMSWebApp.Models.Mensaje>
+﻿@model IEnumerable<BulkSMSWebApp.ViewModels.Eliminados>
 
 
-<table class="table table-striped table-hover" id="MyTable">
+<table class="table table-striped table-hover table-bordered" id="MyTable">
     <thead>
-        <tr>
-            <th> Enviado por</th>
+        <tr class="label-info">
+            <th class="text-center" width="20%"> Mensaje </th>
 
-            <th>Nombre Contacto</th>
+            <th class="text-center" width="19.2%"> Fecha Mensaje </th>
 
-            @*<th> N° Celular</th>*@
+            <th class="text-center" width="16.6%"> Teléfono </th>
 
-            <th>  Fecha del Mensaje </th>
+            <th class="text-center" width="16.6%">  Nombre Contacto </th>
 
-            @*<th> Mensaje </th>*@
+            <th class="text-center" width="13%">   Dirección </th>
 
-            <th>   Flujo del Mensaje </th>
+            @*<th> Desactivado Por </th>
 
-            <th> @Html.DisplayNameFor(model => model.Estado.NombreEstado) </th>
+            <th> Enviado por</th>*@
 
-            <th> Eliminado por</th>
-
-            <th> Opciones </th>
+            <th class="text-center" width="15%"> Opciones </th>
         </tr>
     </thead>
 
@@ -32,47 +30,51 @@
 
             <tr style="@bold">
 
-                <td>@Html.DisplayFor(modelItem => item.EnviadoPor) </td>
+                <td class="text-center">
+                    @if (item.CuerpoMensaje.ToString().Length >= 20)
+                    {
+                    @Html.Raw(item.CuerpoMensaje.Substring(0, 20) + " ...")
+                    }
+                    else
+                    {
+                    @Html.DisplayFor(modelItem => item.CuerpoMensaje)
+                    }
+                </td>
 
-                <td>@Html.DisplayFor(modelItem => item.Contacto.NombreCompleto)</td>
+                <td class="text-center">@Html.DisplayFor(modelItem => item.FechaMensaje)</td>
+
+                <td class="text-center">  @Html.DisplayFor(modelItem => item.Telefono)</td>
+
+                <td class ="text-center"> @Html.DisplayFor(modelItem => item.Nombres)</td>
+
+                <td class="text-center"> @switch (item.FlujoID)
+                     {
+                         case 1:
+                             @Html.Raw("Entrada");
+                             break;
+                         case 2:
+                            @Html.Raw("Salida");
+                            break;   
+                     } 
+                </td>
 
                 @*<td>
-                        @Html.DisplayFor(modelItem => item.Contacto.Celular)
-                    </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaMensaje)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Flujo_Mensaje.NombreFlujo)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Estado.NombreEstado)
-                </td>
-
-                <td>
                     @Html.DisplayFor(modelItem => item.DesactivadoPor)
                 </td>
 
                 <td>
-                    @if (item.EstadoID != 7 && User.IsInRole("Administrador"))
-                    {
-                        <a data-toggle="modal" data-id="@item.MensajeID" class="deleteMessage selected" href="#DesactivarMensaje">
-                            <span class="fa fa-trash"></span>
-                            Eliminar
-                        </a>
-                        <br />
-                    }
+                    @Html.DisplayFor(modelItem => item.EnviadoPor)
+                </td>*@
 
-                    @using (Html.BeginForm("Details", "Mensaje", FormMethod.Post, new { @class = "id" }))
-                    {
-                        <a data-id="@item.MensajeID" href="#" class="messageDetail">
+                <td class="text-center">
+                   
+
+                        <a href="@Url.Action("Details","Mensaje", new { id=@item.MensajeID })">
                             <span class="fa fa-info-circle"></span>
                             Detalles
                         </a>
 
-                    }
+                  
 
                 </td>
             </tr>
