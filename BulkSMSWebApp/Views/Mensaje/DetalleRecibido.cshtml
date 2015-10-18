@@ -1,7 +1,15 @@
 ﻿@model BulkSMSWebApp.ViewModels.MensajeEntrante
+@using BulkSMSWebApp.Helpers;
 @{
     ViewBag.Title = "Detalle Mensaje";
 }
+
+
+<div id="RespuestaEnviada" class="alert alert-info alert-dismissable text-center" style="display:none">
+    
+
+</div>
+
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
@@ -75,18 +83,75 @@
                                 }
                         }
                     </dd>
-                    <hr />
+              
 
                 </dl>
                 <hr />
-                <p">
-                    @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-lg btn-info", @style = "width:100%" })
-                    </p>
+
+                <div class="col-md-12">
+                    <a href="@Url.Action("Index", "Mensaje")" class="btn btn-info" style="width:25%" }">
+                        <span class="fa fa-backward"></span>
+                        Volver
+                    </a>
+                    &nbsp;
+                    <button id="btnRespond" type="button" class="btn btn-info" style="width:25%" value="@Model.Telefono">
+                        Responder
+                        <span class="fa fa-commenting-o"></span>
+                    </button>
+                </div>
+
+               
             </div>
         </div>
     </div>
 
 </div>
 
+<script>
+
+    function mostrarModal() {
+        $('#agregarContactos').modal('show');
+    }
+
+    function RespuestaEnviada()
+    {
+        $('#agregarContactos').modal('hide');
+        $("#RespuestaEnviada").fadeTo(5000, 400).slideUp(400, function () {
+            $("#RespuestaEnviada").hide();
+        });
+    }
+
+    $(function () {
+        $('#btnRespond').on('click', function () {
+            var telID = this.value;
+            
+            $.ajax({
+                url: '/Mensaje/ResponderSMS',
+                data: { 'telefono' : telID },
+                method: "GET",
+                async: true,
+                //beforeSend: function () {
+                //    $(".loader").show();
+                //    HideDiv();
+                //},
+                success: function (data) {
+                    mostrarModal();
+                    $("#edit-container").html(data);  
+                },
+               
+                //complete: function () {
+                //    $(".loader").hide();
+                //}
+            });
+        });
 
 
+
+    });
+</script>
+
+
+@section Scripts
+{
+
+}

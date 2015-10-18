@@ -82,7 +82,7 @@ namespace BulkSMSWebApp.Controllers
                 {
                     ViewBag.ContactoID = id.Value;
                     viewModel.Telefonos = viewModel.Contactos.Where(i => i.ContactoID == id.Value).Single().Telefonos;
-                    System.Threading.Thread.Sleep(1500);
+                    System.Threading.Thread.Sleep(2000);
                     return PartialView("_TelefonosContacto", viewModel);
 
                 }

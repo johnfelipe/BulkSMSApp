@@ -313,10 +313,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\spiffygif_32x32.gif" />
     <Content Include="Images\Banner App.png" />
     <Content Include="Images\Header.PNG" />
     <Content Include="Images\sms.PNG" />
-    <Content Include="Images\spiffygif_32x32.gif" />
+    <Content Include="Images\__spiffygif_32x32.gif" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
@@ -427,6 +428,8 @@
     <Content Include="Views\Mensaje\DetalleRecibido.cshtml" />
     <Content Include="Views\Mensaje\_DestinosEnviados.cshtml" />
     <Content Include="Views\Mensaje\DetalleEliminados.cshtml" />
+    <Content Include="Views\Mensaje\_ResponderSMS.cshtml" />
+    <Content Include="Views\Mensaje\_RespuestaEnviada.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

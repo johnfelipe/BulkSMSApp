@@ -63,7 +63,7 @@
 
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
     <img src="~/Images/spiffygif_32x32.gif" />
-    <h5>Por Favor espere mientras se realiza la operación solicitada</h5>
+    <h5><span class="fa fa-info-circle"> </span> Por favor espere mientras se obtienen los resultados de su búsqueda </h5>
 </div>
 
 <div class="table-responsive">
@@ -100,14 +100,15 @@
                     </td>
 
                     <td width="16.6%">
-                        @Ajax.RawActionLink(string.Format("<span class='fa fa-hand-pointer-o'> Mostrar Teléfono </span>"), "Index", "Contacto", new { id = item.ContactoID },
+                        @Ajax.RawActionLink(string.Format("<span class='fa fa-hand-pointer-o'> Mostrar Teléfonos </span>"), "Index", "Contacto", new { id = item.ContactoID },
                         new AjaxOptions
                         {
                             HttpMethod = "GET",
-                            UpdateTargetId = "tablaTelefonos",
+                            UpdateTargetId = "PhoneList",
                             InsertionMode = InsertionMode.Replace,
                             LoadingElementId = "DivCarga",
-                            OnSuccess = "document.location='#DivCarga'"
+                            OnBegin="document.location='#DivCarga'",
+                            OnSuccess = "document.location='#PhoneList'"
                         }, new { @class = "selected" })
 
 
@@ -145,7 +146,7 @@
 
 </div>
 
-<div id="tablaTelefonos" class="table-responsive">
+<div id="PhoneList" class="table-responsive">
 
 </div>
 

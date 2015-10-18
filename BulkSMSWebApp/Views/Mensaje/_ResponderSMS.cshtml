@@ -1,0 +1,112 @@
+﻿@model BulkSMSWebApp.ViewModels.MensajeRespond
+
+@using (Ajax.BeginForm("ResponderSMS", "Mensaje", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "RespuestaEnviada",
+    InsertionMode = InsertionMode.Replace,
+    LoadingElementId = "Spinner",
+    OnFailure = "alert('No se logró establecer comunicación con el servidor \n Verifica tu conexión e intenta nuevamente')",
+    OnSuccess = "RespuestaEnviada()"
+}, new { @class = "form-horizontal", role = "form" }))
+{
+
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="deleteLabel">Responder Mensaje</h4>
+            </div>
+            <div class="modal-body">
+
+                @Html.HiddenFor(m => m.TelefonoID)
+                @Html.HiddenFor(m => m.ContactoID)
+                @*@Html.HiddenFor(m=>m.Contacto)*@
+                @Html.HiddenFor(m=>m.Telefono)
+
+
+                <div class="form-group">
+                    <label class="control-label col-md-4">
+                        Numero Destino
+                    </label>
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control", disabled = "disabled" })
+                    </div>
+                </div>
+                <hr />
+
+                <div class="form-group">
+                    <label class="control-label col-md-4">
+                        Nombre Contacto
+                    </label>
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(model => model.Contacto, new { @class = "form-control", disabled = "disabled" })
+                    </div>
+                </div>
+                <hr />
+
+                <div class="form-group">
+                    <label class="control-label col-md-4">
+                        Mensaje
+                    </label>
+                    <div class="col-md-6">
+                       
+                        <p>
+                            @Html.TextAreaFor(model => model.Respuesta, 5, 32, new { @class = "form-control", @id = "txtMessage" })
+                            <span id="caracteres">160 Caracteres</span> / <span id="mensajes"> 1 Mensaje(s)</span>
+                        </p>
+                        
+                        @Html.ValidationMessageFor(model => model.Respuesta, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <hr />
+                <div class="pull-left form-group">
+                    <button type="submit" class="btn btn-info" id="btnSave"> Responder </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"> Cancelar </button>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div id="Spinner" style="display:none">
+                    Espere mientras se envía el Mensaje...
+                    <img src="~/Images/spiffygif_32x32.gif" />
+                </div>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+}
+
+<script>
+
+    $(function () {
+        var caracteres = $('#caracteres');
+        var mensajes = $('#mensajes')
+
+        $('#txtMessage').keyup(function (e) {
+            var chars = this.value.length;
+            var sms = Math.ceil(chars / 160);
+            var caract = sms * 160 - (chars % (sms * 160) || sms * 160);
+
+            if (sms == 0 && chars == 0 & e.keyCode == 8) {
+                caracteres.text('160 Caracteres');
+                mensajes.text('1 Mensaje(s)');
+            }
+            else {
+                caracteres.text(caract + ' Caracteres');
+                mensajes.text(sms + ' Mensaje(s)');
+            }
+        });
+
+    });
+
+   
+
+    
+</script>
+
+@Scripts.Render("~/bundles/jqueryval")
+
+
